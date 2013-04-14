@@ -1,0 +1,4 @@
+[
+ {"pk": 1, "model": "robots.url", "fields": {"pattern": "/"}},
+ {"pk": 1, "model": "robots.rule", "fields": {"crawl_delay": null, "allowed": [], "sites": [1,2,3], "disallowed": [1], "robot": "*"}}
+]

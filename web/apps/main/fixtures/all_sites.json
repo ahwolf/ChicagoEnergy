@@ -1,0 +1,5 @@
+[
+ {"pk": 1, "model": "sites.site", "fields": {"domain": "localhost:8000", "name": "localhost"}},
+ {"pk": 2, "model": "sites.site", "fields": {"domain": "staging.datascopeanalytics.com", "name": "staging"}},
+ {"pk": 3, "model": "sites.site", "fields": {"domain": "XXXXSUBDOMAINXXXX.datascopeanalytics.com", "name": "production"}}
+]

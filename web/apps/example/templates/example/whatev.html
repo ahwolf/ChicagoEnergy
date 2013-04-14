@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title%}example{% endblock title%}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}example/css/big_borders.scss" />
+{% endblock css %}
+
+{% block content %}
+<div class="example_block">
+  <p>
+    The project at <span class="path">&ldquo;{{project_root}}&rdquo;</span> is working.
+  </p>
+</div>
+{% endblock content %}

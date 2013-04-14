@@ -1,0 +1,3 @@
+[
+ {"pk": 1, "model": "auth.user", "fields": {"username": "dsa", "first_name": "", "last_name": "", "is_active": true, "is_superuser": true, "is_staff": true, "last_login": "2011-05-12 07:12:04", "groups": [], "user_permissions": [], "password": "sha1$50b99$b5567573120220a829c8fdb0b77f62f0a8bbd47b", "email": "lognormal@datascopeanalytics.com", "date_joined": "2011-05-12 07:12:04"}}
+]

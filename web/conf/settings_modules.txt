@@ -1,0 +1,10 @@
+# This file has a list of settings files to execute as part of the
+# main settings.py. The paths to the settings files are relative to
+# the PROJECT_ROOT. Blank lines are ignored, and '#' is used for
+# commenting the rest of a line.
+
+# the main app is included in every project
+conf/main.py
+
+# the example app is also included in every project
+conf/example.py
