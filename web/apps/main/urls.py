@@ -5,8 +5,8 @@ import views
 urlpatterns = patterns(
     '',
 
-    url(r'^$', views.dummy, name="dummy"),
-    url(r'^sldkgjlkj$', views.dummy, name="sdlgkj"),
+    # url(r'^$', views.dummy, name="dummy"),
+    url(r'^$', views.serve_city, name="neighborhoods"),
 
 )
 
