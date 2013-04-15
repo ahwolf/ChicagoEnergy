@@ -1,0 +1,2 @@
+# django-social-auth
+-e git://github.com/omab/django-social-auth.git@requests#egg=MyProject

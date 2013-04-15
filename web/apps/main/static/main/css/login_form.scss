@@ -1,0 +1,37 @@
+
+@import "main/scss_definitions/site.scss"; 
+
+$width: 960px;
+$img_width: 100px;
+$pad: 15px;
+$n_services: 2;
+
+#intro {
+  p {
+    width: 50%;
+    font-family: $body_font;
+    text-align: center;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+  }
+  margin-bottom: $pad;
+}
+
+#social_auth {
+  ul {
+    list-style-type: none;
+    li {
+      width: $img_width;
+      margin: {
+	left: auto;
+	right: auto;
+      }
+      padding-bottom: $pad;
+      img {
+      	width: $img_width;
+      }
+    }
+  }
+}
