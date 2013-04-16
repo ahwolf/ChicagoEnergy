@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" 
+      type="text/x-scss" 
+      media="screen"
+      href="{{STATIC_URL}}main/css/login_form.scss" />
+{% endblock css %}
+
+
+{% block content %}
+<div id="intro">
+  <p>
+    hello world
+  </p>
+</div>
+<div id="social_auth">
+  <ul>
+    <li>
+      <a href="{% url 'socialauth_begin' 'twitter' %}">
+	<img src="{{STATIC_URL}}main/img/twitter.png" alt="twitter icon"/>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'socialauth_begin' 'google-oauth2' %}">
+	<img src="{{STATIC_URL}}main/img/google-oauth2.png" alt="google icon"/>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'socialauth_begin' 'facebook' %}">
+	<img src="{{STATIC_URL}}main/img/facebook.png" alt="facebook icon"/>
+      </a>
+    </li>
+  </ul>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,30 @@
+
+
+social auth configuration
+-------------------------
+
+* twitter set up https://dev.twitter.com/apps/4294793/settings @DsAtweet
+
+   * edit description
+   
+   * edit name
+
+   * edit website url
+
+   * edit callback url
+
+   * add a logo?
+
+* google set up https://code.google.com/apis/console/b/0/?pli=1#project:686471003393:access
+
+   * edit 'product name'
+
+   * add a 'product logo'?
+   
+   * edit home page url
+
+* facebook set up
+
+   * edit App Name
+
+   * add logo?

@@ -1,0 +1,4 @@
+# django-social-auth. use deanmalmgren's repo which has a bug fix 
+# https://github.com/omab/django-social-auth/pull/673
+#-e git://github.com/omab/django-social-auth.git@requests#egg=django-social-auth
+-e git://github.com/deanmalmgren/django-social-auth.git@requests#egg=django-social-auth

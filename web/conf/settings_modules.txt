@@ -8,3 +8,6 @@ conf/main.py
 
 # the example app is also included in every project
 conf/example.py
+
+# for social authentication
+conf/social_auth.py
