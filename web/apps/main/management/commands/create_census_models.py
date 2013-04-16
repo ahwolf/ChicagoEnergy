@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from main.models import CensusBlocks, Neighborhoods, MonthlyEnergy, Pledge
 
+import sys
 import csv
 
 MONTHS = ['January',
@@ -21,6 +22,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
+
         with open('../data/raw_energy_data.csv', 'r') as infile:
             reader = csv.reader(infile, delimiter='|')
             header_row = reader.next()
@@ -71,8 +73,8 @@ class Command(BaseCommand):
 
                 Neighborhood, created = Neighborhoods.objects.get_or_create(name = neighborhood)
                 
-                if j%100 == 0:
-                    print j
+                if j%1000 == 0:
+                    print >> sys.stderr, "Analyzing row: ", j
 
 
                 Census_block, created = CensusBlocks.objects.get_or_create(
@@ -88,6 +90,15 @@ class Command(BaseCommand):
                                                     therm_efficiency = therm_efficiency,
                                                     kwh_efficiency = kwh_efficiency,
                                                     )
+
+
+
+
+
+
+
+
+
 
                 # # Too slow so I'm removing for now
                 # for i, month in enumerate(MONTHS):

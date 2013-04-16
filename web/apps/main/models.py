@@ -20,6 +20,7 @@ class Neighborhoods(models.Model):
 
     number_of_pledges = models.IntegerField(blank=True, null=True)
     pledge_money = models.FloatField(blank=True, null=True)
+    shape = models.TextField(blank=True, null=True)
 
 class CensusBlocks(models.Model):
 
@@ -43,6 +44,7 @@ class CensusBlocks(models.Model):
     total_percentile = models.FloatField(blank=True, null=True)
     therm_percentile = models.FloatField(blank=True, null=True)
     kwh_percentile = models.FloatField(blank=True, null=True)
+    shape = models.TextField(blank=True, null=True)
 
 class MonthlyEnergy(models.Model):
     
