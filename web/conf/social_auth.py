@@ -11,9 +11,9 @@ if not 'social_auth' in INSTALLED_APPS:
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
-    # 'social_auth.backends.facebook.FacebookBackend',
-    # 'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.facebook.FacebookBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
+    # 'social_auth.backends.google.GoogleOAuthBackend',
     # 'social_auth.backends.google.GoogleBackend',
     # 'social_auth.backends.yahoo.YahooBackend',
     # 'social_auth.backends.browserid.BrowserIDBackend',
@@ -32,24 +32,29 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-# The Cheating Commish app credentials
+# app credentials
 TWITTER_CONSUMER_KEY = 'hs1W8nRSSZuZgl1XNOz5A'
 TWITTER_CONSUMER_SECRET = 'ssXNunhDKuy3kXKtwjfHF4ZKbFgUNV8zUJS0XR4GrE'
 
-# # @CheatingCommish read-write
+# # read-write tweets from @CheatingCommish
 # TWITTER_ACCESS_TOKEN = '1281835585-3fu1FsUWQCGCLfkWf5u1v11cPKM5uSj2cidWM8h'
 # TWITTER_ACCESS_TOKEN_SECRET = 'IGz5itQ3fRXaPRX18TG6utZBctDIEiHM09XJqQs'
 
-# FACEBOOK_APP_ID              = ''
-# FACEBOOK_API_SECRET          = ''
+# google app credentials
+GOOGLE_OAUTH2_CLIENT_ID      = '686471003393.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET  = 'gprsWBG4trhErgzGe1UGKSpw'
+
+# facebook app credentials
+FACEBOOK_APP_ID              = '234309643376262'
+FACEBOOK_API_SECRET          = '858b3b49eef5325feaba6852fdc3729f'
+#FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
 # LINKEDIN_CONSUMER_KEY        = ''
 # LINKEDIN_CONSUMER_SECRET     = ''
 # ORKUT_CONSUMER_KEY           = ''
 # ORKUT_CONSUMER_SECRET        = ''
 # GOOGLE_CLIENT_ID             = ''
 # GOOGLE_CLIENT_SECRET         = ''
-GOOGLE_OAUTH2_CLIENT_ID      = '686471003393.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET  = 'gprsWBG4trhErgzGe1UGKSpw'
 # FOURSQUARE_CONSUMER_KEY      = ''
 # FOURSQUARE_CONSUMER_SECRET   = ''
 # VK_APP_ID                    = ''
