@@ -78,9 +78,9 @@ def read_shapefile(shape_filename, block_set=None, id_fieldname="BLKIDFP00",
         # get the id from the shapefile
         geoid = feature.GetField(id_fieldname)
 
-        # if the id of this feature is not in the spreadsheet, skip it
-        if (block_set is not None) and (not geoid in block_set):
-            continue
+        # # if the id of this feature is not in the spreadsheet, skip it
+        # if (block_set is not None) and (not geoid in block_set):
+        #     continue
 
         # convert to a shapely object
         geom = feature.geometry()
@@ -92,8 +92,8 @@ def read_shapefile(shape_filename, block_set=None, id_fieldname="BLKIDFP00",
         try:
             x_list, y_list = shape.boundary.coords.xy
         except NotImplementedError:
-            continue
-
+            # continue
+            pass
         # add to dictionary to return
         shape_dict[geoid] = shape
 

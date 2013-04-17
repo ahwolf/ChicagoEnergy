@@ -30,13 +30,26 @@ def serve_city(request):
     # read in neighborhood.json to get the shapes
     neighborhoods = Neighborhoods.objects.all()
     for neighborhood in neighborhoods:
-        print type(neighborhood.shape)
+        geo_type = "Polygon"
+        neighborhood_shape = wkt.loads(neighborhood.shape)
+        # print type(neighborhood.shape)
+        # print dir(wkt.loads(neighborhood.shape))
+
+        # in case of multi polygons
+        if neighborhood_shape.type == "MultiPolygon":
+            coords = []
+            for coord in list(wkt.loads(neighborhood.shape).geoms):
+                coords.append([list(coord.exterior.coords)])
+            geo_type = "MultiPolygon"
+        else:
+            coords = [list(wkt.loads(neighborhood.shape).exterior.coords)]
+
         try:
             feature = {
                     "type": "Feature",
                     "geometry": {
-                            "type":"Polygon",
-                            "coordinates":[json.loads(neighborhood.shape)]
+                            "type":geo_type,
+                            "coordinates": coords
                             },
                     "properties":{
                             'elect': neighborhood.total_kwh,
@@ -48,7 +61,6 @@ def serve_city(request):
                             'number_of_pledges': neighborhood.number_of_pledges,
                             'pledge_money': neighborhood.pledge_money,
                             'name': neighborhood.name,
-                            'shape': [json.loads(neighborhood.shape)]
                             # 'shape':list(wkt.loads(neighborhood.shape).exterior.coords))
 #                            json.dump(neighborhood.shape)
                             }

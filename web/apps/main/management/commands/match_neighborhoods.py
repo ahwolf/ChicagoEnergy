@@ -65,14 +65,14 @@ class Command(BaseCommand):
                 frac_raw = float(intersection.area) / aggregate_shape.area
 
                 # fix rawid in those two cases for mckliney and ohare
-                rawid = rawid.title()
-                if rawid == 'Mckinley Park':
-                    rawid = 'McKinley Park'
-                elif rawid == 'Ohare':
-                    rawid = "O'hare"
+                raw_id = raw_id.title()
+                if raw_id == 'Mckinley Park':
+                    raw_id = 'McKinley Park'
+                elif raw_id == 'Ohare':
+                    raw_id = "O'hare"
                 # if there is any area above tolerance, then add it up
                 if frac_raw >= .05 and neighborhood_count == 0:
-                    neighborhood, created = Neighborhoods.objects.get_or_create(name = rawid)
+                    neighborhood, created = Neighborhoods.objects.get_or_create(name = raw_id)
 
                     Neighborhoods.objects.filter(name = neighborhood.name)\
                                          .update(shape = wkt.dumps(raw_shape))
