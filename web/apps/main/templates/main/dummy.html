@@ -11,6 +11,8 @@
 <script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}common/js/lib/d3/d3.v2.js"></script>
 <script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/three.min.js"></script>
+<script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}common/js/lib/threejs/d3-threeD.js"></script>
 <script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}main/colorbrewerChi.js"></script>
@@ -30,9 +32,18 @@
       type="text/css" 
       media="screen"
       href="{{STATIC_URL}}main/dummy.css" />
-
+{% endblock css %}
 {% block content %}
-<p>
-  V. nice. The project at &ldquo;{{project_root}}&rdquo; is working.
-</p>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    <div id="main_container"></div>
+
 {% endblock content %}
+
+{% block dynamic_javascript %}
+{{block.super}}
+
+<script type="text/javascript">
+  {% include "main/app.js" %}
+</script>
+
+{% endblock dynamic_javascript %}

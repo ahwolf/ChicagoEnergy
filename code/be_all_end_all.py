@@ -3,17 +3,17 @@ import os
 import sys
 import csv
 import json
+import pickle
 
 # 3rd party
-from utils import read_shapefile, create_spatial_index, aggregate_metrics, \
-    write_json
+from utils import read_shapefile, create_spatial_index, aggregate_metrics, write_json
 
 # set this to an amount (in lat/lng units) that for boundary
 # simplification (None for no simplification)
 SIMPLIFICATION = .001
 
 # read in boundary info using the utils file read_shapefile
-BOUNDARY_DATA = '../data/Chicago_boundaries/'
+BOUNDARY_DATA = '../Chicago_boundaries/'
 
 # --------------------------------------------- read in all of the boundary data
 # CENSUS_BLOCK_2000 = read_shapefile(
@@ -23,11 +23,11 @@ BOUNDARY_DATA = '../data/Chicago_boundaries/'
 # )
 # CENSUS_BLOCK_2000_INDEX = create_spatial_index(CENSUS_BLOCK_2000)
 
-CENSUS_BLOCK_2010 = read_shapefile(
-    os.path.join(BOUNDARY_DATA, 'CensusBlockTIGER2010.shp'),
-    id_fieldname = "GEOID10",
-    simplification = SIMPLIFICATION,
-)
+# CENSUS_BLOCK_2010 = read_shapefile(
+#     os.path.join(BOUNDARY_DATA, 'CensusBlockTIGER2010.shp'),
+#     id_fieldname = "GEOID10",
+#     simplification = SIMPLIFICATION,
+# )
 # print CENSUS_BLOCK_2010
 
 # SCHOOL = read_shapefile(
@@ -48,17 +48,30 @@ CENSUS_BLOCK_2010 = read_shapefile(
 #     simplification = SIMPLIFICATION,
 # )
 
-# COMMUNITY_AREA = read_shapefile(
-#     os.path.join(BOUNDARY_DATA, 'CommAreas.shp'),
-#     id_fieldname = "COMMUNITY",
-#     simplification = SIMPLIFICATION,
-# )
-
-NEIGHBORHOOD = read_shapefile(
-    os.path.join(BOUNDARY_DATA, 'Neighborhoods_2012b.shp'),
-    id_fieldname = "PRI_NEIGH",
+COMMUNITY_AREA = read_shapefile(
+    os.path.join(BOUNDARY_DATA, 'CommAreas.shp'),
+    id_fieldname = "COMMUNITY",
     simplification = SIMPLIFICATION,
 )
+with open('community.p', 'wb') as stream:
+    pickle.dump(COMMUNITY_AREA, stream)
+k
+# NEIGHBORHOOD = read_shapefile(
+#     os.path.join(BOUNDARY_DATA, 'Neighborhoods_2012b.shp'),
+#     id_fieldname = "PRI_NEIGH",
+#     simplification = SIMPLIFICATION,
+# )
+with open('../data/raw_energy_data.csv', 'r') as infile:
+    reader = csv.reader(infile, delimiter='|')
+    header_row = reader.next()
+    name_set = set()
+    for row in reader:
+        name_set.add(row[0])
+
+for neighborhood in COMMUNITY_AREA:
+    if not neighborhood.title() in name_set:
+        print neighborhood.title()
+
 
 # WARD = read_shapefile(
 #     os.path.join(BOUNDARY_DATA, 'Wards.shp'),

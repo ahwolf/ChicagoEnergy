@@ -30,6 +30,10 @@ class Command(BaseCommand):
             for j,row in enumerate(reader):
                 # print "parsing: ", j, row[0],row[1]
                 neighborhood = row[0]
+                # Lakeview fix neighborhood to work with our files
+                if neighborhood == 'Lakeview':
+                    neighborhood = 'Lake View'
+
                 census_block_id = row[1]
                 building_type = row[2]
                 building_subtype = row[3]

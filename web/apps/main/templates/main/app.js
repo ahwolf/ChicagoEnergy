@@ -1,4 +1,5 @@
 // Clear out extra space in the body, don't let scrollbars show
+console.log("made it mofo")
 document.body.style.margin = 0;
 document.body.style.padding = 0;
 document.body.style.overflow = 'hidden';
@@ -25,7 +26,8 @@ var vis = d3.select("#main_container")
 
 // change what you would like data to equal for different geo projections
 //var data = ward;
-var data = neighborhood;
+var data = {{neighborhood_geojson}};
+console.log(data);
 // var data = census_tract;
 
 // calculate the max and min of all the property values

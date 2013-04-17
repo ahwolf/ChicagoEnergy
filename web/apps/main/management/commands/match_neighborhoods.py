@@ -13,7 +13,7 @@ import json
 import pickle
 
 from shapely.geometry import asShape
-
+from shapely import wkt
 
 from pprint import pprint
 
@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         CENSUS_BLOCK_2010 = pickle.load(open(BOUNDARY_DATA + "census.p", 'rb')) 
 
-        NEIGHBORHOOD = pickle.load(open(BOUNDARY_DATA + "neighborhood.p",'rb'))
+        NEIGHBORHOOD = pickle.load(open(BOUNDARY_DATA + "community.p",'rb'))
         NEIGHBORHOOD_INDEX = create_spatial_index(NEIGHBORHOOD)
         aggregate_results = {}            
         for i, (aggregate_id, aggregate_shape) in \
@@ -53,6 +53,7 @@ class Command(BaseCommand):
                 # get the element id
                 raw_id = item_2010.object
 
+
                 # get the shape from the shape dictionary
                 raw_shape = NEIGHBORHOOD[raw_id]
 
@@ -63,12 +64,20 @@ class Command(BaseCommand):
                 # is in the raw shape
                 frac_raw = float(intersection.area) / aggregate_shape.area
 
+                # fix rawid in those two cases for mckliney and ohare
+                rawid = rawid.title()
+                if rawid == 'Mckinley Park':
+                    rawid = 'McKinley Park'
+                elif rawid == 'Ohare':
+                    rawid = "O'hare"
                 # if there is any area above tolerance, then add it up
                 if frac_raw >= .05 and neighborhood_count == 0:
-                    neighborhood, created = Neighborhoods.objects.get_or_create(name = item_2010.object)
+                    neighborhood, created = Neighborhoods.objects.get_or_create(name = rawid)
 
                     Neighborhoods.objects.filter(name = neighborhood.name)\
-                                         .update(shape = json.dumps(list(raw_shape.exterior.coords)))
+                                         .update(shape = wkt.dumps(raw_shape))
+
+                                                 #json.dumps(list(raw_shape.exterior.coords)))
                     
                     # neighborhood.shape = json.dumps(list(raw_shape.exterior.coords))
 

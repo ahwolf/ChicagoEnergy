@@ -1,12 +1,14 @@
+import os
+import json
+
 from django.shortcuts import render_to_response
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from main.models import CensusBlocks, Neighborhoods, MonthlyEnergy, Pledge
 from common.conf.settings import STATIC_URL, STATIC_ROOT
 
-import os
-import json
-
+from shapely import wkt
 
 def login_form(request):
     print 'wtf'
@@ -16,7 +18,7 @@ def login_form(request):
         context_instance=RequestContext(request)
     )
 
-@login_required
+# @login_required
 def serve_city(request):
 
 
@@ -28,22 +30,31 @@ def serve_city(request):
     # read in neighborhood.json to get the shapes
     neighborhoods = Neighborhoods.objects.all()
     for neighborhood in neighborhoods:
-        feature = {
-                "type": "Feature",
-                "geometry": {
-                        "type":"Polygon",
-                        "coordinates":[json.loads(neighborhood.shape)]
-                        },
-                "properties":{
-                        'total_kwh': neighborhood.total_kwh,
-                        'total_therm': neighborhood.total_therm,
-                        # total_energy = total_energy,
-                        'sqft_kwh': neighborhood.sqft_kwh,
-                        'sqft_therm': neighborhood.sqft_therm,
-                        'total_sqft': neighborhood.total_sqft,
-                        'name': neighborhood.name
-                        }
-                }
+        print type(neighborhood.shape)
+        try:
+            feature = {
+                    "type": "Feature",
+                    "geometry": {
+                            "type":"Polygon",
+                            "coordinates":[json.loads(neighborhood.shape)]
+                            },
+                    "properties":{
+                            'elect': neighborhood.total_kwh,
+                            'gas': neighborhood.total_therm,
+                            # total_energy = total_energy,
+                            'elect_efficiency': neighborhood.kwh_efficiency,
+                            'gas_efficiency': neighborhood.therm_efficiency,
+                            'total_sqft': neighborhood.total_sqft,
+                            'number_of_pledges': neighborhood.number_of_pledges,
+                            'pledge_money': neighborhood.pledge_money,
+                            'name': neighborhood.name,
+                            'shape': [json.loads(neighborhood.shape)]
+                            # 'shape':list(wkt.loads(neighborhood.shape).exterior.coords))
+#                            json.dump(neighborhood.shape)
+                            }
+                    }
+        except:
+            continue
         neighborhood_geojson['features'].append(feature)
 
     # dump the geojson and send to the client side
