@@ -165,38 +165,38 @@ def aggregate_metrics(
         #                                                 objects=True):
 
 
-            # # get the id from the rtree object
-            # raw_id = item_2000.object
+            # get the id from the rtree object
+            raw_id = item_2000.object
 
-            # # get the shape from the shape dictionary
-            # raw_shape = raw_shape_dict[raw_id]
+            # get the shape from the shape dictionary
+            raw_shape = raw_shape_dict[raw_id]
 
-            # # calculate the intersection of the polygons
-            # intersection = raw_shape.intersection(aggregate_shape)
+            # calculate the intersection of the polygons
+            intersection = raw_shape.intersection(aggregate_shape)
 
-            # # calculate the fraction of the area of the raw shape that
-            # # belongs to the aggregate shape
-            # frac_raw = float(intersection.area) / raw_shape.area
+            # calculate the fraction of the area of the raw shape that
+            # belongs to the aggregate shape
+            frac_raw = float(intersection.area) / raw_shape.area
 
-            # # if there is any area above tolerance, then add it up
-            # if frac_raw >= (0.0 + TOLERANCE):
+            # if there is any area above tolerance, then add it up
+            if frac_raw >= (0.0 + TOLERANCE):
 
-            #     # if this hasn't already been added up for this aggregate,
-            #     # then start at zero
-            #     if not aggregate_results.has_key(aggregate_id):
-            #         aggregate_results[aggregate_id] = [0.0, 0.0, 0.0]
+                # if this hasn't already been added up for this aggregate,
+                # then start at zero
+                if not aggregate_results.has_key(aggregate_id):
+                    aggregate_results[aggregate_id] = [0.0, 0.0, 0.0]
 
-            #     # look up the metrics for the raw shape, and use zeroes if
-            #     # it isn't in the metrics dictionary
-            #     try:
-            #         raw_metrics = metric_dict[raw_id]
-            #     except KeyError:
-            #         raw_metrics = [0.0, 0.0, 0.0]
+                # look up the metrics for the raw shape, and use zeroes if
+                # it isn't in the metrics dictionary
+                try:
+                    raw_metrics = metric_dict[raw_id]
+                except KeyError:
+                    raw_metrics = [0.0, 0.0, 0.0]
 
-            #     # increment each metric
-            #     for i in range(3):
-            #         aggregate_results[aggregate_id][i] += \
-            #             (raw_metrics[i] * frac_raw)
+                # increment each metric
+                for i in range(3):
+                    aggregate_results[aggregate_id][i] += \
+                        (raw_metrics[i] * frac_raw)
 
     # return the dictionary, keyed by ID of aggregate data
     return aggregate_results

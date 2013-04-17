@@ -7,14 +7,16 @@ from common.conf.settings import STATIC_URL, STATIC_ROOT
 import os
 import json
 
-def dummy(request):    
-    return render_to_response(
-        'main/dummy.html', {
-            'project_root': settings.PROJECT_ROOT,
-            },
-        context_instance=RequestContext(request)
-        )
 
+def login_form(request):
+    print 'wtf'
+    return render_to_response(
+        'main/login_form.html', {
+        },
+        context_instance=RequestContext(request)
+    )
+
+@login_required
 def serve_city(request):
 
 

@@ -30,7 +30,7 @@ class Command(BaseCommand):
                                 therm_efficiency = float(aggregate_metrics['total_therm__sum']) / aggregate_metrics['sqft_therm__sum'],
                                 kwh_efficiency = float(aggregate_metrics['total_kwh__sum']) / aggregate_metrics['sqft_kwh__sum'])
             except TypeError:
-                print >> sys.stderr, "Nothing to show"
+                print >> sys.stderr, "Nothing to aggregate."
             # neighborhood.total_kwh = aggregate_metrics['total_kwh__sum']
             # neighborhood.total_therm = aggregate_metrics['total_therm__sum']
             # # neighborhood.total_energy = aggregate_metrics['total_energy__sum']

@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 
-{% block title%}dummy{% endblock title%}
+{% block title%}Chicago Energy Database Prototype{% endblock title%}
+
+{% block js %}
+{{block.super}}
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/jquery.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/Stats.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/d3/d3.v2.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/d3-threeD.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}main/colorbrewerChi.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/TweenMax.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/easing/EasePack.min.js"></script>
+<script type="text/javascript"
+    src="{{STATIC_URL}}common/js/lib/underscore-min.js">
+</script>
+{% endblock js %}
+
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/dummy.css" />
 
 {% block content %}
 <p>
