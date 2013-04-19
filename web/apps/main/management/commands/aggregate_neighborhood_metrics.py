@@ -31,6 +31,41 @@ class Command(BaseCommand):
                                 kwh_efficiency = float(aggregate_metrics['total_kwh__sum']) / aggregate_metrics['sqft_kwh__sum'])
             except TypeError:
                 print >> sys.stderr, "Nothing to aggregate."
+
+        # Now include the rank 
+        kwh_list = []
+        therm_list = []
+
+        # third item in list is the percentile to be calculated later
+        for neighborhood in neighborhoods:
+            kwh_list.append([neighborhood.name, neighborhood.kwh_efficiency,0])
+            therm_list.append([neighborhood.name, neighborhood.therm_efficiency,0])
+
+        sorted_kwh_list = sorted(kwh_list, key = lambda efficiency:efficiency[1])
+        sorted_therm_list = sorted(therm_list, key = lambda efficiency:efficiency[1])
+
+        for i, item in enumerate(sorted_kwh_list):
+            sorted_kwh_list[i][2] = float(i)/len(sorted_kwh_list)
+            sorted_therm_list[i][2] = float(i)/len(sorted_therm_list)
+
+        for i,kwh in enumerate(sorted_kwh_list):
+            neighborhood_name = kwh[0]
+            neighborhood = Neighborhoods.objects.filter(name=neighborhood_name).update(kwh_percentile = kwh[2],
+                                                                                       kwh_rank = i+1)
+            # neighborhood.kwh_percentile = kwh[2]
+            # neighborhood.save()
+            if i%1000 == 0:
+                print >> sys.stderr, "Evaluating kwh percentile %i of %i" %(i, len(sorted_kwh_list))
+
+        for i, therm in enumerate(sorted_therm_list):
+            neighborhood_name = therm[0]
+            neighborhood = Neighborhoods.objects.filter(name=neighborhood_name).update(therm_percentile=therm[2],
+                                                                                       therm_rank = i+1)
+            # neighborhood.therm_percentile = therm[2]
+            # neighborhood.save()
+            if i%1000 == 0:
+                print >> sys.stderr, "Evaluating therm percentile %i of %i" %(i, len(sorted_therm_list))
+
             # neighborhood.total_kwh = aggregate_metrics['total_kwh__sum']
             # neighborhood.total_therm = aggregate_metrics['total_therm__sum']
             # # neighborhood.total_energy = aggregate_metrics['total_energy__sum']

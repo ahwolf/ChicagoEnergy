@@ -1,5 +1,4 @@
 // Clear out extra space in the body, don't let scrollbars show
-console.log("made it mofo")
 document.body.style.margin = 0;
 document.body.style.padding = 0;
 document.body.style.overflow = 'hidden';
@@ -18,7 +17,7 @@ var path = d3.geo.path().projection(albers);
 
 /*
 // 2D rendering, not used for three.js
-var vis = d3.select("#main_container")
+var vis = d3.select("#container")
     .append("svg")
     .attr("width", w)
     .attr("height", h);
@@ -27,7 +26,7 @@ var vis = d3.select("#main_container")
 // change what you would like data to equal for different geo projections
 //var data = ward;
 var data = {{neighborhood_geojson}};
-console.log(data);
+// var data = neighborhood;
 // var data = census_tract;
 
 // calculate the max and min of all the property values
@@ -63,12 +62,12 @@ vis.selectAll("path")
 
 // Render using three.js
 
-// The following code was copied from
-// http://www.smartjava.org/content/render-geographic-information-3d-threejs-and-d3js
-// and updated to take advantage of built in d3 tools
-
 // three.js setup & basic functions
 var camera, scene, renderer, geometry, material, mesh;
+
+var camYPos = 200;
+
+var mouse = { x: 0, y: 0 }, INTERSECTED;
 
 var appConstants  = {
 
@@ -90,9 +89,9 @@ geons.geoConfig = function() {
     this.mercator = d3.geo.mercator();
     var wtf = this;
     this.albers = d3.geo.albers()
-  .scale(wtf.SCALE)
-  .origin(wtf.origin)
-  .translate([wtf.TRANSLATE_0,wtf.TRANSLATE_1]);
+    .scale(wtf.SCALE)
+    .origin(wtf.origin)
+    .translate([wtf.TRANSLATE_0,wtf.TRANSLATE_1]);
     
     this.path = d3.geo.path().projection(this.albers);
 
@@ -109,38 +108,12 @@ stats.domElement.style.top = '0px';
 // geoConfig contains the configuration for the geo functions
 geo = new geons.geoConfig();
 
-initScene();
-addGeoObject();
-animate();
-//enderer.render( scene, camera );
-
-//////////////////////////////////////////////////////
-/*
-* NOTE FOR AARON:DsA:
-*
-* the following line is a looping function: requestAnimationFrame( animate );
-* it calls itself in the argument, so anything w/in the {} runs every frame
-* that the render() function gets called is what was moving the camera (you'll see the commented code w/in)
-* the stats begin/end is for the included Stats.js - gives us our frameRate in the top left
-*/
-//////////////////////////////////////////////////////
-
 function animate() {
-  stats.begin();
-  // note: three.js includes requestAnimationFrame shim  
+  stats.begin(); 
   requestAnimationFrame( animate );
   render();
   stats.end();
-
-  // keep the camera looking at the center point
-  // we will update scene.position to the neighborhood center points as they're clicked
-  camera.lookAt( scene.position );
-}
-
-function render() {
-  renderer.render( scene, camera );
-  //camera.position.y -= .2;
-  //camera.position.z -= .5;
+  //camera.lookAt( scene.position );
 }
 
 // Set up the three.js scene. This is the most basic setup without
@@ -155,29 +128,46 @@ function initScene() {
   // set some camera attributes
   var VIEW_ANGLE = 45, NEAR = 1, FAR = 10000;
 
+  projector = new THREE.Projector();
+
   // create a WebGL renderer, camera, and a scene
   renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.shadowMapEnabled = true;
+  renderer.shadowMapSoft = true;
 
   camera = new THREE.PerspectiveCamera( VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR );
-  camera.position.y = 250;
-  camera.position.z = 500;
+  camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
+  camera.position.y = camYPos;
+  camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
   
   // add and position the camera at a fixed position
   scene.add(camera);
-  camera.lookAt( scene.position );
+  //camera.lookAt( scene.position );
+
+  // calculate dynamic lookAt object position
+  var la = new THREE.Object3D();
+  la.x = Math.cos(currentAngle * Math.PI * 2) * radiusX * .6;
+  la.y = 150;
+  la.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ * .6;
+  camera.lookAt( la );
+
+
   
-  // start the renderer, and black background
+  // start the renderer, and white background
   renderer.setSize(WIDTH, HEIGHT);
   renderer.setClearColorHex( 0xFFFFFF, 1 );
   
   // add the render target to the page
-  $("#main_container").append(renderer.domElement);
+  $("#container").append(renderer.domElement);
 
-  
+  var darkness = 0.75;
 
   // lighting
   var spotLightAbove = new THREE.SpotLight(0xFFFFFF);
   spotLightAbove.position.set( 0, 1000, 0 );
+  spotLightAbove.castShadow = true;
+  spotLightAbove.shadowDarkness = darkness;
+  //spotLightAbove.shadowCameraVisible = true;
   scene.add(spotLightAbove);
 
   var spotLightLeft = new THREE.SpotLight(0xFFFFFF, .35);
@@ -197,7 +187,7 @@ function initScene() {
   scene.add(spotLightBottom);
   
   // add a base plane on which we'll render our map
-  var planeGeo = new THREE.PlaneGeometry(10000, 10000, 10, 10);
+  var planeGeo = new THREE.PlaneGeometry(10000, 10000, 1, 1);
   var planeMat = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
   var plane = new THREE.Mesh(planeGeo, planeMat);
 
@@ -225,21 +215,18 @@ function addGeoObject() {
     var color_scale = d3.scale.quantile()
     //var color_scale = d3.scale.ordinal()
       .domain(gas_eff_min_max)
-
-      // Use this for the reverse color direction
-      // .range([ '#D7191C', '#FDAE61', '#FFFFBF', '#A6D96A', '#1A9641']);
-      .range([ '#1A9641', '#A6D96A', '#FFFFBF', '#FDAE61', '#D7191C']);
-
+      //.range([ 'red', 'blue', 'purple']);
+      .range(colorbrewer.RdYlGn[9]);
 
     var extrude_scale = d3.scale.linear()
       .domain(elec_eff_min_max)
-      .range([0, 100]);
+      .range([10, 75]);
 
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
     // matching functionality later
     var mathColor = color_scale(geoFeature.properties.gas_efficiency);
-    console.log(mathColor);
+
     // Need to convert the color into a hexadecimal number
     var hexMathColor = parseInt(mathColor.replace("#", "0x"));
 
@@ -264,13 +251,110 @@ function addGeoObject() {
     //toAdd.rotation.z = Math.PI * .5;
     toAdd.translateY(extrude / 2);
 
+    // zero all y positions of extruded objects
+    toAdd.position.y = extrude;
+    toAdd.properties = geoFeature.properties;
+
+    toAdd.castShadow = true;
+    toAdd.receiveShadow = false;
+
     // add to scene
     scene.add(toAdd);
-
   });
 }
 
+var flying = false;
 
+var centerX = 150;
+var centerY = 150;
+var radiusX = 300;
+var radiusZ = 550;
+var currentAngle = Math.PI * 1.988;
+var angleStep = 0;
+
+//TweenLite.delayedCall(0, startFlying);
+
+function startFlying() {
+  flying = true;
+}
+
+function flyAround() {
+
+  // ease into flying animation
+  if (angleStep < .00015) angleStep += .000001;
+
+  currentAngle += angleStep;
+  camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
+  camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
+
+  // calculate dynamic lookAt object position
+  var la = new THREE.Object3D();
+  la.x = Math.cos(currentAngle * Math.PI * 2) * radiusX * .6;
+  la.y = 150;
+  la.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ * .6;
+  camera.lookAt( la );
+
+  if (currentAngle < -1 ) {
+    currentAngle = 0;
+    stage.removeEventListener(Event.ENTER_FRAME, advanceCircle);
+    start_btn.addEventListener(MouseEvent.CLICK, startCircle);
+  }
+}
+
+function render() {
+
+  if (flying) flyAround();
+
+  // begin rollover stuff
+  var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+  projector.unprojectVector( vector, camera );
+
+  var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+  var intersects = raycaster.intersectObjects( scene.children );
+
+  if ( intersects.length > 0 ) {
+
+    if ( INTERSECTED != intersects[ 0 ].object ) {
+
+      if ( INTERSECTED ) {
+        INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+      }
+
+      INTERSECTED = intersects[ 0 ].object;
+      INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      INTERSECTED.material.emissive.setHex( 0x900800 );
+      //console.log(INTERSECTED);
+
+      $("#neighborhoodText").html(INTERSECTED.properties.name);
+      console.log(INTERSECTED.properties.name);
+
+      TweenLite.to(rolloverTip, .125, {autoAlpha:1})
+
+    }
+
+  } else {
+
+    TweenLite.to(rolloverTip, .125, {autoAlpha:0})
+
+    if ( INTERSECTED ) {
+      INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+    }
+
+    INTERSECTED = null;
+
+  }
+  // end rollover stuff
+
+  renderer.render( scene, camera );
+  //camera.position.y -= .2;
+  //camera.position.z -= .5;
+}
+
+initScene();
+addGeoObject();
+animate();
+//renderer.render( scene, camera );
 
 ////////////////// EVENT LISTENERS //
 
@@ -286,12 +370,13 @@ function onWindowResize() {
 
 }
 
-
 function onDocumentMouseMove( event ) {
 
   event.preventDefault();
   mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
   mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  TweenLite.to($('#rolloverTip'), 0, { css: { left: event.pageX - 22, top: event.pageY - 59 }, ease:Back.easeOut});
 
 }
 

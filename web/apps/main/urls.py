@@ -14,7 +14,7 @@ urlpatterns += patterns(
     '',
 
     url(r'^$', views.serve_city, name="neighborhoods"),
-
+    url(r'^neighborhood/$',views.serve_neighborhood, name="census_blocks")
 )
 
 # whatevs

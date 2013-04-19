@@ -22,6 +22,12 @@ class Neighborhoods(models.Model):
     pledge_money = models.FloatField(blank=True, null=True)
     shape = models.TextField(blank=True, null=True)
 
+    kwh_percentile = models.FloatField(blank=True, null=True)
+    therm_percentile = models.FloatField(blank=True, null=True)
+
+    therm_rank = models.IntegerField(blank=True, null=True)
+    kwh_rank = models.IntegerField(blank=True, null=True)
+
 class CensusBlocks(models.Model):
 
     census_id = models.TextField(blank=True, null=True)
@@ -46,6 +52,9 @@ class CensusBlocks(models.Model):
     kwh_percentile = models.FloatField(blank=True, null=True)
     shape = models.TextField(blank=True, null=True)
 
+    therm_rank = models.IntegerField(blank=True, null=True)
+    kwh_rank = models.IntegerField(blank=True, null=True)
+
 class MonthlyEnergy(models.Model):
     
     census_block = models.ForeignKey(CensusBlocks)
@@ -59,3 +68,11 @@ class Pledge(models.Model):
     neighborhood = models.ForeignKey(Neighborhoods)
     amount = models.FloatField(blank=True, null=True)
     user = models.ForeignKey(User)
+
+class Initiatives(models.Model):
+    name = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    savings = models.FloatField(blank=True, null=True)
+    multi_lt7 = models.BooleanField(default=True)
+    multi_gt7 = models.BooleanField(default=True)
+    single_family = models.BooleanField(default=True)
