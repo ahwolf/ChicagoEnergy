@@ -10,7 +10,7 @@ from utils import read_shapefile, create_spatial_index, aggregate_metrics, write
 
 # set this to an amount (in lat/lng units) that for boundary
 # simplification (None for no simplification)
-SIMPLIFICATION = .001
+SIMPLIFICATION = .000001
 
 # read in boundary info using the utils file read_shapefile
 BOUNDARY_DATA = '../Chicago_boundaries/'
@@ -53,7 +53,7 @@ COMMUNITY_AREA = read_shapefile(
     id_fieldname = "COMMUNITY",
     simplification = SIMPLIFICATION,
 )
-with open('community.p', 'wb') as stream:
+with open('community_test.p', 'wb') as stream:
     pickle.dump(COMMUNITY_AREA, stream)
 k
 # NEIGHBORHOOD = read_shapefile(

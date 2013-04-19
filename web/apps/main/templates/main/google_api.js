@@ -83,12 +83,16 @@ function google_api(){
         // Okay, now we just need to goto the neighborhood call server?
         var address = neighborhood_object[address];
     }
+    // ajax call
     else{
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address':address}, function(results, status){
             console.log(results, status);
-            var lat = results.location.kb;
-            var lon = results.location.jb;
+            var point = results[0].geometry.location
+            console.log(point);
+            var lat = point.kb;
+            var lon = point.jb;
+
             $.ajax({
                 url:"find_census_block",
                 data:{lat:lat,

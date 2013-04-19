@@ -1,5 +1,6 @@
 import os
 import json
+import pickle
 
 from django.shortcuts import render_to_response
 from django.conf import settings
@@ -8,7 +9,9 @@ from django.template import RequestContext
 from main.models import CensusBlocks, Neighborhoods, MonthlyEnergy, Pledge
 from common.conf.settings import STATIC_URL, STATIC_ROOT
 
+from rtree.index import Index
 from shapely import wkt
+from shapely.geometry import Point
 
 def login_form(request):
     print 'wtf'
@@ -154,9 +157,54 @@ def serve_neighborhood(request):
 # Takes an address and returns the neighborhood and census block
 def find_census_block(request):
     print request
+
+    print request.GET.get('lat'), request.GET.get('lon')
+    point = Point(float(request.GET.get('lat')), float(request.GET.get('lon')))
+
+    print point
+
+    # use point in polygon for all of the neighborhoods seemed more accurate
+    neighborhoods = Neighborhoods.objects.all()
+    # neighborhood_dict = {}
+    for neighborhood in neighborhoods:
+        if point.within(wkt.loads(neighborhood.shape)):
+            break
+
+        # neighborhood_dict[neighborhood.name] = wkt.loads(neighborhood.shape)
+
+    # BOUNDARY_DATA = STATIC_ROOT + '/main/'
+    # neighborhood_dict =pickle.load(open(BOUNDARY_DATA + "community_test.p", 'rb'))
+    # print "before si"
+    # neighborhood_si = create_spatial_index(neighborhood_dict)
+
+    # print "before"
+    # matched_neighborhoods = neighborhood_si.nearest(point.bounds, 1,objects=True)
+    # print matched_neighborhoods
+    # for nei in matched_neighborhoods:
+    #     print dir(nei)
+    #     print nei.object
+    # print matched_neighborhoods
+    # once the neighborhood is found, create an rtree of the census blocks while also creating the geojson
+    census_blocks = CensusBlocks.filter(neighborhood = neighborhood,
+                                        building_type = 'Residential',
+                                        building_subtype = 'All')
+
+    # create a spatial index
+    # census_dict = {}
+    # for census_block in census_blocks:
+    #     census_dict[census_block.census_id] = #
+
     return render_to_response(
         'main/dummy.html', {
             'project_root': settings.PROJECT_ROOT,
             },
         context_instance=RequestContext(request)
         )
+
+
+def create_spatial_index(shape_dict):
+
+    spatial_index = Index()
+    for index, (name, shape) in enumerate(shape_dict.iteritems()):
+        spatial_index.insert(index, shape.bounds, obj=name)
+    return spatial_index
