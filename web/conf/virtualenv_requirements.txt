@@ -3,3 +3,4 @@
 #-e git://github.com/omab/django-social-auth.git@requests#egg=django-social-auth
 -e git://github.com/deanmalmgren/django-social-auth.git@requests#egg=django-social-auth
 shapely
+Rtree==0.7.0
