@@ -15,3 +15,6 @@ web/*.db
 
 # dbvcs fixture backups
 *.json.backup
+
+# libspatial index build directory
+web/build
