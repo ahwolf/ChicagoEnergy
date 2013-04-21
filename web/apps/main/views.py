@@ -78,7 +78,6 @@ def serve_city(request):
                             }
                     }
         except KeyError:
-
             continue
         neighborhood_geojson['features'].append(feature)
 
@@ -265,8 +264,27 @@ def get_pledge_info(request):
     response = json.dumps(initiative_list)
     return HttpResponse(response,mimetype="application/json")
 
-# # receive pledge
-# def receive_pledge(request):
+# receive pledge
+def receive_pledge(request):
+    user = request.user
+    # check building subtype, right now we are grouping <7 with 7+
+    subtype = request.GET.get('subtype')
+    if subtype == "Single Family":
+        initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                             single_family = True)
+    else:
+        initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                             multi_lt7 = True)
+    # get the neighborhood
+    neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
+
+    # store the pledge
+    realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
+                                                           initiative = initiative,
+                                                           user = user)
+    # do I need a response here?
+    return HttpResponse("success","application/json")
+
 
 # ajax request for the leaderboard to be displayed
 def leaderboard(request):
@@ -277,7 +295,10 @@ def leaderboard(request):
         pledges = RealPledge.filter(neighborhood = neighborhood)
         amount = pledges.aggregate(Sum('initiative__savings'))
         print amount
-    leaders = RealPledge.objects
+        leader_list.append([neighborhood,amount['initiative__savings__sum']])
+    leader_list = sorted(leader_list, key = lambda leader:leader[1]))
+    leader_list = leader_list[:amount]
+    return HttpResponse(json.dumps(leader_list), "application/json")
 
 
 

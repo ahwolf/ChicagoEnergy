@@ -1,3 +1,9 @@
+$("#textEntry").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#searchButton").click();
+    }
+});
+
 function google_api(){
     var neighborhood_object = {
         "albany park" : "Albany Park",
@@ -104,7 +110,7 @@ function google_api(){
                     // If data is valid, then we have a census block otherwise
                     // we have a bad search
                     if (data){
-
+                        // re_draw the census_blocks with the census id's
                     }
                     // reset the search value
                     else{

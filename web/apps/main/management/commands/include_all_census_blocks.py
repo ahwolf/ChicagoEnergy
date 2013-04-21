@@ -37,14 +37,19 @@ class Command(BaseCommand):
                                                             Sum('sqft_therm'),
                                                             Sum('total_sqft'))
 
-
+            single_census = CensusBlocks.objects.filter(building_type = "Residential",
+                                                        census_id = census_id,
+                                                        building_subtype = 'Single Family')
+            neighborhood = single_census.neighborhood
+            shape = single_census.shape
+            
             try:
                 CensusBlocks.objects.filter(building_type = "Residential",
                                             census_id = census_id,
                                             building_subtype = 'All')\
                                     .update(
-
-                                            neighborhood = 
+                                            shape = shape
+                                            neighborhood = neighborhood
                                             total_kwh=aggregate['total_kwh__sum'],
                                             total_therm = aggregate['total_therm__sum'],
                                             sqft_kwh = aggregate['sqft_kwh__sum'],

@@ -54,6 +54,7 @@ class CensusBlocks(models.Model):
 
     therm_rank = models.IntegerField(blank=True, null=True)
     kwh_rank = models.IntegerField(blank=True, null=True)
+    nice_address = models.TextField(blank=True, null=True)
 
 class MonthlyEnergy(models.Model):
     
