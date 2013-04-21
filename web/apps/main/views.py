@@ -95,8 +95,8 @@ def serve_city(request):
 
     return_json = json.dumps(neighborhood_geojson)
 
-    with open('neighborhood_new.js', 'wb') as outfile:
-       outfile.write("var neighborhood = " + return_json)
+    # with open('neighborhood_new.js', 'wb') as outfile:
+    #    outfile.write("var neighborhood = " + return_json)
 
     return render_to_response(
         'main/dummy.html', {
