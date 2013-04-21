@@ -36,6 +36,10 @@
       type="text/css" 
       media="screen"
       href="{{STATIC_URL}}main/app.css" />
+<link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/gmap.css" />
 {% endblock css %}
 {% block content %}
 <!--     <div id="main_container"></div>-->
@@ -47,12 +51,6 @@
 
     <div id="branding"></div>
 
-    <script type="text/javascript">
-        {% include "main/google_api.js" %}
-    </script>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsxCdGowk5ArZDdJFNQO9PCeoLXE3W5oQ&sensor=false">
-    </script>
     <!-- search/input field -->
     <div id="search">
 <!--         <form action="" method="get" onsubmit="return google_api(this.name.value)"> -->          
@@ -62,6 +60,7 @@
           </button>
         <!-- </form> -->
     </div>
+    <div id="map_canvas"></div>
 
     <!-- tooltips -->
     <div id="rolloverTip" class="tooltip">
@@ -116,6 +115,13 @@
 
 {% block dynamic_javascript %}
 {{block.super}}
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsxCdGowk5ArZDdJFNQO9PCeoLXE3W5oQ&sensor=false">
+</script>
+
+<script type="text/javascript">
+    {% include "main/google_api.js" %}    
+</script>
 
 <script type="text/javascript">
   {% include "main/app.js" %}

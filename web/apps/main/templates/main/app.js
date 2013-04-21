@@ -255,6 +255,8 @@ function addGeoObject() {
     // zero all y positions of extruded objects
     toAdd.position.y = extrude;
     toAdd.properties = geoFeature.properties;
+    // *** AARON ADDED
+    toAdd.properties.shape = geoFeature.geometry.coordinates[0]
 
     toAdd.castShadow = true;
     toAdd.receiveShadow = false;
@@ -328,7 +330,8 @@ function render() {
       //console.log(INTERSECTED);
 
       $("#neighborhoodText").html(INTERSECTED.properties.name);
-      console.log(INTERSECTED.properties.name);
+      console.log(INTERSECTED.properties);
+      // *** AARON CODE
 
       TweenLite.to(rolloverTip, .125, {autoAlpha:1})
 

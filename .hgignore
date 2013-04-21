@@ -18,3 +18,4 @@ web/*.db
 
 # libspatial index build directory
 web/build
+web/geopy

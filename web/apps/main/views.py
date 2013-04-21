@@ -296,7 +296,7 @@ def leaderboard(request):
         amount = pledges.aggregate(Sum('initiative__savings'))
         print amount
         leader_list.append([neighborhood,amount['initiative__savings__sum']])
-    leader_list = sorted(leader_list, key = lambda leader:leader[1]))
+    leader_list = sorted(leader_list, key = lambda leader:leader[1])
     leader_list = leader_list[:amount]
     return HttpResponse(json.dumps(leader_list), "application/json")
 
