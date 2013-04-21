@@ -1,3 +1,88 @@
+// from http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
+var mapStyle = [
+  {
+    "featureType": "landscape",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "road.highway",
+    "stylers": [
+      { "color": "#c1c1c1" }
+    ]
+  },{
+    "featureType": "road.arterial",
+    "stylers": [
+      { "color": "#c2c2c2" }
+    ]
+  },{
+    "featureType": "road.local",
+    "stylers": [
+      { "color": "#d1d1d1" }
+    ]
+  },{
+    "featureType": "transit.line",
+    "stylers": [
+      { "visibility": "simplified" }
+    ]
+  },{
+    "featureType": "transit.station",
+    "stylers": [
+      { "lightness": 26 },
+      { "saturation": -78 }
+    ]
+  },{
+    "featureType": "poi",
+    "stylers": [
+      { "lightness": 35 }
+    ]
+  },{
+  },{
+  },{
+  },{
+    "featureType": "administrative",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#808080" }
+    ]
+  },{
+    "featureType": "road.highway",
+    "elementType": "labels",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "poi"  },{
+    "featureType": "road",
+    "elementType": "labels",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "road",
+    "elementType": "labels.text",
+    "stylers": [
+      { "visibility": "on" }
+    ]
+  },{
+    "featureType": "poi.business",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "water",
+    "stylers": [
+      { "lightness": 35 }
+    ]
+  },{
+  }
+];
+
 $("#textEntry").keyup(function(event){
     if(event.keyCode == 13){
         $("#searchButton").click();
@@ -5,15 +90,38 @@ $("#textEntry").keyup(function(event){
 });
 var map = ""
 function initialize() {
-    var mapOptions = {
-      center: new google.maps.LatLng(41.836084, -87.63073),
-      zoom: 8,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"),
-                                  mapOptions);
+  var mapOptions = {
+    center: new google.maps.LatLng(41.836084, -87.63073), // chicago
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: mapStyle,
+    streetViewControl: false,
+    scaleControl: false,
+    rotateControl: false,
+    mapTypeControl: false,
+    zoomControl: false,
+  };
+  map = new google.maps.Map(document.getElementById("map_canvas"),
+                            mapOptions);
+
+  var shape_coords = [
+    new google.maps.LatLng(41.836084, -87.63073),
+    new google.maps.LatLng(41.836084, -87.59073),
+    new google.maps.LatLng(41.876084, -87.59073),
+    new google.maps.LatLng(41.876084, -87.63073),
+    new google.maps.LatLng(41.836084, -87.63073)
+  ];
+  var chicagoOverlay = new google.maps.Polygon({
+    paths: shape_coords,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
+  chicagoOverlay.setMap(map);
 }
-    
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 function google_api(){
