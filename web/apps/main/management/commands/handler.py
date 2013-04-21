@@ -14,6 +14,10 @@ class Command(BaseCommand):
         call_command('create_census_models')
         print >> sys.stderr, "done."
 
+        print >> sys.stderr, "Calculate the ALL building_subtype for the census block level"
+        call_command('include_all_census_blocks')
+        print >> sys.stderr, "done."
+
         print >> sys.stderr, "Finding matching neighborhoods and adding shapes..."
         call_command('match_neighborhoods')
         print >> sys.stderr, "done."
@@ -25,4 +29,7 @@ class Command(BaseCommand):
         print >> sys.stderr, "Aggregate all of this useful info back up to the neighborhood level"
         call_command('aggregate_neighborhood_metrics')
         print >> sys.stderr, "done."
+
+        
+
 

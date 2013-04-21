@@ -96,7 +96,23 @@ function google_api(){
             $.ajax({
                 url:"find_census_block",
                 data:{lat:lat,
-                      lon: lon}
+                      lon: lon},
+                success:function(data){
+                    console.log("success!");
+                    console.log(data);
+                    
+                    // If data is valid, then we have a census block otherwise
+                    // we have a bad search
+                    if (data){
+
+                    }
+                    // reset the search value
+                    else{
+                        var input = document.getElementById('textEntry');
+                        input.value = "ENTER ADDRESS OR NEIGHBORHOOD";
+
+                    }
+                }
             })
         });
     }

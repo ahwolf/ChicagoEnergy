@@ -23,7 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        with open('../data/raw_energy_data.csv', 'r') as infile:
+        with open('../data/raw_energy_data_v2.csv', 'r') as infile:
             reader = csv.reader(infile, delimiter='|')
             header_row = reader.next()
 
@@ -49,14 +49,18 @@ class Command(BaseCommand):
                     total_therm = 0
 
                 try:
-                    total_sqft = int(row[33])
+                    sqft_kwh = int(row[33])
                 except ValueError:
-                    total_sqft = 0
+                    sqft_kwh = 0
+
+                try:
+                    sqft_therm = int(row[34])
+                except ValueError:
+                    sqft_therm = 0
 
                 # print "here"
                 # change when new values appear
-                sqft_kwh = total_sqft
-                sqft_therm = total_sqft
+                total_sqft = sqft_therm + sqft_kwh
 
                 if sqft_therm == 0:
                     therm_efficiency = 0

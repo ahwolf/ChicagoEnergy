@@ -76,3 +76,10 @@ class Initiatives(models.Model):
     multi_lt7 = models.BooleanField(default=True)
     multi_gt7 = models.BooleanField(default=True)
     single_family = models.BooleanField(default=True)
+
+class RealPledge(models.Model):
+    census_block = models.ForeignKey(CensusBlocks)
+    neighborhood = models.ForeignKey(Neighborhoods)
+    initiative = models.ForeignKey(Initiatives)
+    user = models.ForeignKey(User)
+

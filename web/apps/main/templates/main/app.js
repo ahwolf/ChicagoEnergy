@@ -26,6 +26,7 @@ var vis = d3.select("#container")
 // change what you would like data to equal for different geo projections
 //var data = ward;
 var data = {{neighborhood_geojson}};
+console.log(data);
 // var data = neighborhood;
 // var data = census_tract;
 
