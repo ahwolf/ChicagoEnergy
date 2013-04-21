@@ -255,7 +255,7 @@ function addGeoObject() {
     // zero all y positions of extruded objects
     toAdd.position.y = extrude;
     toAdd.properties = geoFeature.properties;
-    // *** AARON ADDED
+    // *** AARON ADDED multipolygon not supported
     toAdd.properties.shape = geoFeature.geometry.coordinates[0]
 
     toAdd.castShadow = true;
@@ -332,6 +332,12 @@ function render() {
       $("#neighborhoodText").html(INTERSECTED.properties.name);
       console.log(INTERSECTED.properties);
       // *** AARON CODE
+      var shape_coords = [
+      new google.maps.LatLng(25.774252, -80.190262),
+      new google.maps.LatLng(18.466465, -66.118292),
+      new google.maps.LatLng(32.321384, -64.75737),
+      new google.maps.LatLng(25.774252, -80.190262)
+      ];
 
       TweenLite.to(rolloverTip, .125, {autoAlpha:1})
 

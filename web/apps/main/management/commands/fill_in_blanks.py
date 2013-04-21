@@ -28,11 +28,12 @@ class Command(BaseCommand):
         for i,census_id in enumerate(census_ids):
             print "yes",census_id
 
+
             single_census = CensusBlocks.objects.get(building_type = 'Residential',
-                                                     census_id = census_id,
-                                                     building_subtype = 'Single Family')
-            if not single_census.kwh_efficiency:
-                print census_id
+                                                         census_id = census_id,
+                                                         building_subtype = 'Single Family')
+
+                
             # try:
             #     neighborhood = Neighborhoods.objects.get(id=single_census.neighborhood_id)
             #     shape = single_census.shape

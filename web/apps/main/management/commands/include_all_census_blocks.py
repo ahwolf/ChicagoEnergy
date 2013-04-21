@@ -37,11 +37,11 @@ class Command(BaseCommand):
                                                             Sum('sqft_therm'),
                                                             Sum('total_sqft'))
 
-            single_census = CensusBlocks.objects.filter(building_type = "Residential",
-                                                        census_id = census_id,
-                                                        building_subtype = 'Single Family')
-            neighborhood = single_census.neighborhood
-            shape = single_census.shape
+            # single_census = CensusBlocks.objects.filter(building_type = "Residential",
+            #                                             census_id = census_id,
+            #                                             building_subtype = 'Single Family')
+            # neighborhood = single_census.neighborhood
+            # shape = single_census.shape
             
             try:
                 CensusBlocks.objects.filter(building_type = "Residential",
