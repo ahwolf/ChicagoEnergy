@@ -331,13 +331,23 @@ function render() {
 
       $("#neighborhoodText").html(INTERSECTED.properties.name);
       console.log(INTERSECTED.properties);
-      // *** AARON CODE
-      var shape_coords = [
-      new google.maps.LatLng(25.774252, -80.190262),
-      new google.maps.LatLng(18.466465, -66.118292),
-      new google.maps.LatLng(32.321384, -64.75737),
-      new google.maps.LatLng(25.774252, -80.190262)
-      ];
+      // // *** AARON CODE *** RDM moved this to the initialize function in google_api.js
+      // var shape_coords = [
+      // 	new google.maps.LatLng(41.836084, -87.63073),
+      // 	new google.maps.LatLng(41.836084, -87.61073),
+      // 	new google.maps.LatLng(41.856084, -87.61073),
+      // 	new google.maps.LatLng(41.856084, -87.63073),
+      // 	new google.maps.LatLng(41.836084, -87.63073)
+      // ];
+      // var chicagoOverlay = new google.maps.Polygon({
+      // 	paths: shape_coords,
+      // 	strokeColor: '#FF0000',
+      // 	strokeOpacity: 0.8,
+      // 	strokeWeight: 2,
+      // 	fillColor: '#FF0000',
+      // 	fillOpacity: 0.35
+      // });
+      // chicagoOverlay.setMap(map);
 
       TweenLite.to(rolloverTip, .125, {autoAlpha:1})
 
