@@ -54,21 +54,21 @@ geons.geoConfig = function() {
 // geoConfig contains the configuration for the geo functions
 var geo = new geons.geoConfig();
 
-var stats = new Stats();
-stats.setMode( 0 );
-document.body.appendChild( stats.domElement );
-//Align top-right
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.right = '0px';
-stats.domElement.style.top = '0px';
+// var stats = new Stats();
+// stats.setMode( 0 );
+// document.body.appendChild( stats.domElement );
+// //Align top-right
+// stats.domElement.style.position = 'absolute';
+// stats.domElement.style.right = '0px';
+// stats.domElement.style.top = '0px';
 
-function animate() {
-  stats.begin(); 
-  requestAnimationFrame( animate );
-  render();
-  stats.end();
-  //camera.lookAt( scene.position );
-}
+// function animate() {
+//   stats.begin(); 
+//   requestAnimationFrame( animate );
+//   render();
+//   stats.end();
+//   //camera.lookAt( scene.position );
+// }
 
 var plane, planeMat;
 
