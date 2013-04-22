@@ -56,11 +56,11 @@ var geo = new geons.geoConfig();
 
 var stats = new Stats();
 stats.setMode( 0 );
-document.body.appendChild( stats.domElement );
-//Align top-right
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.right = '0px';
-stats.domElement.style.top = '0px';
+// document.body.appendChild( stats.domElement );
+// //Align top-right
+// stats.domElement.style.position = 'absolute';
+// stats.domElement.style.right = '0px';
+// stats.domElement.style.top = '0px';
 
 function animate() {
   stats.begin(); 
