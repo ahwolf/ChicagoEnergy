@@ -328,7 +328,7 @@ function drawmap(shape){
 }
 
 var currentState = "city";
-var currentRollover = "";
+
 
 function render() {
 
@@ -449,7 +449,68 @@ animate();
 
 
 
+function pledge_return(response){
+    console.log("done!")
+    console.log("response")
+    if (response.length !== 0){
 
+        var html = ""
+        var total = 0;
+        _.each(response, function(item){
+            total += item.savings;
+            html += "<li><span>" + item.name + "</span> $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
+        });
+        $("#tipsList").html(html);
+        $("#total_savings").html(total);
+
+        $(".tipButton").click(function(){
+            var address = document.getElementById("neighborhoodEntry").value.toLowerCase();
+            if (neighborhood_object[address]){
+                var name = $(this).siblings('span').text();
+
+                var subtype = $("#subtypeChoices").val();
+                $.ajax({url:"give_pledge",
+                       data:{subtype:subtype,
+                             name: name,
+                             neighborhood:neighborhood_object[address]
+                       }
+                   })
+                .done(function(response){
+                    console.log("response", response);
+                    if (response === "failure"){
+                        $("#placeholder").click();                        
+                    }
+                    else{
+                        $("#energyEfficiencyButton").trigger("click");
+                    }
+                });
+                console.log("made it", name);
+            }
+            else{
+                alert("must enter a neighborhood");
+            }
+        });
+    }
+    else{
+        // nothing to display not sure what to do
+
+    }
+   }
+
+// function check_neighborhood(){
+//     console.log(currentRollover);
+//     console.log("checking neighborhood: ", currentRollover);
+//   var address = document.getElementById("neighborhoodEntry").value.toLowerCase();
+//   if (neighborhood_object[address]){
+//     // Okay, now we just need to goto the neighborhood call server?
+//     currentRollover = neighborhood_object[address];
+//   }
+//   else{
+//     var input = document.getElementById('neighborhoodEntry');
+//     input.value = "ENTER ADDRESS OR NEIGHBORHOOD";
+//   }
+//   console.log("after: ", currentRollover);
+// }
 
 ////////////////// BUTTON ACTIONS //
 
@@ -463,13 +524,14 @@ $("#aboutButton").click(function() {
   TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
 });
 
-$("#creditsButton").click(function() {
+$("#leaderboardButton").click(function() {
   currentState = "overlay";
   $("#container").addClass("grayscaleAndLighten");
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
-  TweenLite.to($('#credits'), .5, {autoAlpha: 1, delay: .375});
+  TweenLite.to($('#leaderboard'), .5, {autoAlpha: 1, delay: .375});
+
 });
 
 $(".closeButton").click(function() {
@@ -478,9 +540,12 @@ $(".closeButton").click(function() {
   TweenLite.to($('#search'), .5, {autoAlpha: 1, delay: .25});
   TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
   TweenLite.to($('#about'), .5, {autoAlpha: 0});
-  TweenLite.to($('#credits'), .5, {autoAlpha: 0});
+  TweenLite.to($('#leaderboard'), .5, {autoAlpha: 0});
+  TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 0});
   TweenLite.delayedCall(.5, colorizeMap)
 });
+
+
 
 $("#energyEfficiencyButton").click(function() {
   currentState = "overlay";
@@ -491,57 +556,34 @@ $("#energyEfficiencyButton").click(function() {
   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 1, delay: .375});
   var subtype = $("#subtypeChoices").val();
-  console.log("clicked energy",subtype);
+
+  
+  // if (currentRollover !== ""){
+  //   console.log("current: ", currentRollover);
+  //   var input = document.getElementById('neighborhoodEntry');
+  //   input.value = currentRollover;
+  // }
+  // else{
+  //    var input = document.getElementById('neighborhoodEntry');
+  //    input.value = "ENTER YOUR NEIGHBORHOOD"; 
+  // }
   $.ajax({url:"pledge",
          data:{subtype:subtype}
      })
-    .done(function(response){
-        console.log("done!")
-        console.log("response")
-        if (response.length !== 0){
-            
-            var html = ""
-            _.each(response, function(item){
-                html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
-            });
-            $("#tipsList").html(html);
-            $(".tipButton").click(function(){
-                console.log($(this), $(this).parent().text());
-                var name = $(this).parent().val();
-                console.log("made it", name);
-            });
-         }
-         else{
-            $("#placeholder").click();
-         }
-     });
+    .done(pledge_return);
 });
 
+
+  
 // change when they select a different subtype
 
 $("#subtypeChoices").change(function(){
+    console.log("changes");
     var subtype = $(this).val();
     $.ajax({url:"pledge",
          data:{subtype:subtype}
      })
-    .done(function(response){
-        console.log("done!")
-        if (response.length !== 0){
-            
-            var html = ""
-            _.each(response, function(item){
-                html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
-            });
-            $("#tipsList").html(html);
-            $(".tipButton").click(function(){
-                console.log($(this), $(this).parent());
-                console.log("made it");
-            });
-         }
-         else{
-            $("#placeholder").click();
-         }
-     });
+    .done(pledge_return);
 })
 
 // figure out the name of the item they want to pledge, then pledge it

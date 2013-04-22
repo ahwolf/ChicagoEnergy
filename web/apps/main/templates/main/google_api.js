@@ -100,43 +100,8 @@ $(".fancybox").fancybox({
 });
 var google_map = "";
 var chicagoOverlay = "";
-function initialize() {
-  var mapOptions = {
-    center: new google.maps.LatLng(41.836084, -87.63073), // chicago
-    zoom: 9,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: mapStyle,
-    streetViewControl: false,
-    scaleControl: false,
-    rotateControl: false,
-    mapTypeControl: false,
-    zoomControl: false,
-  };
-  google_map = new google.maps.Map(document.getElementById("map_canvas"),
-                            mapOptions);
-
-  var shape_coords = [
-    new google.maps.LatLng(41.836084, -87.63073),
-    new google.maps.LatLng(41.836084, -87.59073),
-    new google.maps.LatLng(41.876084, -87.59073),
-    new google.maps.LatLng(41.876084, -87.63073),
-    new google.maps.LatLng(41.836084, -87.63073)
-  ];
-  chicagoOverlay = new google.maps.Polygon({
-    paths: shape_coords,
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35
-  });
-  chicagoOverlay.setMap(google_map);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-function google_api(){
-    var neighborhood_object = {
+var currentRollover = "";
+var neighborhood_object = {
         "albany park" : "Albany Park",
         "archer heights" : "Archer Heights",
         "armour square" : "Armour Square",
@@ -215,10 +180,47 @@ function google_api(){
         "west town" : "West Town",
         "woodlawn" : "Woodlawn"
     }
+function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(41.836084, -87.63073), // chicago
+    zoom: 9,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: mapStyle,
+    streetViewControl: false,
+    scaleControl: false,
+    rotateControl: false,
+    mapTypeControl: false,
+    zoomControl: false,
+  };
+  google_map = new google.maps.Map(document.getElementById("map_canvas"),
+                            mapOptions);
+
+  var shape_coords = [
+    new google.maps.LatLng(41.836084, -87.63073),
+    new google.maps.LatLng(41.836084, -87.59073),
+    new google.maps.LatLng(41.876084, -87.59073),
+    new google.maps.LatLng(41.876084, -87.63073),
+    new google.maps.LatLng(41.836084, -87.63073)
+  ];
+  chicagoOverlay = new google.maps.Polygon({
+    paths: shape_coords,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
+  chicagoOverlay.setMap(google_map);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+function google_api(){
+    
     var address = document.getElementById("textEntry").value.toLowerCase();
     if (neighborhood_object[address]){
         // Okay, now we just need to goto the neighborhood call server?
-        var address = neighborhood_object[address];
+        currentRollover = neighborhood_object[address];
     }
     // ajax call
     else{
@@ -240,7 +242,9 @@ function google_api(){
                     
                     // If data is valid, then we have a census block otherwise
                     // we have a bad search
-                    if (data){
+                    if (data !==""){
+                        currentRollover = data;
+                        console.log("currentRollover is: ", currentRollover);
                         // re_draw the census_blocks with the census id's
                     }
                     // reset the search value

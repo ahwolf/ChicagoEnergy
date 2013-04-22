@@ -476,8 +476,8 @@ p {
   left: 0px;
   right: 0px;
   z-index: 110;
-  /*opacity: 0;*/
-  /*visibility: hidden;*/
+  opacity: 0;
+  visibility: hidden;
 }
 
 #leaderboardContent {
@@ -488,6 +488,41 @@ p {
   z-index: 51;
 }
 
+#board {
+  line-height: 180%;
+}
+
+#neighborhoodHeader {
+  float: left;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#pledgesHeader {
+  float: right;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#board {
+  margin-top: 40px;
+}
+
+#board li {
+  margin-left: -12px;
+}
+
+.pledge{
+  float:right;
+}
+
+#closeButtonLeaderboard {
+  width: 12px;
+  padding-right: 8px;
+  right: -40px;
+  padding-bottom: 5px;
+}
+
 #efficiencyTips {
   position: fixed;
   top: 0px;
@@ -495,7 +530,6 @@ p {
   left: 0px;
   right: 0px;
   z-index: 110;
-
   opacity: 0;
   visibility: hidden;
 }
@@ -508,13 +542,13 @@ p {
   left: 0px;
   right: 0px;
   z-index: 50;
-  opacity: 1; /* return to .75 */
+  opacity: .75;
 }
 
 #tipsContainer {
   position: relative;
   height:auto;
-  min-height:350px;
+  min-height: 420px;
   width: 900px;
   top: 32px;
   margin: 0 auto;
@@ -523,7 +557,7 @@ p {
 }
 
 #tipsHeader {
-  height: 90px !important;
+  height: 80px !important;
   margin-top: -65px; /* no idea why this hack is necessary */
   line-height: 140%;
   background: url(../img/starsTipsHeader.png) no-repeat top center;
@@ -536,17 +570,33 @@ p {
   padding-bottom: 10px;
 }
 
+#tipsSubhead {
+  position: relative;
+  background: #666;
+  color: #FFF;
+  margin: 0 auto;
+  font-size: 15px;
+  font-weight: normal;
+  width: 510px;
+  margin-top: 7px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #FFF;
+  padding-bottom: 2px;
+}
+
 #tipsThreeSteps {
   width: 598px;
   float: left;
   border-right: 2px dotted #CCC;
-  height: 236px;
+  height: 300px;
+  margin-top: 15px;
 }
 
 #tipsList {
   font-weight: bold;
   font-size: 20px;
-  line-height: 240%;
+  line-height: 350%;
 }
 
 #tipsDollarSign {
@@ -581,6 +631,7 @@ p {
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
+  margin-left: 10px;
   -webkit-transition: all .125 ease-out;
   -moz-transition: all .125 ease-out;
   -ms-transition: all .125 ease-out;
@@ -602,21 +653,26 @@ p {
   font-size: 20px;
   color: #8b8b8b;
   position: relative;
-  margin: 0 auto;
-  top: 270px;
+  margin-left: 12px;
+  top: 340px;
   z-index: 500;
 }
 
 .styledDropdown select {
    background: transparent;
    width: 200px;
-   padding: 5px;
+   padding-left: 7px;
    font-size: 14px;
    font-weight: bold;
    color: #333;
    border: 1px solid #DDD;
    height: 34px;
    -webkit-appearance: none;
+   -webkit-transition: all .125 ease-out;
+   -moz-transition: all .125 ease-out;
+   -ms-transition: all .125 ease-out;
+   -o-transition: all .125 ease-out;
+   transition: all .125 ease-out;
 } 
 
 .styledDropdown {
@@ -626,6 +682,10 @@ p {
    background: url('../img/selectArrow.png') no-repeat right center #DDD;
 }
 
+.styledDropdown:hover {
+   background: url('../img/selectArrow.png') no-repeat right center #BBB;
+}
+
 #neighborhoodConfirm {
   text-align: center;
   font-weight: bold;
@@ -633,8 +693,9 @@ p {
   color: #8b8b8b;
   position: relative;
   margin: 0 auto;
-  top: 70px;
+  top: 60px;
   z-index: 500;
+  line-height: 140%;
 }
 
 #checkButton {
@@ -682,12 +743,72 @@ p {
   transition: all 0s;
 }
 
+.fourGreyStars {
+  padding-top: 20px;
+  text-align: center;
+}
+
+#loginNote {
+  font-size: 15px;
+  color: #BBB;
+}
+
+#socialLogin{
+  position: absolute;
+  width: 290px;
+  height: 132px;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  margin: -66px 0 0 -145px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ea283b;
+  background-color: #FFF;
+  padding: 10px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#socialLoginHeader {
+  height: 55px;
+}
+
+#socialButtons {
+  text-align: center;
+}
+
+#omgChromeFrame{
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  margin: -75px 0 0 -200px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ea283b;
+  background-color: #FFF;
+  padding: 10px;
+  /*opacity: 0;*/
+  /*visibility: hidden;*/
+}
+
+#socialButtons a:hover {
+  -webkit-filter: brightness(60%);
+  -moz-filter: brightness(60%);
+  -ms-filter: brightness(60%);
+  -o-filter: brightness(60%);
+  filter: brightness(60%);
+}
+
 
 #aboutHeader::selection, #aboutCopy p::selection, #aboutCopy a::selection, #aboutCopy b::selection, #aboutCopy i::selection { background:#1ba7e1; color:#fff }
 #aboutHeader::-moz-selection, #aboutCopy p::-moz-selection, #aboutCopy a::-moz-selection, #aboutCopy b::selection, #aboutCopy i::-moz-selection { background:#1ba7e1; color:#fff }
 
-.overlayCopy::selection, .overlayCopy b::selection, .overlayCopy p::selection { background:#1ba7e1; color:#fff }
-.overlayCopy::-moz-selection, .overlayCopy b::-moz-selection, .overlayCopy p::-moz-selection { background:#1ba7e1; color:#fff }
+.overlayCopy::selection, .overlayCopy b::selection, .overlayCopy p::selection, .overlayCopy i::selection, .overlayCopy a::selection { background:#1ba7e1; color:#fff }
+.overlayCopy::-moz-selection, .overlayCopy b::-moz-selection, .overlayCopy p::-moz-selection, .overlayCopy i::-moz-selection, .overlayCopy a::-moz-selection { background:#1ba7e1; color:#fff }
 
 
 

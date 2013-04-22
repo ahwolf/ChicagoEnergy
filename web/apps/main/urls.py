@@ -17,6 +17,7 @@ urlpatterns += patterns(
     url(r'^neighborhood/$',views.serve_neighborhood, name="census_blocks"),
     url(r'^find_census_block/$',views.find_census_block, name="find_census_block"),
     url(r'^pledge/$',views.get_pledge_info, name="pledge"),
+    url(r'^give_pledge/$',views.receive_pledge, name="give_pledge"),
 
 
 
