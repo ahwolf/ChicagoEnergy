@@ -88,11 +88,12 @@ $("#textEntry").keyup(function(event){
         $("#searchButton").click();
     }
 });
-var map = ""
+var google_map = "";
+var chicagoOverlay = "";
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(41.836084, -87.63073), // chicago
-    zoom: 8,
+    zoom: 9,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     styles: mapStyle,
     streetViewControl: false,
@@ -101,7 +102,7 @@ function initialize() {
     mapTypeControl: false,
     zoomControl: false,
   };
-  map = new google.maps.Map(document.getElementById("map_canvas"),
+  google_map = new google.maps.Map(document.getElementById("map_canvas"),
                             mapOptions);
 
   var shape_coords = [
@@ -111,7 +112,7 @@ function initialize() {
     new google.maps.LatLng(41.876084, -87.63073),
     new google.maps.LatLng(41.836084, -87.63073)
   ];
-  var chicagoOverlay = new google.maps.Polygon({
+  chicagoOverlay = new google.maps.Polygon({
     paths: shape_coords,
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
@@ -119,7 +120,7 @@ function initialize() {
     fillColor: '#FF0000',
     fillOpacity: 0.35
   });
-  chicagoOverlay.setMap(map);
+  chicagoOverlay.setMap(google_map);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

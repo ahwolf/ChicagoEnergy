@@ -14,62 +14,17 @@ var albers = d3.geo.albers()
     .translate([400,400]);
 
 var path = d3.geo.path().projection(albers);
-
-/*
-// 2D rendering, not used for three.js
-var vis = d3.select("#container")
-    .append("svg")
-    .attr("width", w)
-    .attr("height", h);
-*/
-
-// change what you would like data to equal for different geo projections
-//var data = ward;
-var data = {{neighborhood_geojson}};
-console.log(data);
-// var data = neighborhood;
+var data = neighborhood; // census_block
 // var data = census_tract;
 
-// calculate the max and min of all the property values
-var gas_min_max = d3.extent(data.features, function(feature){
-    return feature.properties.gas;
-});
-
-var elec_min_max = d3.extent(data.features, function(feature){
-    return feature.properties.elect;
-});
-
-var gas_eff_min_max = d3.extent(data.features, function(feature){
-    return feature.properties.gas_efficiency;
-});
-
-var elec_eff_min_max = d3.extent(data.features, function(feature){
-    return feature.properties.elect_efficiency;
-});
-
-// Render using d3
-/*
-var color_scale = d3.scale.linear()
-    .domain(elec_eff_min_max)
-    .range(['red','blue']);
-
-vis.selectAll("path")
-    .data(data.features)
-    .enter().append("path")
-    .attr('fill', function(d){return color_scale(d.properties.elect_efficiency);})
-    .attr('stroke',"black")
-    .attr("d", path);
-*/
 
 // Render using three.js
 
 // three.js setup & basic functions
 var camera, scene, renderer, geometry, material, mesh;
-
-var camYPos = 200;
-
 var mouse = { x: 0, y: 0 }, INTERSECTED;
-
+var camYPos = 200;
+var geons = {};
 var appConstants  = {
 
     TRANSLATE_0 : 0,
@@ -77,8 +32,6 @@ var appConstants  = {
     SCALE : 80000,
     origin : [-87.63073,41.836084]
 }
-
-var geons = {};
 
 // this file contains all the geo related objects and functions
 geons.geoConfig = function() {
@@ -98,16 +51,16 @@ geons.geoConfig = function() {
 
 }
 
+// geoConfig contains the configuration for the geo functions
+var geo = new geons.geoConfig();
+
 var stats = new Stats();
 stats.setMode( 0 );
 document.body.appendChild( stats.domElement );
-// Align top-left
+//Align top-right
 stats.domElement.style.position = 'absolute';
-stats.domElement.style.left = '0px';
+stats.domElement.style.right = '0px';
 stats.domElement.style.top = '0px';
-
-// geoConfig contains the configuration for the geo functions
-geo = new geons.geoConfig();
 
 function animate() {
   stats.begin(); 
@@ -117,18 +70,14 @@ function animate() {
   //camera.lookAt( scene.position );
 }
 
-// Set up the three.js scene. This is the most basic setup without
-// any special stuff
+var plane, planeMat;
+
+// three.js setup
 function initScene() {
 
   scene = new THREE.Scene();
-
-  // set the scene size
   var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
-
-  // set some camera attributes
   var VIEW_ANGLE = 45, NEAR = 1, FAR = 10000;
-
   projector = new THREE.Projector();
 
   // create a WebGL renderer, camera, and a scene
@@ -140,6 +89,11 @@ function initScene() {
   camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
   camera.position.y = camYPos;
   camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
+
+  // intro camera position
+  // camera.position.x = 0;
+  // camera.position.y = 1500;
+  // camera.position.z = 10;
   
   // add and position the camera at a fixed position
   scene.add(camera);
@@ -152,7 +106,7 @@ function initScene() {
   la.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ * .6;
   camera.lookAt( la );
 
-
+  camera.lookAt( la );
   
   // start the renderer, and white background
   renderer.setSize(WIDTH, HEIGHT);
@@ -163,44 +117,78 @@ function initScene() {
 
   var darkness = 0.75;
 
-  // lighting
-  var spotLightAbove = new THREE.SpotLight(0xFFFFFF);
-  spotLightAbove.position.set( 0, 1000, 0 );
-  spotLightAbove.castShadow = true;
-  spotLightAbove.shadowDarkness = darkness;
-  //spotLightAbove.shadowCameraVisible = true;
-  scene.add(spotLightAbove);
-
-  var spotLightLeft = new THREE.SpotLight(0xFFFFFF, .35);
-  spotLightLeft.position.set( -500, 0, 0 );
-  scene.add(spotLightLeft);
-
-  var spotLightRight = new THREE.SpotLight(0xFFFFFF, .35);
-  spotLightRight.position.set( 500, 0, 0 );
-  scene.add(spotLightRight);
-
-  var spotLightTop = new THREE.SpotLight(0xFFFFFF, .35);
-  spotLightTop.position.set( 0, 0, -500 );
-  scene.add(spotLightTop);
-
-  var spotLightBottom = new THREE.SpotLight(0xFFFFFF, .35);
-  spotLightBottom.position.set( 0, 0, 500 );
-  scene.add(spotLightBottom);
+  // add one light above to cast shadow & 4 periperal lights around scene
+  addSpotLightAbove(0, 1000, 1);
+  addPeripheralSpotlight(-500, 0, 0);
+  addPeripheralSpotlight(500, 0, 0);
+  addPeripheralSpotlight(0, 0, -500);
+  addPeripheralSpotlight(0, 0, 500);
   
   // add a base plane on which we'll render our map
-  var planeGeo = new THREE.PlaneGeometry(10000, 10000, 1, 1);
-  var planeMat = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
-  var plane = new THREE.Mesh(planeGeo, planeMat);
+  var planeGeo = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+  var planeTex = THREE.ImageUtils.loadTexture("img/floor.jpg");
+  planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
+  planeTex.repeat.set( 10, 10 );
+  //var planeMat = new THREE.MeshLambertMaterial({color: 0xFFFFFF}); // renders ugly radial gradient shadow
+  planeMat = new THREE.MeshBasicMaterial( { map: planeTex } ); // use jpg texture to get shadows we want
+  planeMat.opacity = 0;
+  plane = new THREE.Mesh(planeGeo, planeMat);
 
-  // rotate it to correct position
+  // rotate plane to correct position
   plane.rotation.x = -Math.PI/2;
-  //scene.add(plane);
+  plane.receiveShadow = true;
+  plane.position.y = 0;
+  plane.properties.name = "floor";
+  scene.add(plane);
 }
 
+function addSpotLightAbove(x, y, z) {
+  var spotLight = new THREE.SpotLight(0xFFFFFF);
+  spotLight.position.set( x, y, z );
+  spotLight.castShadow = true;
+  spotLight.shadowDarkness = .1;
+  spotLight.intensity = 1;
+  // spotLight.shadowCameraVisible = true;
+  scene.add(spotLight);
+}
+
+function addPeripheralSpotlight(x, y, z) {
+  var spotLight = new THREE.SpotLight(0xFFFFFF, .35);
+  spotLight.position.set( x, y, z );
+  spotLight.intensity = .35;
+  //spotLight.castShadow = true;
+  //spotLight.shadowDarkness = .5;
+  //spotLight.shadowCameraVisible = true;
+  scene.add(spotLight);
+}
+
+function introAnimation() {
+  TweenLite.to($('#wrapper'), 0, { autoAlpha:0} );
+  TweenLite.to(camera.position, 1, { z:800, ease:Linear.easeNone} );
+  TweenLite.to(camera.position, 1.0625, { y:250, ease:Circ.easeInOut, delay: .75} );
+  TweenLite.to(camera.position, 1, {x:(Math.cos(currentAngle * Math.PI * 2) * radiusX), ease:Quad.easeOut, delay:.5})
+  TweenLite.to(camera.position, .5, { z:(Math.sin(currentAngle * Math.PI * 2) * radiusZ), ease:Quad.easeOut, delay: 1.25, overwrite: false} );
+  TweenLite.to($('#wrapper'), .5, { autoAlpha:1, ease:Quad.easeOut, delay: 1.5, overwrite:false} );
+}
+
+//TweenLite.delayedCall(1, introAnimation);
+
+var neighborhoods = [];
+var blocks = [];
+var extrudeMultiplier = 1;
 
 // add the loaded gis object (in geojson format) to the map
 function addGeoObject() {
 
+    // calculate the max and min of all the property values
+    var gas_eff_min_max = d3.extent(data.features, function(feature){
+        return feature.properties.gas_efficiency;
+    });
+
+    var elec_eff_min_max = d3.extent(data.features, function(feature){
+        return feature.properties.elect_efficiency;
+    });
+    console.log(elec_eff_min_max)
   // convert to mesh and calculate values
   _.each(data.features, function (geoFeature) {
     var feature = geo.path(geoFeature);
@@ -221,17 +209,13 @@ function addGeoObject() {
 
     var extrude_scale = d3.scale.linear()
       .domain(elec_eff_min_max)
-      .range([10, 75]);
+      .range([0, 75]);
 
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
     // matching functionality later
     var mathColor = color_scale(geoFeature.properties.gas_efficiency);
-
-    // Need to convert the color into a hexadecimal number
     var hexMathColor = parseInt(mathColor.replace("#", "0x"));
-
-    // Change the color of the material!
     material = new THREE.MeshLambertMaterial({
       color: hexMathColor
     });
@@ -241,28 +225,33 @@ function addGeoObject() {
 
     // Add the attributes to the mesh for the height of the polygon
     var shape3d = mesh.extrude({
-      amount: Math.round(extrude),
+      amount: Math.round(extrude * extrudeMultiplier),
       bevelEnabled: false
     });
 
     // create a mesh based on material and extruded shape
-    var toAdd = new THREE.Mesh(shape3d, material);
+    var hoodMesh = new THREE.Mesh(shape3d, material);
     // rotate and position the elements nicely in the center
-    toAdd.rotation.x = Math.PI / 2;
-    //toAdd.rotation.z = Math.PI * .5;
-    toAdd.translateY(extrude / 2);
+    hoodMesh.rotation.x = Math.PI / 2;
+    hoodMesh.translateY(extrude / 2);
 
     // zero all y positions of extruded objects
-    toAdd.position.y = extrude;
-    toAdd.properties = geoFeature.properties;
-    // *** AARON ADDED multipolygon not supported
-    toAdd.properties.shape = geoFeature.geometry.coordinates[0]
+    hoodMesh.position.y = extrude * extrudeMultiplier;
+    hoodMesh.properties = geoFeature.properties;
 
-    toAdd.castShadow = true;
-    toAdd.receiveShadow = false;
+    hoodMesh.castShadow = true;
+    hoodMesh.receiveShadow = false;
 
+    var obj = {}
+    obj.shape3d = shape3d;
+    obj.material = material;
+    obj.extrude = extrude  * extrudeMultiplier;
+    obj.mesh = hoodMesh;
+    obj.props = hoodMesh.properties;
+    neighborhoods.push(obj);
+    
     // add to scene
-    scene.add(toAdd);
+    scene.add(hoodMesh);
   });
 }
 
@@ -275,10 +264,12 @@ var radiusZ = 550;
 var currentAngle = Math.PI * 1.988;
 var angleStep = 0;
 
-//TweenLite.delayedCall(0, startFlying);
+TweenLite.delayedCall(.25, startFlying);
 
 function startFlying() {
   flying = true;
+  TweenLite.to(planeMat, .5, {opacity:1, delay:.5})
+  TweenLite.to(plane.position, .5, {y:-10, delay:.5})
 }
 
 function flyAround() {
@@ -290,7 +281,7 @@ function flyAround() {
   camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
   camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
 
-  // calculate dynamic lookAt object position
+  //calculate dynamic lookAt object position
   var la = new THREE.Object3D();
   la.x = Math.cos(currentAngle * Math.PI * 2) * radiusX * .6;
   la.y = 150;
@@ -304,11 +295,18 @@ function flyAround() {
   }
 }
 
+var currentState = "city";
+var currentRollover = "";
+
 function render() {
+
+  camera.lookAt( scene.position );
 
   if (flying) flyAround();
 
-  // begin rollover stuff
+  //////////////////////////////
+  ///* BEGIN ROLLOVER LOGIC *///
+  //////////////////////////////
   var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
   projector.unprojectVector( vector, camera );
 
@@ -316,71 +314,150 @@ function render() {
 
   var intersects = raycaster.intersectObjects( scene.children );
 
-  if ( intersects.length > 0 ) {
+  if ( intersects.length > 0 && currentState == "city") {
 
     if ( INTERSECTED != intersects[ 0 ].object ) {
 
-      if ( INTERSECTED ) {
+      if ( INTERSECTED && INTERSECTED.properties.name != "floor" ) {
         INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
       }
 
       INTERSECTED = intersects[ 0 ].object;
+
+      // if mouse is intersecting the floor, fade out tooltip
+      if (INTERSECTED.properties.name == "floor") {
+        TweenLite.to(rolloverTip, .25, {autoAlpha:0});
+        return;
+      }
+
+      TweenLite.to(rolloverTip, .25, {autoAlpha:1})
+
       INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
       INTERSECTED.material.emissive.setHex( 0x900800 );
-      //console.log(INTERSECTED);
+
+      // log which object is beneath the mouse
+      currentRollover = INTERSECTED.properties.name;
+      console.log(currentRollover);
 
       $("#neighborhoodText").html(INTERSECTED.properties.name);
-      console.log(INTERSECTED.properties);
-      // // *** AARON CODE *** RDM moved this to the initialize function in google_api.js
-      // var shape_coords = [
-      // 	new google.maps.LatLng(41.836084, -87.63073),
-      // 	new google.maps.LatLng(41.836084, -87.61073),
-      // 	new google.maps.LatLng(41.856084, -87.61073),
-      // 	new google.maps.LatLng(41.856084, -87.63073),
-      // 	new google.maps.LatLng(41.836084, -87.63073)
-      // ];
-      // var chicagoOverlay = new google.maps.Polygon({
-      // 	paths: shape_coords,
-      // 	strokeColor: '#FF0000',
-      // 	strokeOpacity: 0.8,
-      // 	strokeWeight: 2,
-      // 	fillColor: '#FF0000',
-      // 	fillOpacity: 0.35
-      // });
-      // chicagoOverlay.setMap(map);
-
-      TweenLite.to(rolloverTip, .125, {autoAlpha:1})
-
+      $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / 77");
+      $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / 77");
+      //console.log(INTERSECTED.properties.name);
     }
 
   } else {
 
-    TweenLite.to(rolloverTip, .125, {autoAlpha:0})
+    TweenLite.to(rolloverTip, .25, {autoAlpha:0})
+
+    // change color of object on rollover only if it's not the floor
+    if (INTERSECTED && INTERSECTED.properties.name == "floor") {
+      INTERSECTED = null;
+      return;
+    }
 
     if ( INTERSECTED ) {
       INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
     }
 
+    currentRollover = "";
     INTERSECTED = null;
 
   }
-  // end rollover stuff
+  ////////////////////////////
+  ///* END ROLLOVER LOGIC *///
+  ////////////////////////////
 
   renderer.render( scene, camera );
-  //camera.position.y -= .2;
-  //camera.position.z -= .5;
+}
+
+function disappearCity() {
+  //var obj = neighborhoods[59];
+
+  currentState = "neighborhood";
+
+  TweenLite.to(rolloverTip, .25, {autoAlpha:0});
+  TweenLite.to(planeMat, .5, {opacity:0, delay:.5});
+
+  var i;
+  var totalNeighborhoods = neighborhoods.length;
+  var delay = 1/256;
+  var time = .5;
+  var totalTime = time + totalNeighborhoods * delay + .25;
+
+  for (i = 0; i < totalNeighborhoods; i++)
+  {
+    var obj = neighborhoods[i];
+    TweenLite.to(obj.mesh.scale, time, {z:.01, ease:Expo.easeOut, delay: i * delay})
+    TweenLite.to(obj.mesh.position, time, {y:obj.extrude * .01, ease:Expo.easeOut, overwrite:false, delay: i * delay});
+    TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay, onComplete:cleanUpNeighborhood, onCompleteParams:[obj]});
+  }
+
+  TweenLite.delayedCall(totalTime, growNeighborhood)
+}
+
+function cleanUpNeighborhood(obj) {
+  scene.remove(obj.mesh);
+  // clean up
+  obj.shape3d.dispose();
+  obj.material.dispose();
+  delete obj.mesh;
+}
+
+function growNeighborhood() {
+  data = census_block;
+  extrudeMultiplier = .1;
+  addGeoObject();
 }
 
 initScene();
 addGeoObject();
 animate();
+//console.log(neighborhoods);
 //renderer.render( scene, camera );
+
+
+
+
+
+////////////////// BUTTON ACTIONS //
+
+$("#aboutButton").click(function() {
+  currentState = "overlay";
+  $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
+});
+
+$("#creditsButton").click(function() {
+  currentState = "overlay";
+  $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  TweenLite.to($('#credits'), .5, {autoAlpha: 1, delay: .375});
+});
+
+$(".closeButton").click(function() {
+  currentState = "city";
+  TweenLite.to($('#branding'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
+  TweenLite.to($('#about'), .5, {autoAlpha: 0});
+  TweenLite.to($('#credits'), .5, {autoAlpha: 0});
+  TweenLite.delayedCall(.5, colorizeMap)
+});
+
+function colorizeMap() {
+  $("#container").removeClass("grayscaleAndLighten");
+}
 
 ////////////////// EVENT LISTENERS //
 
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 window.addEventListener( 'resize', onWindowResize, false );
-document.onkeypress = returnKey;
+document.addEventListener( 'click', onDocumentClick, false );
 
 function onWindowResize() {
 
@@ -390,26 +467,19 @@ function onWindowResize() {
 
 }
 
-function onDocumentMouseMove( event ) {
+function onDocumentMouseMove(event) {
 
   event.preventDefault();
   mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
   mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-  TweenLite.to($('#rolloverTip'), 0, { css: { left: event.pageX - 22, top: event.pageY - 59 }, ease:Back.easeOut});
+  TweenLite.to($('#rolloverTip'), .1, { css: { left: event.pageX - 28, top: event.pageY - 150 }});
 
 }
 
-function returnKey(evt)
-{
-  var evt  = (evt) ? evt : ((event) ? event : null);
- 
-  // keyCode 32 = spacebar
-  if ((evt.keyCode == 32)) 
-  {
-    var newX = Math.random() * 500 - 250;
-    var newY = Math.random() * 200 + 50;
-    var newZ = Math.random() * 1000 - 500;
-    TweenLite.to(camera.position, 1, {x:newX, y:newY, z:newZ, ease:Quad.easeInOut});
-  }
+function onDocumentClick(event) {
+  if (currentRollover != "") disappearCity();
 }
+
+
+

@@ -49,6 +49,7 @@ p {
   height: 100%;
   margin: 0 auto;
   z-index: 100;
+  /*visibility: hidden;*/
 }
 
 #container {
@@ -56,12 +57,12 @@ p {
 }
 
 .grayscaleAndLighten {
-  -webkit-filter: grayscale(100%) brightness(600%) contrast(150%);
-  -moz-filter: grayscale(100%) brightness(600%) contrast(150%);
-  -ms-filter: grayscale(100%) brightness(600%) contrast(150%);
-  -o-filter: grayscale(100%) brightness(600%) contrast(150%);
-  filter: grayscale(100%) brightness(600%) contrast(150%);
-  opacity: .08;
+  -webkit-filter: grayscale(100%) contrast(150%); /* killed brightness(600%) */
+  -moz-filter: grayscale(100%) contrast(150%);
+  -ms-filter: grayscale(100%) contrast(150%);
+  -o-filter: grayscale(100%) contrast(150%);
+  filter: grayscale(100%) contrast(150%);
+  opacity: .25;
 }
 
 /* HEADER */
@@ -72,6 +73,17 @@ p {
   height: 142px;
   margin-top: 36px;
   background: url(img/branding.png) no-repeat;
+}
+
+/* KEY */
+
+#key {
+  position: fixed;
+  width: 200px;
+  height: 199px;
+  top: 20px;
+  left: 20px;
+  background: url(img/key.png) no-repeat;
 }
 
 /* INPUT FIELD */
@@ -175,18 +187,82 @@ p {
   font-size: 16px;
   color: #888888;
   font-weight: bold;
-  text-transform: uppercase;
   text-align: center;
+  -webkit-transition: all 0s ease-out;
+  -moz-transition: all 0s ease-out;
+  -ms-transition: all 0s ease-out;
+  -o-transition: all 0s ease-out;
+  transition: all 0s ease-out;
 }
 
 #rolloverTip {
   position: absolute;
-  left: -10000px;
+  left: -200px;
   display: inline-block;
-  padding: 6px;
+  min-width: 150px;
+  padding: 12px;
   padding-bottom: 0px !important;
   line-height: 100%;
   visibility: hidden;
+}
+
+#tipHeader {
+  margin-top: -5px;
+  height: 32px;
+  color: #1ba7e1;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px dotted #CCC;
+}
+
+#tipSubHead {
+  position: relative;
+  width: 80px;
+  top: -16px;
+  margin: 0 auto;
+  color: #FFF;
+  background-color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px;
+  border-style: solid;
+  border-width: 4px;
+  border-color: #FFF;
+  text-transform: uppercase;
+}
+
+#tipGasRank {
+  position: relative;
+  margin-top: -12px;
+  float: left;
+  width: 48%;
+  height: 44px;
+  border-right: 2px dotted #CCC;
+  text-align: center;
+}
+
+#tipElectricRank {
+  margin-top: -12px;
+  position: relative;
+  width: 50%;
+  float: right;
+  height: 44px;
+  text-align: center;
+}
+
+#rankHeaderTitle {
+  font-size: 11px;
+  font-weight: bold;
+  color: #333;
+}
+
+#detailText {
+  display: inline-block;
+  height: 18px;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 2px dotted #CCC;
+  width: 120px;
 }
 
 #autoTip {
@@ -303,3 +379,92 @@ p {
 
 #footer a::selection { background:#333; color:#fff }
 #footer a::-moz-selection { background:#333; color:#fff }
+
+/* OVERLAY PAGES */
+
+#overlay {
+  background: #FFF;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#about {
+  position: relative;
+  width: 503px;
+  top: 32px;
+  margin: 0 auto;
+  opacity: 0;
+}
+
+#credits {
+  position: relative;
+  width: 503px;
+  top: -493px;
+  margin: 0 auto;
+  opacity: 1;
+}
+
+.overlayHeader {
+  height: 36px;
+  color: #1ba7e1;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 2px dotted #CCC;
+  text-align: center;
+  margin-bottom: 11px;
+}
+
+.overlayCopy a {
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px #666 dotted;
+  -webkit-transition: all .125s ease-out;
+  -moz-transition: all .125s ease-out;
+  -ms-transition: all .125s ease-out;
+  -o-transition: all .125s ease-out;
+  transition: all .125s ease-out;
+}
+
+.overlayCopy a:hover {
+  color: #FFF;
+  background: #666;
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 0px #666 dotted;
+}
+
+.overlayCopy i {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 0%;
+}
+
+#closeButton {
+  color: #666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -15px;
+  right: -60px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ea283b;
+  padding-left: 7px;
+  padding-top:1.px;
+  padding-bottom: 4px;
+}
+
+#closeButton:hover {
+  color: #333;
+}
+
+#aboutHeader::selection, #aboutCopy p::selection, #aboutCopy a::selection, #aboutCopy b::selection, #aboutCopy i::selection { background:#1ba7e1; color:#fff }
+#aboutHeader::-moz-selection, #aboutCopy p::-moz-selection, #aboutCopy a::-moz-selection, #aboutCopy b::selection, #aboutCopy i::-moz-selection { background:#1ba7e1; color:#fff }

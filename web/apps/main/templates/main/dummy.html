@@ -19,10 +19,13 @@
 <script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}common/js/lib/TweenMax.min.js"></script>
 <script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/TweenLite.min.js"></script>
+<script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}common/js/lib/easing/EasePack.min.js"></script>
 <script type="text/javascript"
     src="{{STATIC_URL}}common/js/lib/underscore-min.js">
 </script>
+
 {% endblock js %}
 
 
@@ -64,8 +67,19 @@
 
     <!-- tooltips -->
     <div id="rolloverTip" class="tooltip">
-      new city<br>
-      <span id="detailText">• CLICK FOR DETAIL •</span>
+      <div id="tipHeader">
+        <span id="neighborhoodText">new city</span>
+      </div>
+      <div id="tipSubHead">position</div>
+      <div id="tipGasRank">
+        <span id="rankHeaderTitle">GAS</span>
+        <div id="tipGasRankText">12/90</div>
+      </div>
+      <div id="tipElectricRank">
+        <span id="rankHeaderTitle">ELECTRIC</span>
+        <div id="tipElectricRankText">12/90</div>
+      </div>
+      <div id="detailText">• CLICK FOR DETAIL •</div>
       <div id="rolloverCarrot" class="carrot"></div>
     </div>
 
@@ -95,7 +109,33 @@
 
   </div> <!-- end wrapper for ui -->
 
+<div id="overlay">
+    
+    <div id="about">
+      
+      <div id="aboutHeader">
+        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        ABOUT THE MAP&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">
+      </div>
 
+      <div id="aboutCopy">
+        <p>The <b>Chicago Energy Data Map</b> is a visualization of all residential natural gas and electric energy use — both by neighborhood and by census block — for the City of Chicago in 2010. The height of each neighborhood or census block indicates electric energy consumption while the color is indicative of natural gas consumption.</p>
+
+        <p>The purpose of this visualization is to allow the viewer both a bird's eye view, as well as a neighborhood detail view, of energy consumption patterns in one of our nation's largest cities. Further, users can review energy efficiency tips and Chicagoans can pledge to make improvements to the efficiency of their homes on behalf of their respective neighborhoods.</p>
+
+        <p>This project is a collaborative effort between the <a href="https://www.cityofchicago.org/" target="_blank">City of Chicago</a>, the <a href="http://www.ccachicago.org/" target="_blank">Civic Consulting Alliance</a>, <a href="http://datascopeanalytics.com/" target="_blank">Datascope Analytics</a> and <a href="http://www.ideo.com/" target="_blank">IDEO</a> with support from <a href="http://www.accenture.com/" target="_blank">Accenture</a>, <a href="https://www.comed.com/" target="_blank">ComEd</a> and <a href="http://www.peoplesenergy.com/" target="_blank">People's Gas</a>. The Chicago Energy Data Map is part of Mayor Rahm Emanuel's Retrofit Chicago initiative.</p>
+
+        <p><i>Note: All data was analyzed at the census block and neighborhood level to protect the privacy of Chicago residents.</i></p>
+      </div>
+
+      <div id="closeButton">✖</div>
+
+    </div><!-- ./end about -->
+
+  </div>
 
 
   <!-- begin chrome frame stuff -->
@@ -121,6 +161,13 @@
 
 <script type="text/javascript">
     {% include "main/google_api.js" %}    
+</script>
+
+<script type="text/javascript">
+    {% include "main/neighborhood_new.js" %}    
+</script>
+<script type="text/javascript">
+    {% include "main/albany.js" %}    
 </script>
 
 <script type="text/javascript">

@@ -10,10 +10,12 @@ class Command(BaseCommand):
         neighborhoods = Neighborhoods.objects.all()
         for neighborhood in neighborhoods:
 
-            BUILDING_SUBTYPE = ["All", "Single Family", "Multi < 7", "Multi 7+"]
+            # BUILDING_SUBTYPE = ["All", "Single Family", "Multi < 7", "Multi 7+"]
+            BUILDING_SUBTYPE = ["All"]
             # Aggregate the values to find the efficiency of the residential
 
             for sub_type in BUILDING_SUBTYPE:
+                print >> sys.stderr, "Analyzing %s subtype of %s" %(sub_type, neighborhood.name)
                 census_blocks = CensusBlocks.objects.filter(building_type = 'Residential',
                                                             building_subtype = sub_type,
                                                             neighborhood = neighborhood)
@@ -40,10 +42,10 @@ class Command(BaseCommand):
                                                                                                  kwh_rank = i+1)
                     # census_block.kwh_percentile = kwh[2]
                     # census_block.save()
-                    if i%1000 == 0:
+                    if i%10 == 0:
                         print >> sys.stderr, "Evaluating kwh percentile %i of %i" %(i, len(sorted_kwh_list))
 
-                for therm in sorted_therm_list:
+                for i,therm in enumerate(sorted_therm_list):
                     census_block_id = therm[0]
                     census_block = CensusBlocks.objects.filter(census_id=census_block_id, 
                                                                building_type='Residential',
@@ -51,5 +53,5 @@ class Command(BaseCommand):
                                                                                                  therm_rank = i+1)
                     # census_block.therm_percentile = therm[2]
                     # census_block.save()
-                    if i%1000 == 0:
+                    if i%10 == 0:
                         print >> sys.stderr, "Evaluating therm percentile %i of %i" %(i, len(sorted_therm_list))

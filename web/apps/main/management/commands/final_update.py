@@ -55,7 +55,6 @@ class Command(BaseCommand):
                 # get the element id
                 raw_id = item_2010.object
 
-
                 # get the shape from the shape dictionary
                 raw_shape = NEIGHBORHOOD[raw_id]
 
@@ -90,21 +89,20 @@ class Command(BaseCommand):
                     if not CensusBlocks.objects.filter(census_id=aggregate_id,
                                                        building_type = "Residential",
                                                        building_subtype = "Single Family").exists():
-                        CensusBlocks.objects.filter(census_id=aggregate_id,
+                        CensusBlocks.objects.create(census_id=aggregate_id,
                                                     building_type = "Residential",
-                                                    building_subtype = "Single Family").update(
+                                                    building_subtype = "Single Family",
                                                     kwh_efficiency = neighborhood.kwh_efficiency,
                                                     therm_efficiency = neighborhood.therm_efficiency,
                                                     neighborhood = neighborhood,
                                                     shape = wkt.dumps(aggregate_shape))
 
-
                     if not CensusBlocks.objects.filter(census_id=aggregate_id,
                                                        building_type = "Residential",
                                                        building_subtype = "Multi 7+").exists():
-                        CensusBlocks.objects.filter(census_id=aggregate_id,
+                        CensusBlocks.objects.create(census_id=aggregate_id,
                                                     building_type = "Residential",
-                                                    building_subtype = "Multi 7+").update(
+                                                    building_subtype = "Multi 7+",
                                                     kwh_efficiency = neighborhood.kwh_efficiency,
                                                     therm_efficiency = neighborhood.therm_efficiency,
                                                     neighborhood = neighborhood,
@@ -114,9 +112,9 @@ class Command(BaseCommand):
                     if not CensusBlocks.objects.filter(census_id=aggregate_id,
                                                        building_type = "Residential",
                                                        building_subtype = "Multi < 7").exists():
-                        CensusBlocks.objects.filter(census_id=aggregate_id,
+                        CensusBlocks.objects.create(census_id=aggregate_id,
                                                     building_type = "Residential",
-                                                    building_subtype = "Multi < 7").update(
+                                                    building_subtype = "Multi < 7",
                                                     kwh_efficiency = neighborhood.kwh_efficiency,
                                                     therm_efficiency = neighborhood.therm_efficiency,
                                                     neighborhood = neighborhood,
