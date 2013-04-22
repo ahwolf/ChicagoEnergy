@@ -238,7 +238,7 @@ function addGeoObject() {
     // zero all y positions of extruded objects
     hoodMesh.position.y = extrude * extrudeMultiplier;
     hoodMesh.properties = geoFeature.properties;
-
+    hoodMesh.properties.shape = geoFeature.geometry.coordinates[0]
     hoodMesh.castShadow = true;
     hoodMesh.receiveShadow = false;
 
@@ -295,6 +295,38 @@ function flyAround() {
   }
 }
 
+// ***** AARON CODE!!
+function drawmap(shape){
+  if (google_map != ""){
+    // first remove the overlay from the map
+      chicagoOverlay.setMap(null);
+      console.log(shape, google_map);
+      var shape_coords = [];
+
+      // Push the shape to show on the map
+      _.each(shape, function(item){
+        shape_coords.push(new google.maps.LatLng(item[1],item[0]));
+      });
+      // var shape_coords = [
+      // new google.maps.LatLng(41.836084, -87.63073),
+      // new google.maps.LatLng(41.836084, -87.59073),
+      // new google.maps.LatLng(41.876084, -87.59073),
+      // new google.maps.LatLng(41.876084, -87.63073),
+      // new google.maps.LatLng(41.836084, -87.63073)
+      // ];
+
+      chicagoOverlay = new google.maps.Polygon({
+        paths: shape_coords,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+    });
+      chicagoOverlay.setMap(google_map);
+  }
+}
+
 var currentState = "city";
 var currentRollover = "";
 
@@ -337,8 +369,8 @@ function render() {
 
       // log which object is beneath the mouse
       currentRollover = INTERSECTED.properties.name;
-      console.log(currentRollover);
-
+      console.log(currentRollover, INTERSECTED);
+      drawmap(INTERSECTED.properties.shape);
       $("#neighborhoodText").html(INTERSECTED.properties.name);
       $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / 77");
       $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / 77");
