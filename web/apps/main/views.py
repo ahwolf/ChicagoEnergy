@@ -89,7 +89,6 @@ def serve_city(request):
     for neighborhood in neighborhoods:
         pledges = RealPledge.objects.filter(neighborhood = neighborhood)
         amount = pledges.aggregate(Sum('initiative__savings'))
-        print amount
 
     return_json = json.dumps(neighborhood_geojson)
 
