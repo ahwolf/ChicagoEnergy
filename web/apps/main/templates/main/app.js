@@ -497,6 +497,7 @@ $("#energyEfficiencyButton").click(function() {
      })
     .done(function(response){
         console.log("done!")
+        console.log("response")
         if (response.length !== 0){
             
             var html = ""
