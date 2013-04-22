@@ -62,13 +62,10 @@ var geo = new geons.geoConfig();
 // stats.domElement.style.right = '0px';
 // stats.domElement.style.top = '0px';
 
-// function animate() {
-//   stats.begin(); 
-//   requestAnimationFrame( animate );
-//   render();
-//   stats.end();
-//   //camera.lookAt( scene.position );
-// }
+function animate() {
+  render();
+  //camera.lookAt( scene.position );
+}
 
 var plane, planeMat;
 
