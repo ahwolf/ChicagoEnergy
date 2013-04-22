@@ -531,7 +531,7 @@ $("#leaderboardButton").click(function() {
   $("#container").addClass("grayscaleAndLighten");
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
-  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 1, delay: .375});
   $.ajax({url:"leaderboard"})
     .done(function (leaders){
@@ -563,7 +563,7 @@ $("#energyEfficiencyButton").click(function() {
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
-  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 1, delay: .375});
   var subtype = $("#subtypeChoices").val();
 
