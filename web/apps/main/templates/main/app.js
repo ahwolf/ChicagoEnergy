@@ -584,9 +584,9 @@ $("#energyEfficiencyButton").click(function() {
     .done(pledge_return);
 });
 
-$("#checkButton").click(function() {
-  TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
-});
+// $("#checkButton").click(function() {
+//   TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
+// });
 
 $(".socialButton").click(function() {
   TweenLite.to($('#socialLogin'), .25, {autoAlpha: 0});
