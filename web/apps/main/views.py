@@ -15,6 +15,8 @@ from rtree.index import Index
 from shapely import wkt
 from shapely.geometry import Point, Polygon
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 def login_form(request):
     return render_to_response(
         'main/login_form.html', {
@@ -23,6 +25,7 @@ def login_form(request):
     )
 
 # @login_required
+@xframe_options_exempt
 def serve_city(request):
 
     # create the geojson object
