@@ -54,8 +54,8 @@ geons.geoConfig = function() {
 // geoConfig contains the configuration for the geo functions
 var geo = new geons.geoConfig();
 
-// var stats = new Stats();
-// stats.setMode( 0 );
+var stats = new Stats();
+stats.setMode( 0 );
 // document.body.appendChild( stats.domElement );
 // //Align top-right
 // stats.domElement.style.position = 'absolute';
@@ -63,7 +63,10 @@ var geo = new geons.geoConfig();
 // stats.domElement.style.top = '0px';
 
 function animate() {
+  stats.begin(); 
+  requestAnimationFrame( animate );
   render();
+  stats.end();
   //camera.lookAt( scene.position );
 }
 
@@ -486,8 +489,7 @@ function pledge_return(response){
                 console.log("made it", name);
             }
             else{
-                // need a nice message
-                // alert("must enter a neighborhood");
+                alert("must enter a neighborhood");
             }
         });
     }
