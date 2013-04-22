@@ -87,7 +87,7 @@ def serve_city(request):
     #    outfile.write("var neighborhood = " + return_json)
 
     return render_to_response(
-        'main/dummy.html', {
+        'main/home.html', {
             'project_root': settings.PROJECT_ROOT,
             'neighborhood_geojson': return_json
             },

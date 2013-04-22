@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chicago Energy Database Prototype</title>
+
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+  <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+<script type="text/javascript" language = "javascript"
+  src="{{STATIC_URL}}main/CFinstall.min.js"></script>
+
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/jquery.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/Stats.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/d3/d3.v2.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/three.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/threejs/d3-threeD.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}main/colorbrewerChi.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/TweenMax.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/TweenLite.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}common/js/lib/easing/EasePack.min.js"></script>
+<script type="text/javascript" language = "javascript"
+    src="{{STATIC_URL}}main/jquery.fancybox.pack.js"></script>
+<script type="text/javascript"
+    src="{{STATIC_URL}}common/js/lib/underscore-min.js">
+</script>
+
+  <link rel="stylesheet" href="{{STATIC_URL}}main/css/app.css">
+  <link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/gmap.css" />
+
+</head>
+<body>
+
+  <!-- three.js scene -->
+  <div id="container"></div>
+
+  <!-- wrapper for ui -->
+  <div id="wrapper">
+
+    <div id="key"></div>
+
+    <div id="branding"></div>
+
+    <!-- search/input field -->
+    <div id="search">
+<!--         <form action="" method="get" onsubmit="return google_api(this.name.value)"> -->          
+        <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
+          <button id="searchButton" type="submit" value="" onclick="google_api()">
+            <img src="{{STATIC_URL}}main/img/searchIcon.png" alt="">
+          </button>
+        <!-- </form> -->
+    </div>
+    <div id="map_canvas"></div>
+<!--     <div id="search">
+      <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
+      <button id="searchButton" type="submit" value="">
+        <img src="{{STATIC_URL}}main/img/searchIcon.png" alt="">
+      </button>
+    </div>
+ -->
+    <!-- tooltips -->
+    <div id="rolloverTip" class="tooltip">
+      <div id="tipHeader">
+        <span id="neighborhoodText">new city</span>
+      </div>
+      <div id="tipSubHead">position</div>
+      <div id="tipGasRank">
+        <span id="rankHeaderTitle">GAS</span>
+        <div id="tipGasRankText">12/90</div>
+      </div>
+      <div id="tipElectricRank">
+        <span id="rankHeaderTitle">ELECTRIC</span>
+        <div id="tipElectricRankText">12/90</div>
+      </div>
+      <div id="detailText">• CLICK FOR DETAIL •</div>
+      <div id="rolloverCarrot" class="carrot"></div>
+    </div>
+
+    <br>
+
+    <!-- 
+
+    <div id="autoTip" class="tooltip">
+      logan square
+      <div id="autoCarrot" class="carrot"></div>
+    </div>
+
+    <br>
+    
+    <div id="neighborhoodStatsDetail">
+      <div id="statsHeader">4700 - 4815 RACINE AVE., NEW CITY</div>
+      <div id="statsSubHead">AVERAGE ENERGY USE</div>
+    </div>
+     -->
+
+    <!-- footer -->
+    <div id="footer">
+      <a id="aboutButton" href="#">ABOUT THIS PROJECT</a>&nbsp; &nbsp; |&nbsp; &nbsp;
+      <a id="energyEfficiencyButton" href="#">ENERGY EFFICIENCY TIPS</a>&nbsp; &nbsp; |&nbsp; &nbsp;
+      <a id="leaderboardButton" href="#">LEADERBOARD</a> <!-- &nbsp; &nbsp; |&nbsp; &nbsp; -->
+      <!-- <a id="creditsButton" href="#">CREDITS</a> -->
+    </div>
+
+  </div> <!-- end wrapper for ui -->
+
+  <div id="overlay">
+    
+    <div id="about">
+      
+      <div class="overlayHeader">
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        ABOUT THE MAP&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">
+      </div>
+
+      <div class="overlayCopy">
+        <p>The <b>Chicago Energy Data Map</b> is a visualization of all residential natural gas and electric energy use — both by neighborhood and by census block — for the City of Chicago in 2010. The height of each neighborhood or census block indicates electric energy consumption while the color is indicative of natural gas consumption.</p>
+
+        <p>The purpose of this visualization is to allow the viewer both a bird's eye view, as well as a neighborhood detail view, of energy consumption patterns in one of our nation's largest cities. Further, users can review energy efficiency tips and Chicagoans can pledge to make improvements to the efficiency of their homes on behalf of their respective neighborhoods.</p>
+
+        <p>This project is a collaborative effort between the <a href="https://www.cityofchicago.org/" target="_blank">City of Chicago</a>, the <a href="http://www.ccachicago.org/" target="_blank">Civic Consulting Alliance</a>, <a href="http://datascopeanalytics.com/" target="_blank">Datascope Analytics</a> and <a href="http://www.ideo.com/" target="_blank">IDEO</a> with support from <a href="http://www.accenture.com/" target="_blank">Accenture</a>, <a href="http://www.cntenergy.org/" target="_blank">CNT Energy</a>, the <a href="http://www.citizensutilityboard.org/" target="_blank">Citizens Utility Board</a>, <a href="https://www.comed.com/" target="_blank">ComEd</a> and <a href="http://www.peoplesenergy.com/" target="_blank">Peoples Gas</a>. The Chicago Energy Data Map is part of Mayor Rahm Emanuel's Retrofit Chicago initiative.</p>
+
+        <p><i>Note: All data was analyzed at the census block and neighborhood level to protect the privacy of Chicago residents.</i></p>
+
+        <div class="fourGreyStars"><img src="{{STATIC_URL}}main/img/fourGreyStars.png" alt=""></div>
+      </div>
+
+      <div class="closeButton" id="closeButtonAbout">✖</div>
+
+    </div><!-- ./end about -->
+
+    <div id="credits">
+      
+      <div class="overlayHeader">
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        CREDITS&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">
+      </div>
+
+      <div class="overlayCopy">
+        <p><b>DataScope Analytics</b><br>
+        Concept, Data Vizualization & Analytics</p>
+        <br>
+        <p><b>IDEO</b><br>
+        Concept, Data Visualization, Art Direction & Design</p>
+      </div>
+
+      <div class="closeButton" id="closeButtonCredits">✖</div>
+
+      <div class="fourGreyStars"><img src="{{STATIC_URL}}main/img/fourGreyStars.png" alt=""></div>
+
+    </div><!-- ./end about -->
+
+  </div><!-- ./end overlay -->
+
+  <!-- efficiency tips -->
+  <div id="efficiencyTips">
+    
+    <div class="overlayBack"></div>
+
+    <div id="tipsContainer">
+
+      <div id="buildingTypeFilter">
+        <div id="filterTipsText">Filter tips by building subtype:</div>
+        <div class="styledDropdown">    
+          <select id="subtypeChoices">
+            <option>Multi 7+</option>
+            <option>Multi &#60;7</option>
+            <option selected>Single Family Home</option>
+          </select>
+        </div><!-- ./end styled dropdown -->
+        
+      </div><!-- ./end buildingTypeFilter -->
+      
+      <div id="tipsHeader" class="overlayHeader">
+        EASY TIPS TO HELP YOU IMPROVE<br>ENERGY EFFICIENCY IN YOUR HOME
+        <div class="closeButton" id="closeButtonTips">✖</div>
+        <div id="tipsSubhead">Your annual cost savings will increase with every tip you pledge to try out!</div>
+      </div>
+
+      <div id="tipsThreeSteps">
+        <ol id="tipsList">
+          <li>
+            Lorem ipsum dolor sit amet <button class="tipButton">I'LL DO THIS!</button>
+          </li>
+          <li>
+            Duis quis neque dui <button class="tipButton">I'LL DO THIS!</button>
+          </li>
+          <li>
+            Nunc volutpat tempus arcu vitae feugiat <button class="tipButton">I'LL DO THIS!</button>
+          </li>
+        </ol>
+      </div> <!-- ./ end tipsThreeSteps -->
+
+      <div id="tipsSavings">
+        <div id="estimateHeader">EST. ANNUAL COST SAVINGS</div>
+        <sup><span id="tipsDollarSign">$</span></sup><span id="total_savings">132.61</span>
+      </div>
+
+    </div><!-- ./ end tips container -->
+
+    <div id="neighborhoodConfirm">
+      Confirm your neighborhood so we can add your pledge to the leaderboard!*<br>
+      <span id="loginNote">*You will be asked to log in via your preferred social means</span>
+
+      <!-- search/input field -->
+      <div id="search">
+        <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD" />
+        <button id="checkButton" type="submit" value="">
+          <img src="{{STATIC_URL}}main/img/checkIcon.png" alt="">
+        </button>
+      </div>
+
+      <div class="fourGreyStars"><img src="{{STATIC_URL}}main/img/fourGreyStars.png" alt=""></div>
+    </div>
+
+    
+
+  </div>
+  <!-- ./ end efficiency tips -->
+
+  <!-- LEADERBOARD -->
+
+  <div id="leaderboard">
+    
+    <div class="overlayBack"></div>
+
+    <div id="leaderboardContent">
+        
+      <div class="overlayHeader">
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        LEADERBOARD&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">
+        <div class="closeButton" id="closeButtonLeaderboard">✖</div>
+      </div>
+
+      <div id="boardSubhead">
+        <div id="neighborhoodHeader">NEIGHBORHOOD</div>
+        <div id="pledgesHeader">PLEDGES</div>
+      </div>
+
+      <ol id="board">
+        <li>Loop <div class="pledge">45</div></li>
+        <li>Wicker Park <div class="pledge">42</div></li>
+        <li>Albany <div class="pledge">38</div></li>
+        <li>Near West Side <div class="pledge">35</div></li>
+        <li>Riverside <div class="pledge">31</div></li>
+        <li>West Town <div class="pledge">27</div></li>
+        <li>Lincoln Park <div class="pledge">25</div></li>
+        <li>Wrigleyville <div class="pledge">24</div></li>
+        <li>Buena Park <div class="pledge">22</div></li>
+        <li>Near South Side <div class="pledge">19</div></li>
+      </ol>
+
+      <div class="fourGreyStars"><img src="{{STATIC_URL}}main/img/fourGreyStars.png" alt=""></div>
+
+    </div>
+
+  </div>
+
+  <div id="omgChromeFrame">
+    
+    <p>We can't help but notice you're using a browser that doesn't support the modern web technologies upon which the Chicago Energy Data Map is built.</p>
+
+    <p>Fear not, because in just 2 short clicks, you can outfit your browser with the magic of Google's Chrome Frame plug-in and enjoy all of the fun the modern web has to offer!</p> 
+
+  </div>
+
+  <div id="socialLogin">
+    
+    <div class="overlayHeader" id="socialLoginHeader">Please log in via your <br> preferred means to pledge</div>
+    <div id="socialButtons">
+      <a class="socialButton" id="facebookButton" href="#"><img src="{{STATIC_URL}}main/img/facebook.png" alt=""></a>&nbsp;&nbsp;
+      <a class="socialButton" id="googleButton" href="#"><img src="{{STATIC_URL}}main/img/google.png" alt=""></a> &nbsp;&nbsp;
+      <a class="socialButton" id="twitterButton" href="#"><img src="{{STATIC_URL}}main/img/twitter.png" alt=""></a>
+    </div>
+
+  </div>
+
+
+
+  <!-- begin chrome frame stuff -->
+   <style>
+    /*
+     CSS rules to use for styling the overlay:
+       .chromeFrameOverlayContent
+       .chromeFrameOverlayContent iframe
+       .chromeFrameOverlayCloseBar
+       .chromeFrameOverlayUnderlay
+    */
+   </style>
+   <!-- end chrome frame stuff -->
+
+
+
+
+   <script>
+    window.onload=function(){
+      CFInstall.check({
+        mode: "overlay",
+        destination: "/index.html?user=true"
+      });
+    }
+   </script>
+
+
+
+<link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/css/dummy.css" />
+<!-- <link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/css/app.css" />
+ --><link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/gmap.css" />
+<link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/jquery.fancybox.css" />
+
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsxCdGowk5ArZDdJFNQO9PCeoLXE3W5oQ&sensor=false">
+</script>
+
+<script type="text/javascript">
+    {% include "main/google_api.js" %}    
+</script>
+
+<script type="text/javascript">
+    {% include "main/neighborhood_new.js" %}    
+</script>
+<script type="text/javascript">
+    {% include "main/albany.js" %}    
+</script>
+
+<script type="text/javascript">
+  {% include "main/app.js" %}
+</script>
+
