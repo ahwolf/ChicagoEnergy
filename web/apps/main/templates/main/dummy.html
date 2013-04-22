@@ -334,12 +334,12 @@
 {% block dynamic_javascript %}
 {{block.super}}
    <script>
-    window.onload=function(){
+
       CFInstall.check({
         mode: "overlay",
         destination: "/index.html?user=true"
       });
-    }
+
    </script>
 
   <!-- ./end chrome frame stuff -->

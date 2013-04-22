@@ -1,5 +1,5 @@
 #map_canvas{
-   position: absolute;   
+   position: fixed;   
    width: 200px;
    height: 199px;
    top: 220px;
