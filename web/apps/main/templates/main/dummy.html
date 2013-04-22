@@ -4,8 +4,9 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 {% block header %}
 {% endblock header %}
-  <script type="text/javascript"
-    src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+<script type="text/javascript"
+  src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
 
 {% block js %}
 {{block.super}}
@@ -60,6 +61,7 @@
       href="{{STATIC_URL}}main/css/login_form.scss" />
 {% endblock css %}
 {% block content %}
+
 <!--     <div id="main_container"></div>-->
   <!-- three.js scene -->
   <div id="container"></div>
