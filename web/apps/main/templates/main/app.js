@@ -552,6 +552,7 @@ $(".closeButton").click(function() {
   TweenLite.to($('#about'), .5, {autoAlpha: 0});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 0});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 0});
+  TweenLite.to($('#key'), .5, {autoAlpha: 1, delay: .25});
   TweenLite.delayedCall(.5, colorizeMap)
 });
 
