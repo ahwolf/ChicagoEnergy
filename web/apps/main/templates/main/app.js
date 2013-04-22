@@ -531,7 +531,15 @@ $("#leaderboardButton").click(function() {
   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 1, delay: .375});
-
+  $.ajax({url:"leaderboard"})
+    .done(function (leaders){
+        console.log("returned: ", leaders);
+        var html = ""
+        _.each(leaders, function(leader, index){
+            html +=  "<li>"+leader[0]+' <div class="pledge">'+leader[1]+"</div></li>"
+        });
+        $("#board").html(html);
+    });
 });
 
 $(".closeButton").click(function() {

@@ -18,6 +18,8 @@ urlpatterns += patterns(
     url(r'^find_census_block/$',views.find_census_block, name="find_census_block"),
     url(r'^pledge/$',views.get_pledge_info, name="pledge"),
     url(r'^give_pledge/$',views.receive_pledge, name="give_pledge"),
+    url(r'^leaderboard/$',views.leaderboard, name="leaderboard"),
+
 
 
 

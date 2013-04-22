@@ -81,15 +81,6 @@ def serve_city(request):
         neighborhood_geojson['features'].append(feature)
 
     # dump the geojson and send to the client side
-
-
-    # TEMPORARY!!!
-    neighborhoods = Neighborhoods.objects.all()
-    leader_list = []
-    for neighborhood in neighborhoods:
-        pledges = RealPledge.objects.filter(neighborhood = neighborhood)
-        amount = pledges.aggregate(Sum('initiative__savings'))
-
     return_json = json.dumps(neighborhood_geojson)
 
     # with open('neighborhood_new.js', 'wb') as outfile:
@@ -188,7 +179,6 @@ def find_census_block(request):
 
     census_json['properties'] = census_id
     response = json.dumps(census_json)
-    print "before return"
     return HttpResponse(response, mimetype="application/json")
 
 # pass in a query set and choose whether or not the shape file should be
@@ -285,7 +275,6 @@ def get_pledge_info(request):
 
 # receive pledge
 def receive_pledge(request):
-    print "what is up"
     if request.user.is_authenticated():    
         user = request.user
         # check building subtype, right now we are grouping <7 with 7+
@@ -321,11 +310,14 @@ def leaderboard(request):
     neighborhoods = Neighborhoods.objects.all()
     leader_list = []
     for neighborhood in neighborhoods:
-        pledges = RealPledge.filter(neighborhood = neighborhood)
-        amount = pledges.aggregate(Sum('initiative__savings'))
-        print amount
-        leader_list.append([neighborhood,amount['initiative__savings__sum']])
-    leader_list = sorted(leader_list, key = lambda leader:leader[1])
+        pledges = RealPledge.objects.filter(neighborhood = neighborhood)
+        #amount = pledges.aggregate(Sum('initiative__savings'))
+        # leader_list.append([neighborhood.name,amount['initiative__savings__sum']])
+
+        count = len(pledges)
+        leader_list.append([neighborhood.name,count])
+
+    leader_list = sorted(leader_list, key = lambda leader:leader[1], reverse = True)
     leader_list = leader_list[:amount]
     return HttpResponse(json.dumps(leader_list), "application/json")
 
