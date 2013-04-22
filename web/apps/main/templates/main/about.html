@@ -65,74 +65,7 @@
     <div id="branding"></div>
 
     <!-- search/input field -->
-    <div id="search">
-<!--         <form action="" method="get" onsubmit="return google_api(this.name.value)"> -->          
-   <a class="fancybox" href="#social_auth" style="display:none">
-        <div id="placeholder" class="button"><button>Pledge placeholder</button></div>
-    </a>
-        <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
-
-    <button id="searchButton" type="submit" value="" onclick="google_api()">
-            <img src="{{STATIC_URL}}/main/img/searchIcon.png" alt="">
-          </button>
-        <!-- </form> -->
-    </div>
-    <div id="map_canvas"></div>
-
-<div id="social_auth" style = "display:none">
-    <p>Please log in to pledge</p>
-  <ul>
-    <li>
-      <a href="{% url 'socialauth_begin' 'twitter' %}">
-       <img src="{{STATIC_URL}}main/img/twitter.png" alt="twitter icon"/>
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'socialauth_begin' 'google-oauth2' %}">
-       <img src="{{STATIC_URL}}main/img/google-oauth2.png" alt="google icon"/>
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'socialauth_begin' 'facebook' %}">
-       <img src="{{STATIC_URL}}main/img/facebook.png" alt="facebook icon"/>
-  </a>
-    </li>
-  </ul>
-</div>
-
-    <!-- tooltips -->
-    <div id="rolloverTip" class="tooltip">
-      <div id="tipHeader">
-        <span id="neighborhoodText">new city</span>
-      </div>
-      <div id="tipSubHead">position</div>
-      <div id="tipGasRank">
-        <span id="rankHeaderTitle">GAS</span>
-        <div id="tipGasRankText">12/90</div>
-      </div>
-      <div id="tipElectricRank">
-        <span id="rankHeaderTitle">ELECTRIC</span>
-        <div id="tipElectricRankText">12/90</div>
-      </div>
-      <div id="detailText">• CLICK FOR DETAIL •</div>
-      <div id="rolloverCarrot" class="carrot"></div>
-    </div>
-
-    <br>
-
-    <!-- 
-    <div id="autoTip" class="tooltip">
-      logan square
-      <div id="autoCarrot" class="carrot"></div>
-    </div>
-
-    <br>
     
-    <div id="neighborhoodStatsDetail">
-      <div id="statsHeader">4700 - 4815 RACINE AVE., NEW CITY</div>
-      <div id="statsSubHead">AVERAGE ENERGY USE</div>
-    </div>
-     -->
 
     <!-- footer -->
     <div id="footer">
@@ -150,11 +83,11 @@
     <div id="about">
       
       <div class="overlayHeader">
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
         ABOUT THE MAP&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">
       </div>
 
       <div class="overlayCopy">
@@ -174,11 +107,11 @@
     <div id="credits">
       
       <div class="overlayHeader">
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
         CREDITS&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">
+        <img src="img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="img/chiStar.png" alt="">
       </div>
 
       <div class="overlayCopy">
@@ -195,66 +128,6 @@
 
   </div><!-- ./end overlay -->
 
-  <!-- efficiency tips -->
-  <div id="efficiencyTips">
-    
-    <div class="overlayBack"></div>
-
-    <div id="tipsContainer">
-
-      <div id="buildingTypeFilter">
-        <div id="filterTipsText">Filter tips by building subtype:</div>
-        <div class="styledDropdown">    
-          <select>
-            <option selected>All</option>
-            <option>Multi 7+</option>
-            <option>Multi &#60;7</option>
-            <option>Single Family Home</option>
-          </select>
-        </div><!-- ./end styled dropdown -->
-        
-      </div><!-- ./end buildingTypeFilter -->
-      
-      <div id="tipsHeader" class="overlayHeader">
-        3 EASY STEPS YOU CAN TAKE TO IMPROVE <br> ENERGY EFFICIENCY IN YOUR HOME
-        <div class="closeButton" id="closeButtonTips">✖</div>
-      </div>
-
-      <div id="tipsThreeSteps">
-        <ol id="tipsList">
-          <li>
-            Lorem ipsum dolor sit amet <button class="tipsButton">PLEDGE TO DO THIS</button>
-          </li>
-          <li>
-            Duis quis neque dui <button class="tipsButton">PLEDGE TO DO THIS</button>
-          </li>
-          <li>
-            Nunc volutpat tempus arcu vitae feugiat <button class="tipsButton">PLEDGE TO DO THIS</button>
-          </li>
-        </ol>
-      </div> <!-- ./ end tipsThreeSteps -->
-
-      <div id="tipsSavings">
-        <div id="estimateHeader">EST. ANNUAL COST SAVINGS</div>
-        <sup><span id="tipsDollarSign">$</span></sup>132.61
-      </div>
-
-    </div><!-- ./ end tips container -->
-
-    <div id="neighborhoodConfirm">
-      Confirm your neighborhood so we can log your pledge!<br>
-
-      <!-- search/input field -->
-      <div id="search">
-        <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD" />
-        <button id="checkButton" type="submit" value="">
-          <img src="{{STATIC_URL}}/main/img/checkIcon.png" alt="">
-        </button>
-      </div>
-    </div>
-
-  </div>
-  <!-- ./ end efficiency tips -->
 
 
   <!-- begin chrome frame stuff -->
@@ -274,27 +147,9 @@
 
 {% block dynamic_javascript %}
 {{block.super}}
-<script type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsxCdGowk5ArZDdJFNQO9PCeoLXE3W5oQ&sensor=false">
-</script>
-
-<script type="text/javascript">
-    {% include "main/google_api.js" %}    
-</script>
-
-<script type="text/javascript">
-    {% include "main/neighborhood_new.js" %}    
-</script>
-<script type="text/javascript">
-    {% include "main/albany.js" %}    
-</script>
 
 <script type="text/javascript">
   {% include "main/button.js" %}
-</script>
-
-<script type="text/javascript">
-  {% include "main/app.js" %}
 </script>
 
 {% endblock dynamic_javascript %}

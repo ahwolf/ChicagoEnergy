@@ -20,18 +20,19 @@ $n_services: 2;
 }
 
 #social_auth {
+    
   ul {
     list-style-type: none;
     li {
       width: $img_width;
       margin: {
-	left: auto;
-	right: auto;
-      }
-      padding-bottom: $pad;
-      img {
-      	width: $img_width;
-      }
+       left: auto;
+       right: auto;
+   }
+   padding-bottom: $pad;
+   img {
+     width: $img_width;
+ }
     }
   }
-}
+    }

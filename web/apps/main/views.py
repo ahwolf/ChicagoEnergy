@@ -16,7 +16,6 @@ from shapely import wkt
 from shapely.geometry import Point, Polygon
 
 def login_form(request):
-    print 'wtf'
     return render_to_response(
         'main/login_form.html', {
         },
@@ -266,24 +265,28 @@ def get_pledge_info(request):
 
 # receive pledge
 def receive_pledge(request):
-    user = request.user
-    # check building subtype, right now we are grouping <7 with 7+
-    subtype = request.GET.get('subtype')
-    if subtype == "Single Family":
-        initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                             single_family = True)
-    else:
-        initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                             multi_lt7 = True)
-    # get the neighborhood
-    neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
+    if request.user.is_authenticated():
+        user = request.user
+        # check building subtype, right now we are grouping <7 with 7+
+        subtype = request.GET.get('subtype')
+        if subtype == "Single Family":
+            initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                                 single_family = True)
+        else:
+            initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                                 multi_lt7 = True)
+        # get the neighborhood
+        neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
 
-    # store the pledge
-    realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
-                                                           initiative = initiative,
-                                                           user = user)
-    # do I need a response here?
-    return HttpResponse("success","application/json")
+        # store the pledge
+        realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
+                                                               initiative = initiative,
+                                                               user = user)
+        # do I need a response here?
+        return HttpResponse("success","application/json")
+    else:
+        # failure, call fancybox
+        return HttpResponse("failure","application/json")
 
 
 # ajax request for the leaderboard to be displayed
@@ -301,6 +304,12 @@ def leaderboard(request):
     return HttpResponse(json.dumps(leader_list), "application/json")
 
 
+def about(request):
+    return render_to_response(
+        'main/about.html', {
+        },
+        context_instance=RequestContext(request)
+    )
 
 def create_spatial_index(shape_dict):
 

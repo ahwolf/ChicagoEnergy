@@ -88,6 +88,16 @@ $("#textEntry").keyup(function(event){
         $("#searchButton").click();
     }
 });
+
+$(".fancybox").fancybox({
+    helpers: {
+        overlay: {
+            css: {
+                'background': 'rgba(58, 42, 45, 0.75)'
+            }
+        }
+    }
+});
 var google_map = "";
 var chicagoOverlay = "";
 function initialize() {

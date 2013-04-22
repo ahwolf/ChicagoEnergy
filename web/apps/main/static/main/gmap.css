@@ -1,4 +1,6 @@
 #map_canvas{
+    position: absolute;
+    z-index: 1000;
     width: 225px;
     height:225px;
 }
