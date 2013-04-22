@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title%}Chicago Energy Database Prototype{% endblock title%}
-
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
 {% block header %}
 {% endblock header %}
   <script type="text/javascript"
@@ -151,7 +151,7 @@
 
         <p>The purpose of this visualization is to allow the viewer both a bird's eye view, as well as a neighborhood detail view, of energy consumption patterns in one of our nation's largest cities. Further, users can review energy efficiency tips and Chicagoans can pledge to make improvements to the efficiency of their homes on behalf of their respective neighborhoods.</p>
 
-        <p>This project is a collaborative effort between the <a href="https://www.cityofchicago.org/" target="_blank">City of Chicago</a>, the <a href="http://www.ccachicago.org/" target="_blank">Civic Consulting Alliance</a>, <a href="http://datascopeanalytics.com/" target="_blank">DataScope Analytics</a> and <a href="http://www.ideo.com/" target="_blank">IDEO</a> with support from <a href="http://www.accenture.com/" target="_blank">Accenture</a>, <a href="https://www.comed.com/" target="_blank">ComEd</a> and <a href="http://www.peoplesenergy.com/" target="_blank">People's Gas</a>. The Chicago Energy Data Map is part of Mayor Rahm Emanuel's Retrofit Chicago initiative.</p>
+        <p>This project is a collaborative effort between the <a href="https://www.cityofchicago.org/" target="_blank">City of Chicago</a>, the <a href="http://www.ccachicago.org/" target="_blank">Civic Consulting Alliance</a>, <a href="http://datascopeanalytics.com/" target="_blank">Datascope Analytics</a> and <a href="http://www.ideo.com/" target="_blank">IDEO</a> with support from <a href="http://www.accenture.com/" target="_blank">Accenture</a>, <a href="https://www.comed.com/" target="_blank">ComEd</a> and <a href="http://www.peoplesenergy.com/" target="_blank">People's Gas</a>. The Chicago Energy Data Map is part of Mayor Rahm Emanuel's Retrofit Chicago initiative.</p>
 
         <p><i>Note: All data was analyzed at the census block and neighborhood level to protect the privacy of Chicago residents.</i></p>
 
@@ -331,6 +331,17 @@
 
 {% block dynamic_javascript %}
 {{block.super}}
+   <script>
+    window.onload=function(){
+      CFInstall.check({
+        mode: "overlay",
+        destination: "/index.html?user=true"
+      });
+    }
+   </script>
+
+  <!-- ./end chrome frame stuff -->
+
 <script type="text/javascript"
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsxCdGowk5ArZDdJFNQO9PCeoLXE3W5oQ&sensor=false">
 </script>

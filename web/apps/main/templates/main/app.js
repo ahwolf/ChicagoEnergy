@@ -581,6 +581,23 @@ $("#energyEfficiencyButton").click(function() {
     .done(pledge_return);
 });
 
+$("#checkButton").click(function() {
+  TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
+});
+
+$(".socialButton").click(function() {
+  TweenLite.to($('#socialLogin'), .25, {autoAlpha: 0});
+});
+
+$(".tipButton").click(function() {
+  if (!$(this).hasClass('tipButtonClicked')) {
+    // add this pledge
+    $(this).addClass("tipButtonClicked").removeClass(".tipButton");
+  } else {
+    // remove this pledge
+    $(this).removeClass("tipButtonClicked").addClass(".tipButton");
+  }
+});
 
   
 // change when they select a different subtype
