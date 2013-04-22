@@ -72,7 +72,7 @@ p {
   width: 503px;
   height: 142px;
   margin-top: 36px;
-  background: url(img/branding.png) no-repeat;
+  background: url(../img/branding.png) no-repeat;
 }
 
 /* KEY */
@@ -83,7 +83,7 @@ p {
   height: 199px;
   top: 20px;
   left: 20px;
-  background: url(img/key.png) no-repeat;
+  background: url(../img/key.png) no-repeat;
 }
 
 /* INPUT FIELD */
@@ -95,7 +95,7 @@ p {
   margin-top: 20px;
   font-size: 16px;
   color: #707070;
-  background: url(img/locationPin.png) no-repeat;
+  background: url(../img/locationPin.png) no-repeat;
   background-color: #FFF;
 }
 
@@ -275,7 +275,7 @@ p {
   position: relative;
   width: 7px;
   height: 4px;
-  background: url(img/tooltipCarrot.png) no-repeat left bottom;
+  background: url(../img/tooltipCarrot.png) no-repeat left bottom;
 }
 
 #rolloverCarrot {
@@ -517,7 +517,7 @@ p {
   height: 90px !important;
   margin-top: -65px; /* no idea why this hack is necessary */
   line-height: 140%;
-  background: url(img/starsTipsHeader.png) no-repeat top center;
+  background: url(../img/starsTipsHeader.png) no-repeat top center;
 }
 
 #closeButtonTips {
@@ -614,7 +614,7 @@ p {
    width: 200px;
    height: 34px;
    overflow: hidden;
-   background: url('img/selectArrow.png') no-repeat right center #DDD;
+   background: url('../img/selectArrow.png') no-repeat right center #DDD;
 }
 
 #neighborhoodConfirm {
