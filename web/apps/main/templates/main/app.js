@@ -126,7 +126,7 @@ function initScene() {
   
   // add a base plane on which we'll render our map
   var planeGeo = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-  var planeTex = THREE.ImageUtils.loadTexture("img/floor.jpg");
+  var planeTex = THREE.ImageUtils.loadTexture("{{STATIC_URL}}main/img/floor.jpg");
   planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
   planeTex.repeat.set( 10, 10 );
   //var planeMat = new THREE.MeshLambertMaterial({color: 0xFFFFFF}); // renders ugly radial gradient shadow
