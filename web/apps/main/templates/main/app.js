@@ -469,7 +469,7 @@ function pledge_return(response){
                 var name = $(this).siblings('span').text();
 
                 var subtype = $("#subtypeChoices").val();
-                $.ajax({url:"give_pledge",
+                $.ajax({url:"{% url 'give_pledge' %}",
                        data:{subtype:subtype,
                              name: name,
                              neighborhood:neighborhood_object[address]
@@ -533,7 +533,7 @@ $("#leaderboardButton").click(function() {
   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
   // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 1, delay: .375});
-  $.ajax({url:"leaderboard"})
+  $.ajax({url:"{% url 'leaderboard' %}"})
     .done(function (leaders){
         console.log("returned: ", leaders);
         var html = ""
@@ -577,7 +577,7 @@ $("#energyEfficiencyButton").click(function() {
   //    var input = document.getElementById('neighborhoodEntry');
   //    input.value = "ENTER YOUR NEIGHBORHOOD"; 
   // }
-  $.ajax({url:"pledge",
+  $.ajax({url:"{% url 'pledge' %}",
          data:{subtype:subtype}
      })
     .done(pledge_return);
@@ -607,7 +607,7 @@ $(".tipButton").click(function() {
 $("#subtypeChoices").change(function(){
     console.log("changes");
     var subtype = $(this).val();
-    $.ajax({url:"pledge",
+    $.ajax({url:"{% url 'pledge' %}",
          data:{subtype:subtype}
      })
     .done(pledge_return);
