@@ -486,7 +486,8 @@ function pledge_return(response){
                 console.log("made it", name);
             }
             else{
-                alert("must enter a neighborhood");
+                // need a nice message
+                // alert("must enter a neighborhood");
             }
         });
     }
