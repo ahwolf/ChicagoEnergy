@@ -263,7 +263,6 @@ def get_pledge_info(request):
         response = json.dumps(initiative_list);
         return HttpResponse(response,mimetype="application/json")
     else:
-        print "not authenticated"
         response = json.dumps(initiative_list);
         return HttpResponse(response,mimetype="application/json")
 
