@@ -452,44 +452,96 @@ animate();
 
 
 ////////////////// BUTTON ACTIONS //
-/// Moved to Button.js
-
-// $("#aboutButton").click(function() {
-//   currentState = "overlay";
-//   $("#container").addClass("grayscaleAndLighten");
-//   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
-//   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
-//   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
-//   TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
 
 
+$("#aboutButton").click(function() {
+  currentState = "overlay";
+  $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
+});
 
-// });
+$("#creditsButton").click(function() {
+  currentState = "overlay";
+  $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  TweenLite.to($('#credits'), .5, {autoAlpha: 1, delay: .375});
+});
 
-// $("#creditsButton").click(function() {
-//   currentState = "overlay";
-//   $("#container").addClass("grayscaleAndLighten");
-//   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
-//   TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
-//   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
-//   TweenLite.to($('#credits'), .5, {autoAlpha: 1, delay: .375});
-// });
+$(".closeButton").click(function() {
+  currentState = "city";
+  TweenLite.to($('#branding'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
+  TweenLite.to($('#about'), .5, {autoAlpha: 0});
+  TweenLite.to($('#credits'), .5, {autoAlpha: 0});
+  TweenLite.delayedCall(.5, colorizeMap)
+});
 
-// $(".closeButton").click(function() {
-//   currentState = "city";
-//   TweenLite.to($('#branding'), .5, {autoAlpha: 1, delay: .25});
-//   TweenLite.to($('#search'), .5, {autoAlpha: 1, delay: .25});
-//   TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
-//   TweenLite.to($('#about'), .5, {autoAlpha: 0});
-//   TweenLite.to($('#credits'), .5, {autoAlpha: 0});
-//   TweenLite.delayedCall(.5, colorizeMap)
-// });
+$("#energyEfficiencyButton").click(function() {
+  currentState = "overlay";
+  $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
+  TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 1, delay: .375});
+  var subtype = $("#subtypeChoices").val();
+  console.log("clicked energy",subtype);
+  $.ajax({url:"pledge",
+         data:{subtype:subtype}
+     })
+    .done(function(response){
+        console.log("done!")
+        if (response.length !== 0){
+            
+            var html = ""
+            _.each(response, function(item){
+                html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
+            });
+            $("#tipsList").html(html);
+         }
+         else{
+            $("#placeholder").click();
+         }
+     });
+});
 
-// function colorizeMap() {
-//   $("#container").removeClass("grayscaleAndLighten");
-// }
+$("#subtypeChoices").change(function(){
+    var subtype = $(this).val();
+    $.ajax({url:"pledge",
+         data:{subtype:subtype}
+     })
+    .done(function(response){
+        console.log("done!")
+        if (response.length !== 0){
+            
+            var html = ""
+            _.each(response, function(item){
+                html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
+            });
+            $("#tipsList").html(html);
+         }
+         else{
+            $("#placeholder").click();
+         }
+     });
+})
+
+
+
+function colorizeMap() {
+  $("#container").removeClass("grayscaleAndLighten");
+}
 
 ////////////////// EVENT LISTENERS //
+
+
+
 
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 window.addEventListener( 'resize', onWindowResize, false );

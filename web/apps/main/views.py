@@ -237,57 +237,57 @@ def create_census_json(census_blocks, wkt=True):
 
 # returns random initiatives back to the client
 def get_pledge_info(request):
-    
-    initiatives_shown = 3
-    subtype = request.GET.get("subtype")
-    user = request.user
-
-    # get a random order of initiatives
-    if subtype == "multi lt7":
-        initiatives = Initiatives.objects.filter(multi_lt7 = True).order_by('?')
-    elif subtype == "multi gt7":
-        initiatives = Initiatives.objects.filter(multi_gt7 = True).order_by('?')
-    else:
-        initiatives = Initiatives.objects.filter(single_family = True).order_by('?')
-
     initiative_list = []
-    for initiative in initiatives:
-        exists = RealPledge.objects.filter(user = user, initiative = initiative).exists()
-        if not exists:
-            # append to the json to return to the user
-            initiative_list.append({"name":initiative.name,
-                                    "savings": initiative.savings})
-            if initiative.list == initiatives_shown:
-                break
+    if request.user.is_authenticated():    
+        initiatives_shown = 3
+        subtype = request.GET.get("subtype")
+        user = request.user
+        # get a random order of initiatives
+        if subtype == "multi lt7":
+            initiatives = Initiatives.objects.filter(multi_lt7 = True).order_by('?')
+        elif subtype == "multi gt7":
+            initiatives = Initiatives.objects.filter(multi_gt7 = True).order_by('?')
+        else:
+            initiatives = Initiatives.objects.filter(single_family = True).order_by('?')
 
-    response = json.dumps(initiative_list)
-    return HttpResponse(response,mimetype="application/json")
+        for initiative in initiatives:
+            exists = RealPledge.objects.filter(user = user, initiative = initiative).exists()
+
+            if not exists:
+                # append to the json to return to the user
+                initiative_list.append({"name":initiative.name,
+                                        "savings": initiative.savings})
+                if len(initiative_list) == initiatives_shown:
+                    break
+
+        response = json.dumps(initiative_list);
+        return HttpResponse(response,mimetype="application/json")
+    else:
+        print "not authenticated"
+        response = json.dumps(initiative_list);
+        return HttpResponse(response,mimetype="application/json")
 
 # receive pledge
 def receive_pledge(request):
-    if request.user.is_authenticated():
-        user = request.user
-        # check building subtype, right now we are grouping <7 with 7+
-        subtype = request.GET.get('subtype')
-        if subtype == "Single Family":
-            initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                                 single_family = True)
-        else:
-            initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                                 multi_lt7 = True)
-        # get the neighborhood
-        neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
 
-        # store the pledge
-        realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
-                                                               initiative = initiative,
-                                                               user = user)
-        # do I need a response here?
-        return HttpResponse("success","application/json")
+    user = request.user
+    # check building subtype, right now we are grouping <7 with 7+
+    subtype = request.GET.get('subtype')
+    if subtype == "Single Family":
+        initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                             single_family = True)
     else:
-        # failure, call fancybox
-        return HttpResponse("failure","application/json")
+        initiative = Initiatives.objects.get(name = request.GET.get("name"),
+                                             multi_lt7 = True)
+    # get the neighborhood
+    neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
 
+    # store the pledge
+    realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
+                                                           initiative = initiative,
+                                                           user = user)
+    # do I need a response here?
+    return HttpResponse("success","application/json")
 
 # ajax request for the leaderboard to be displayed
 def leaderboard(request):

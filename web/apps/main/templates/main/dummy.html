@@ -36,11 +36,11 @@
 <link rel="stylesheet" 
       type="text/css" 
       media="screen"
-      href="{{STATIC_URL}}main/dummy.css" />
+      href="{{STATIC_URL}}main/css/dummy.css" />
 <link rel="stylesheet" 
       type="text/css" 
       media="screen"
-      href="{{STATIC_URL}}main/app.css" />
+      href="{{STATIC_URL}}main/css/app.css" />
 <link rel="stylesheet" 
       type="text/css" 
       media="screen"
@@ -67,9 +67,7 @@
     <!-- search/input field -->
     <div id="search">
 <!--         <form action="" method="get" onsubmit="return google_api(this.name.value)"> -->          
-   <a class="fancybox" href="#social_auth" style="display:none">
-        <div id="placeholder" class="button"><button>Pledge placeholder</button></div>
-    </a>
+  
         <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
 
     <button id="searchButton" type="submit" value="" onclick="google_api()">
@@ -79,6 +77,11 @@
     </div>
     <div id="map_canvas"></div>
 
+
+
+    <a class="fancybox" href="#social_auth" style="display:none">
+        <div id="placeholder" class="button"><button>Pledge placeholder</button></div>
+    </a>
 <div id="social_auth" style = "display:none">
     <p>Please log in to pledge</p>
   <ul>
@@ -135,11 +138,12 @@
      -->
 
     <!-- footer -->
+     <!-- footer -->
     <div id="footer">
-      <a href="#">ABOUT THIS PROJECT</a>&nbsp; &nbsp; |&nbsp; &nbsp;
-      <a href="#">ENERGY EFFICIENCY TIPS</a>&nbsp; &nbsp; |&nbsp; &nbsp;
-      <a href="#">LEAERBOARD</a>&nbsp; &nbsp; |&nbsp; &nbsp;
-      <a href="#">CREDITS</a>
+      <a id="aboutButton" href="#">ABOUT THIS PROJECT</a>&nbsp; &nbsp; |&nbsp; &nbsp;
+      <a id="energyEfficiencyButton" href="#">ENERGY EFFICIENCY TIPS</a>&nbsp; &nbsp; |&nbsp; &nbsp;
+      <a id="leaderboardButton" href="#">LEAERBOARD</a>&nbsp; &nbsp; |&nbsp; &nbsp;
+      <a id="creditsButton" href="#">CREDITS</a>
     </div>
 
   </div> <!-- end wrapper for ui -->
@@ -174,15 +178,15 @@
     <div id="credits">
       
       <div class="overlayHeader">
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
         CREDITS&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">&nbsp; &nbsp;
-        <img src="{{STATIC_URL}}/main/img/chiStar.png" alt="">
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">&nbsp; &nbsp;
+        <img src="{{STATIC_URL}}main/img/chiStar.png" alt="">
       </div>
 
       <div class="overlayCopy">
-        <p><b>DataScope Analytics</b><br>
+        <p><b>Datascope Analytics</b><br>
         Concept, Data Vizualization & Analytics</p>
         <br>
         <p><b>IDEO</b><br>
@@ -195,8 +199,8 @@
 
   </div><!-- ./end overlay -->
 
-  <!-- efficiency tips -->
-  <div id="efficiencyTips">
+
+ <div id="efficiencyTips">
     
     <div class="overlayBack"></div>
 
@@ -205,7 +209,7 @@
       <div id="buildingTypeFilter">
         <div id="filterTipsText">Filter tips by building subtype:</div>
         <div class="styledDropdown">    
-          <select>
+          <select id = "subtypeChoices">
             <option selected>All</option>
             <option>Multi 7+</option>
             <option>Multi &#60;7</option>
@@ -223,13 +227,13 @@
       <div id="tipsThreeSteps">
         <ol id="tipsList">
           <li>
-            Lorem ipsum dolor sit amet <button class="tipsButton">PLEDGE TO DO THIS</button>
+            Lorem ipsum dolor sit amet <button class="tipButton">I'LL DO THIS!</button>
           </li>
           <li>
-            Duis quis neque dui <button class="tipsButton">PLEDGE TO DO THIS</button>
+            Duis quis neque dui <button class="tipButton">I'LL DO THIS!</button>
           </li>
           <li>
-            Nunc volutpat tempus arcu vitae feugiat <button class="tipsButton">PLEDGE TO DO THIS</button>
+            Nunc volutpat tempus arcu vitae feugiat <button class="tipButton">I'LL DO THIS!</button>
           </li>
         </ol>
       </div> <!-- ./ end tipsThreeSteps -->
@@ -248,7 +252,7 @@
       <div id="search">
         <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD" />
         <button id="checkButton" type="submit" value="">
-          <img src="{{STATIC_URL}}/main/img/checkIcon.png" alt="">
+          <img src="{{STATIC_URL}}main/img/checkIcon.png" alt="">
         </button>
       </div>
     </div>
@@ -287,10 +291,6 @@
 </script>
 <script type="text/javascript">
     {% include "main/albany.js" %}    
-</script>
-
-<script type="text/javascript">
-  {% include "main/button.js" %}
 </script>
 
 <script type="text/javascript">

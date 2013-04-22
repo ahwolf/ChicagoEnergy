@@ -8,7 +8,7 @@ $("#aboutButton").click(function() {
   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
   console.log("clicked about!");
-  $.ajax("about/");
+  // $.ajax("about/");
 
 
   
