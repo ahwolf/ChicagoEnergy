@@ -478,7 +478,9 @@ function pledge_return(response){
                 .done(function(response){
                     console.log("response", response);
                     if (response === "failure"){
-                        $("#placeholder").click();                        
+                        $("#placeholder").click(function(){
+                           TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
+                        });                        
                     }
                     else{
                         $("#energyEfficiencyButton").trigger("click");
@@ -648,7 +650,7 @@ function onDocumentMouseMove(event) {
 }
 
 function onDocumentClick(event) {
-  if (currentRollover != "") disappearCity();
+  // if (currentRollover != "") disappearCity();
 }
 
 

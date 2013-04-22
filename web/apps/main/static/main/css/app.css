@@ -632,11 +632,11 @@ p {
   padding-right: 10px;
   cursor: pointer;
   margin-left: 10px;
-  -webkit-transition: all .125 ease-out;
-  -moz-transition: all .125 ease-out;
-  -ms-transition: all .125 ease-out;
-  -o-transition: all .125 ease-out;
-  transition: all .125 ease-out;
+  -webkit-transition: all .0625 ease-out;
+  -moz-transition: all .0625 ease-out;
+  -ms-transition: all .0625 ease-out;
+  -o-transition: all .0625 ease-out;
+  transition: all .0625 ease-out;
 }
 
 .tipButton:hover {
@@ -644,8 +644,11 @@ p {
 }
 
 .tipButton:active {
-  background-color: #ea283a;
   top: 1px;
+}
+
+.tipButtonClicked {
+  background-color: #ea283a;
 }
 
 #buildingTypeFilter {
