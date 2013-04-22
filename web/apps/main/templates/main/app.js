@@ -505,12 +505,19 @@ $("#energyEfficiencyButton").click(function() {
                 html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
             });
             $("#tipsList").html(html);
+            $(".tipButton").click(function(){
+                console.log($(this), $(this).parent().text());
+                var name = $(this).parent().val();
+                console.log("made it", name);
+            });
          }
          else{
             $("#placeholder").click();
          }
      });
 });
+
+// change when they select a different subtype
 
 $("#subtypeChoices").change(function(){
     var subtype = $(this).val();
@@ -526,12 +533,19 @@ $("#subtypeChoices").change(function(){
                 html += "<li>" + item.name + " $" + item.savings + "<button class='tipButton'>I'LL DO THIS!</button></li>"
             });
             $("#tipsList").html(html);
+            $(".tipButton").click(function(){
+                console.log($(this), $(this).parent());
+                console.log("made it");
+            });
          }
          else{
             $("#placeholder").click();
          }
      });
 })
+
+// figure out the name of the item they want to pledge, then pledge it
+
 
 
 
