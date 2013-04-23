@@ -173,7 +173,7 @@ function introAnimation() {
   $("#wrapper").show();
 }
 
-TweenLite.delayedCall(1, introAnimation);
+// TweenLite.delayedCall(1, introAnimation);
 
 var neighborhoods = [];
 var blocks = [];
@@ -266,7 +266,7 @@ var radiusZ = 550;
 var currentAngle = Math.PI * 1.988;
 var angleStep = 0;
 
-TweenLite.delayedCall(3, startFlying);
+// TweenLite.delayedCall(3, startFlying);
 
 function startFlying() {
   flying = true;
@@ -604,6 +604,12 @@ $(".tipButton").click(function() {
   }
 });
 
+
+$("#startButton").click(function() {
+  TweenLite.delayedCall(3, startFlying);
+  TweenLite.delayedCall(1, introAnimation);
+  TweenLite.to($('#startButton'), .25, {autoAlpha: 0});
+});
   
 // change when they select a different subtype
 

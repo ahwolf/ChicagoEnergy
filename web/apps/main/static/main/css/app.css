@@ -35,6 +35,35 @@ p {
   transition: all .25s ease-out;
 }
 
+#startButton {
+  position: absolute;
+  z-index: 5000;
+  left: 55%;
+  bottom: 50%;
+  background-color: #c1c1c1;
+  font-size: 20px
+  font-weight: bold;
+  color: #FFF;
+  height: 35px;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  -webkit-transition: all .0625 ease-out;
+  -moz-transition: all .0625 ease-out;
+  -ms-transition: all .0625 ease-out;
+  -o-transition: all .0625 ease-out;
+  transition: all .0625 ease-out;
+}
+
+#startButton:hover {
+  background-color: #999;
+}
+
+#startButton:active {
+  background-color: #ea283b;
+}
+
 .nowrap {
   white-space: nowrap;
 }
@@ -49,7 +78,7 @@ p {
   height: 100%;
   margin: 0 auto;
   z-index: 100;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 
 #container {

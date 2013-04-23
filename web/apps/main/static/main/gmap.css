@@ -1,8 +1,12 @@
 #map_canvas{
    position: absolute !important;   
-   width: 200px;
+   width: 196px;
    height: 199px;
    top: 220px;
    left: 20px;
    z-index: 1000;
+     border-style: solid;
+  border-width: 2px;
+  border-color: #ea283b;
+
 }
