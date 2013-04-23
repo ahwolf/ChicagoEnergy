@@ -170,6 +170,7 @@ function introAnimation() {
   TweenLite.to(camera.position, 1, {x:(Math.cos(currentAngle * Math.PI * 2) * radiusX), ease:Quad.easeOut, delay:.5})
   TweenLite.to(camera.position, .5, { z:(Math.sin(currentAngle * Math.PI * 2) * radiusZ), ease:Quad.easeOut, delay: 1.25, overwrite: false} );
   TweenLite.to($('#wrapper'), .5, { autoAlpha:1, ease:Quad.easeOut, delay: 1.5, overwrite:false} );
+  $("#wrapper").show();
 }
 
 TweenLite.delayedCall(1, introAnimation);
