@@ -480,9 +480,7 @@ function pledge_return(response){
                 .done(function(response){
                     console.log("response", response);
                     if (response === "failure"){
-                        $("#placeholder").click(function(){
                            TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
-                        });                        
                     }
                     else{
                         $("#energyEfficiencyButton").trigger("click");
@@ -491,7 +489,7 @@ function pledge_return(response){
                 console.log("made it", name);
             }
             else{
-                alert("must enter a neighborhood");
+                // alert("must enter a neighborhood");
             }
         });
     }
