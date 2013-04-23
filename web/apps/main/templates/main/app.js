@@ -86,14 +86,15 @@ function initScene() {
   renderer.shadowMapSoft = true;
 
   camera = new THREE.PerspectiveCamera( VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR );
-  camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
-  camera.position.y = camYPos;
-  camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
+  // camera.position.x = Math.cos(currentAngle * Math.PI * 2) * radiusX;
+  // camera.position.y = camYPos;
+  // camera.position.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ;
+
 
   // intro camera position
-  // camera.position.x = 0;
-  // camera.position.y = 1500;
-  // camera.position.z = 10;
+  camera.position.x = 0;
+  camera.position.y = 1500;
+  camera.position.z = 10;
   
   // add and position the camera at a fixed position
   scene.add(camera);
@@ -104,9 +105,9 @@ function initScene() {
   la.x = Math.cos(currentAngle * Math.PI * 2) * radiusX * .6;
   la.y = 150;
   la.z = Math.sin(currentAngle * Math.PI * 2) * radiusZ * .6;
-  camera.lookAt( la );
+  // camera.lookAt( la );
 
-  camera.lookAt( la );
+  camera.lookAt( scene.position );
   
   // start the renderer, and white background
   renderer.setSize(WIDTH, HEIGHT);
@@ -171,7 +172,7 @@ function introAnimation() {
   TweenLite.to($('#wrapper'), .5, { autoAlpha:1, ease:Quad.easeOut, delay: 1.5, overwrite:false} );
 }
 
-//TweenLite.delayedCall(1, introAnimation);
+TweenLite.delayedCall(1, introAnimation);
 
 var neighborhoods = [];
 var blocks = [];
@@ -264,7 +265,7 @@ var radiusZ = 550;
 var currentAngle = Math.PI * 1.988;
 var angleStep = 0;
 
-TweenLite.delayedCall(.25, startFlying);
+TweenLite.delayedCall(3, startFlying);
 
 function startFlying() {
   flying = true;
