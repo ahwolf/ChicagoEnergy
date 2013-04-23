@@ -211,7 +211,7 @@ function addGeoObject() {
 
     var extrude_scale = d3.scale.linear()
       .domain(elec_eff_min_max)
-      .range([0, 75]);
+      .range([10, 75]);
 
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
