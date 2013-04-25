@@ -19,9 +19,7 @@ urlpatterns += patterns(
     url(r'^pledge/$',views.get_pledge_info, name="pledge"),
     url(r'^give_pledge/$',views.receive_pledge, name="give_pledge"),
     url(r'^leaderboard/$',views.leaderboard, name="leaderboard"),
-
-
-
+    url(r'^auth/$',views.check_auth, name="auth"),
 
 )
 

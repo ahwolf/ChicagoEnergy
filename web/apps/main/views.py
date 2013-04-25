@@ -278,38 +278,34 @@ def get_pledge_info(request):
 
 # receive pledge
 def receive_pledge(request):
-    if request.user.is_authenticated():    
-        user = request.user
-        # check building subtype, right now we are grouping <7 with 7+
-        subtype = request.GET.get('subtype')
-        names = request.GET.getlist('name[]')
 
-        for name in names:
+    user = request.user
+    # check building subtype, right now we are grouping <7 with 7+
+    subtype = request.GET.get('subtype')
+    names = request.GET.getlist('name[]')
+    for name in names:
 
-            if subtype == "Single Family Home":
-                initiative = Initiatives.objects.get(name = name,
-                                                     single_family = True)
-            else:
-                initiative = Initiatives.objects.get(name = name,
-                                                     multi_lt7 = True)
-            # get the neighborhood
+        if subtype == "Single Family Home":
+            initiative = Initiatives.objects.get(name = name,
+                                                 single_family = True)
+        else:
+            initiative = Initiatives.objects.get(name = name,
+                                                 multi_lt7 = True)
+        # get the neighborhood
 
-            neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
+        neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
+        # store the pledge
 
-            # store the pledge
+        # remove this when you have time, this is a straight hack
+        census_block = CensusBlocks.objects.get(id = 100)
 
-            # remove this when you have time, this is a straight hack
-            census_block = CensusBlocks.objects.get(id = 100)
-
-            realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
-                                                                   initiative = initiative,
-                                                                   user = user,
-                                                                   census_block = census_block)
-        # do I need a response here?
-        return HttpResponse("success","text/plain")
-    else:
-        # no authentication, send back a failure to the client
-        return HttpResponse("failure","text/plain")
+        realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
+                                                               initiative = initiative,
+                                                               user = user,
+                                                               census_block = census_block)
+    # do I need a response here?
+    
+ 
 # ajax request for the leaderboard to be displayed
 def leaderboard(request):
     amount = 10
@@ -335,9 +331,17 @@ def about(request):
         context_instance=RequestContext(request)
     )
 
+def check_auth(request):
+    if request.user.is_authenticated():
+        receive_pledge(request)
+        return HttpResponse("success","text/plain")
+    else:
+        return HttpResponse("failure","text/plain")
+
 def create_spatial_index(shape_dict):
 
     spatial_index = Index()
     for index, (name, shape) in enumerate(shape_dict.iteritems()):
         spatial_index.insert(index, shape.bounds, obj=name)
     return spatial_index
+

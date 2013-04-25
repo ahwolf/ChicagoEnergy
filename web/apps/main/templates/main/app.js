@@ -605,7 +605,7 @@ function check_neighborhood(){
     var name = $(".tipButtonClicked").siblings('span').text();
     var subtype = $("#subtypeChoices").val();
     console.log("checking neighborhood: ", address, subtype, currentRollover);
-    $.ajax({url:"{% url 'give_pledge' %}",
+    $.ajax({url:"{% url 'auth' %}",
            data:{subtype:subtype,
                name: pledge_array,
                neighborhood:neighborhood_object[address]
@@ -615,10 +615,11 @@ function check_neighborhood(){
         console.log("response", response);
         if (response === "failure"){
          TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
-     }
-     else{
-        $("#energyEfficiencyButton").trigger("click");
-    }
+        }
+        else{
+            // We had a success, lets say thanks for the pledge!
+            $("#energyEfficiencyButton").trigger("click");
+        }
     });
 
   }
