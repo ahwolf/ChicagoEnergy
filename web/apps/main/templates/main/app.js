@@ -535,7 +535,7 @@ function pledge_return(response) {
         var total = 0;
         _.each(response, function(item) {
             total += item.savings;
-            html += "<li><span>" + item.name + "</span> $<span class='pledge_savings'>" + item.savings + "</span><button class='tipButton'>I'LL DO THIS!</button></li>"
+            html += "<li><span class='pledge_name'>" + item.name + "</span> $<span class='pledge_savings'>" + item.savings + "</span><button class='tipButton'>I'LL DO THIS!</button></li>"
         });
         $("#tipsList").html(html);
 
@@ -591,16 +591,23 @@ function pledge_return(response) {
 }
 
 function check_neighborhood(){
-  console.log("checking neighborhood: ", currentRollover);
+
   var address = document.getElementById("neighborhoodEntry").value.toLowerCase();
+
   if (neighborhood_object[address]){
     // Okay, now we just need to goto the neighborhood call server?
     currentRollover = neighborhood_object[address];
 
+    var pledge_array = _.map($(".tipButtonClicked"), function(node){
+        return $(node).siblings('.pledge_name').text();
+    });
+    console.log("pledging",pledge_array)
+    var name = $(".tipButtonClicked").siblings('span').text();
     var subtype = $("#subtypeChoices").val();
+    console.log("checking neighborhood: ", address, subtype, currentRollover);
     $.ajax({url:"{% url 'give_pledge' %}",
            data:{subtype:subtype,
-               name: currentRollover,
+               name: pledge_array,
                neighborhood:neighborhood_object[address]
            }
        })
@@ -788,6 +795,16 @@ $('#neighborhoodEntry').keypress(function(e) {
 // figure out the name of the item they want to pledge, then pledge it
 
 
+
+///// AUTO COMPLETE
+var neighborhood_names = _.values(neighborhood_object);
+$("#neighborhoodEntry").betterAutocomplete('init',neighborhood_names,{},{
+    select:function (result, $input){
+        $input.val(result.title);
+        $input.blur();
+        check_neighborhood();
+    }
+});
 
 function colorizeMap() {
     $("#container").removeClass("grayscaleAndLighten");

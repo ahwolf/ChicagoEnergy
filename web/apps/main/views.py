@@ -282,26 +282,29 @@ def receive_pledge(request):
         user = request.user
         # check building subtype, right now we are grouping <7 with 7+
         subtype = request.GET.get('subtype')
+        names = request.GET.getlist('name[]')
 
-        if subtype == "Single Family Home":
-            initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                                 single_family = True)
-        else:
-            initiative = Initiatives.objects.get(name = request.GET.get("name"),
-                                                 multi_lt7 = True)
-        # get the neighborhood
+        for name in names:
 
-        neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
+            if subtype == "Single Family Home":
+                initiative = Initiatives.objects.get(name = name,
+                                                     single_family = True)
+            else:
+                initiative = Initiatives.objects.get(name = name,
+                                                     multi_lt7 = True)
+            # get the neighborhood
 
-        # store the pledge
+            neighborhood = Neighborhoods.objects.get(name = request.GET.get("neighborhood"))
 
-        # remove this when you have time, this is a straight hack
-        census_block = CensusBlocks.objects.get(id = 100)
+            # store the pledge
 
-        realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
-                                                               initiative = initiative,
-                                                               user = user,
-                                                               census_block = census_block)
+            # remove this when you have time, this is a straight hack
+            census_block = CensusBlocks.objects.get(id = 100)
+
+            realPledge, created = RealPledge.objects.get_or_create(neighborhood = neighborhood,
+                                                                   initiative = initiative,
+                                                                   user = user,
+                                                                   census_block = census_block)
         # do I need a response here?
         return HttpResponse("success","text/plain")
     else:

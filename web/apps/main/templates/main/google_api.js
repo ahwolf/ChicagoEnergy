@@ -89,15 +89,7 @@ $("#textEntry").keyup(function(event){
     }
 });
 
-$(".fancybox").fancybox({
-    helpers: {
-        overlay: {
-            css: {
-                'background': 'rgba(58, 42, 45, 0.75)'
-            }
-        }
-    }
-});
+
 var google_map = "";
 var chicagoOverlay = "";
 var currentRollover = "";
