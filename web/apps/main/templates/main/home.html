@@ -31,28 +31,35 @@
     src="{{STATIC_URL}}common/js/lib/TweenLite.min.js"></script>
 <script type="text/javascript" language = "javascript"
     src="{{STATIC_URL}}common/js/lib/easing/EasePack.min.js"></script>
-<script type="text/javascript" language = "javascript"
-    src="{{STATIC_URL}}main/jquery.fancybox.pack.js"></script>
 <script type="text/javascript"
     src="{{STATIC_URL}}common/js/lib/underscore-min.js">
+</script>
+<script type="text/javascript"
+    src="{{STATIC_URL}}main/jquery.better-autocomplete.js">
 </script>
 
 
   <link rel="stylesheet" 
       type="text/css" 
       media="screen"
-      href="{{STATIC_URL}}main/gmap.css" />
+      href="{{STATIC_URL}}main/css/gmap.css" />
+
+  <link rel="stylesheet" 
+      type="text/css" 
+      media="screen"
+      href="{{STATIC_URL}}main/css/better-autocomplete.css" />
+
 
 </head>
 <body>
 
-<button id="startButton">GO</button>
-
+<!-- <button id="startButton">GO</button>
+ -->
   <!-- three.js scene -->
   <div id="container"></div>
 
   <!-- wrapper for ui -->
-  <div id="wrapper" style="display:none">
+  <div id="wrapper">
 
     <div id="key"></div>
 
@@ -226,8 +233,8 @@
 
       <!-- search/input field -->
       <div id="search">
-        <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD" />
-        <button id="checkButton" type="submit" value="">
+        <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD"/>
+        <button id="checkButton" type="submit" value="" onClick="check_neighborhood();">
           <img src="{{STATIC_URL}}main/img/checkIcon.png" alt="">
         </button>
       </div>
