@@ -79,6 +79,6 @@ if 'social_auth.context_processors.social_auth_by_type_backends' not in \
 
 # set up the django logins
 LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/auth/'
 LOGIN_ERROR_URL    = '/login-error/'
 

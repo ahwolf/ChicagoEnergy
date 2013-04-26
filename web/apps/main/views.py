@@ -37,6 +37,7 @@ def serve_city(request):
     neighborhoods = Neighborhoods.objects.all()
     for neighborhood in neighborhoods:
         geo_type = "Polygon"
+
         # print '"'+neighborhood.name.lower()+'"',': "'+neighborhood.name+'",'
         neighborhood_shape = wkt.loads(neighborhood.shape)
         # print type(neighborhood.shape)
@@ -101,19 +102,15 @@ def serve_city(request):
 # neighborhood
 def serve_neighborhood(request):
     # get the name
-    # neighborhood_name = request.GET['name']
-    # building_subtype = request.GET['building_subtype']
-    neighborhood_name = "Near West Side"
-    building_subtype = "Single Family"
+    neighborhood_name = request.GET['name']
+    building_subtype = request.GET['building_subtype']
 
     neighborhood = Neighborhoods.objects.get(name = neighborhood_name)
     census_blocks = CensusBlocks.objects.filter(neighborhood = neighborhood,
                                                 building_type = 'Residential',
                                                 building_subtype = building_subtype
                                                 )
-
     census_block_geojson = create_census_json(census_blocks)
-
     # dump the geojson and send to the client side
     return_json = json.dumps(census_block_geojson)
 
@@ -186,20 +183,25 @@ def find_census_block(request):
 
 # pass in a query set and choose whether or not the shape file should be
 # loaded with wkt or json
-def create_census_json(census_blocks, wkt=True):
+def create_census_json(census_blocks, WKT=True):
 
     census_block_geojson = {
             "type":"FeatureCollection",
             "features":[]
     }
-    
+
     for census_block in census_blocks:
         if census_block.shape:
-            if wkt:
+
+            # Are we using the wkt method or json method of storing?
+            if WKT:
+                # shape = wkt.dumps(census_block.shape)
+                # print shape
                 coords = [list(wkt.loads(census_block.shape).exterior.coords)]
             else:
                 coords = [json.loads(census_block.shape)]
 
+            # Put it into geojson format
             feature = {
                     "type": "Feature",
                     "geometry": {
@@ -332,9 +334,19 @@ def about(request):
     )
 
 def check_auth(request):
+    print "made it"
     if request.user.is_authenticated():
+
         receive_pledge(request)
-        return HttpResponse("success","text/plain")
+        # Do something cool here
+        return render_to_response(
+                    'main/success.html', {
+                    'project_root': settings.PROJECT_ROOT,
+                    },
+                    context_instance=RequestContext(request)
+                )
+
+        # return HttpResponse("success","text/plain")
     else:
         return HttpResponse("failure","text/plain")
 
