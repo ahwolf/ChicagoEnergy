@@ -111,6 +111,7 @@ def serve_neighborhood(request):
                                                 building_subtype = building_subtype
                                                 )
     census_block_geojson = create_census_json(census_blocks)
+    census_block_geojson['centroid'] = list(wkt.loads(neighborhood.shape).centroid.coords)[0]
     # dump the geojson and send to the client side
     return_json = json.dumps(census_block_geojson)
 
@@ -133,53 +134,54 @@ def find_census_block(request):
         if point.within(wkt.loads(neighborhood.shape)):
             found_neighborhood = True
             break
-
+    print found_neighborhood
         # neighborhood_dict[neighborhood.name] = wkt.loads(neighborhood.shape)
     # recieved an invalid address
     if found_neighborhood == False:
-        response = {}
-        return HttpResponse(response, mimetype="application/json")
-    # BOUNDARY_DATA = STATIC_ROOT + '/main/'
-    # neighborhood_dict =pickle.load(open(BOUNDARY_DATA + "community_test.p", 'rb'))
-    # print "before si"
-    # neighborhood_si = create_spatial_index(neighborhood_dict)
+        return HttpResponse("", mimetype="text/plain")
+    else:
+        return HttpResponse(neighborhood.name, mimetype="text/plain")
+    # # neighborhood_dict =pickle.load(open(BOUNDARY_DATA + "community_test.p", 'rb'))
+    # # BOUNDARY_DATA = STATIC_ROOT + '/main/'
+    # # print "before si"
+    # # neighborhood_si = create_spatial_index(neighborhood_dict)
 
-    # print "before"
-    # matched_neighborhoods = neighborhood_si.nearest(point.bounds, 1,objects=True)
-    # print matched_neighborhoods
-    # for nei in matched_neighborhoods:
-    #     print dir(nei)
-    #     print nei.object
-    # print matched_neighborhoods
+    # # print "before"
+    # # matched_neighborhoods = neighborhood_si.nearest(point.bounds, 1,objects=True)
+    # # print matched_neighborhoods
+    # # for nei in matched_neighborhoods:
+    # #     print dir(nei)
+    # #     print nei.object
+    # # print matched_neighborhoods
 
-    # once the neighborhood is found, create an rtree of the census blocks
-    # while also creating the geojson
+    # # once the neighborhood is found, create an rtree of the census blocks
+    # # while also creating the geojson
 
-    census_blocks = CensusBlocks.objects.filter(neighborhood = neighborhood,
-                                        building_type = 'Residential',
-                                        building_subtype = 'Single Family')
+    # census_blocks = CensusBlocks.objects.filter(neighborhood = neighborhood,
+    #                                     building_type = 'Residential',
+    #                                     building_subtype = 'Single Family')
 
-    # create a spatial index
-    census_dict = {}
+    # # create a spatial index
+    # census_dict = {}
 
-    for i,census_block in enumerate(census_blocks):
-        if census_block.shape:
-            census_dict[census_block.census_id] = Polygon(json.loads(census_block.shape))
-    census_block_si = create_spatial_index(census_dict)
+    # for i,census_block in enumerate(census_blocks):
+    #     if census_block.shape:
+    #         census_dict[census_block.census_id] = Polygon(json.loads(census_block.shape))
+    # census_block_si = create_spatial_index(census_dict)
 
-    matched_census = census_block_si.nearest(point.bounds, 1, objects=True)
+    # matched_census = census_block_si.nearest(point.bounds, 1, objects=True)
 
-    # find the census id of the matched census block
-    for match in matched_census:
-        census_id = match.object
-        break
+    # # find the census id of the matched census block
+    # for match in matched_census:
+    #     census_id = match.object
+    #     break
 
-    # create the json to send back to the client
-    census_json = create_census_json(census_blocks)
+    # # create the json to send back to the client
+    # census_json = create_census_json(census_blocks)
 
-    census_json['properties'] = census_id
-    response = json.dumps(census_json)
-    return HttpResponse(response, mimetype="application/json")
+    # census_json['properties'] = census_id
+    # response = json.dumps(census_json)
+    # return HttpResponse(response, mimetype="application/json")
 
 # pass in a query set and choose whether or not the shape file should be
 # loaded with wkt or json

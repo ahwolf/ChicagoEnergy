@@ -69,22 +69,17 @@
     <div id="branding"></div>
 
     <!-- search/input field -->
-    <div id="search">
-<!--         <form action="" method="get" onsubmit="return google_api(this.name.value)"> -->          
-        <input type="text" name="name" id="textEntry" placeholder="COMING SOON: ENTER ADDRESS" disabled />
-          <button id="searchButton" type="submit" value="" disabled> <!-- onclick="google_api()">  -->
+
+
+    <div class="search">
+
+        <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
+          <button id="searchButton" type="submit" value="" onclick="google_api();">
             <img src="{{STATIC_URL}}main/img/searchIcon.png" alt="">
           </button>
-        <!-- </form> -->
     </div>
     <div id="map_canvas"></div>
-<!--     <div id="search">
-      <input type="text" name="name" id="textEntry" placeholder="ENTER ADDRESS OR NEIGHBORHOOD" />
-      <button id="searchButton" type="submit" value="">
-        <img src="{{STATIC_URL}}main/img/searchIcon.png" alt="">
-      </button>
-    </div>
- -->
+
     <!-- tooltips -->
     <div id="rolloverTip" class="tooltip">
       <div id="tipHeader">
@@ -183,6 +178,15 @@
 
   </div><!-- ./end overlay -->
 
+
+  <div id="loader_gif">
+    
+    <!-- <div id="loaderContainer"> -->
+        <img src="{{STATIC_URL}}main/img/loader.gif" alt="">
+    <!-- </div> -->
+  </div><!-- ./end loader_gif -->
+
+
   <!-- efficiency tips -->
   <div id="efficiencyTips">
     
@@ -234,7 +238,7 @@
       <span id="loginNote">*You will be asked to log in via your preferred social means</span>
 
       <!-- search/input field -->
-      <div id="search">
+      <div class="search">
         <input type="text" name="name" id="neighborhoodEntry" placeholder="ENTER YOUR NEIGHBORHOOD"/>
         <button id="checkButton" type="submit" value="" onClick="check_neighborhood();">
           <img src="{{STATIC_URL}}main/img/checkIcon.png" alt="">

@@ -83,11 +83,6 @@ var mapStyle = [
   }
 ];
 
-$("#textEntry").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#searchButton").click();
-    }
-});
 
 
 var google_map = "";
@@ -172,6 +167,26 @@ var neighborhood_object = {
         "west town" : "West Town",
         "woodlawn" : "Woodlawn"
     }
+
+var neighborhood_names = _.values(neighborhood_object);
+
+$('#textEntry').keypress(function(e) {
+    console.log("here", e)
+    if (e.which == 13) {
+        console.log("here");
+        google_api();
+    }
+});
+
+$("#textEntry").betterAutocomplete('init',neighborhood_names,{},{
+    select:function (result, $input){
+        console.log("selected");
+        $input.val(result.title);
+        $input.blur();
+        google_api();
+    }
+});
+
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(41.836084, -87.63073), // chicago
@@ -208,11 +223,17 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 function google_api(){
-    
+    console.log("inside api")
     var address = document.getElementById("textEntry").value.toLowerCase();
+    console.log(address);
     if (neighborhood_object[address]){
-        // Okay, now we just need to goto the neighborhood call server?
+        // Okay, now we just call the onDocumentClick method
         currentRollover = neighborhood_object[address];
+        currentCentroid = _.find(scene.children, function(mesh){
+            return mesh.properties.name == currentRollover;
+        }).properties.centroid;
+        console.log(currentCentroid);
+        onDocumentClick();
     }
     // ajax call
     else{
@@ -236,7 +257,12 @@ function google_api(){
                     // we have a bad search
                     if (data !==""){
                         currentRollover = data;
-                        console.log("currentRollover is: ", currentRollover);
+                        currentCentroid = _.find(scene.children, function(mesh){
+                            return mesh.properties.name == currentRollover;
+                        }).properties.centroid;
+                        google_map.setZoom(10);
+                        console.log(currentCentroid);
+                        onDocumentClick();
                         // re_draw the census_blocks with the census id's
                     }
                     // reset the search value

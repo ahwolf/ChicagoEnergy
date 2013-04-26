@@ -4,6 +4,57 @@ document.body.style.padding = 0;
 document.body.style.overflow = 'hidden';
 document.body.style.background = "#FFF";
 
+function Main()
+{
+  var manifest = [
+    // js
+    {src:"http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js", id:"1"},
+    {src:"http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js", id:"2"},
+    {src:"http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js", id:"3"},
+    {src:"js/lib/Stats.js", id:"4"},
+    {src:"js/lib/three.min.js", id:"5"},
+    {src:"js/lib/d3-threeD.js", id:"6"},
+    {src:"js/colorbrewerChi.js", id:"7"},
+    {src:"js/lib/jquery-1.8.0.min.js", id:"8"},
+    {src:"js/lib/underscore-1.3.3-min.js", id:"25"},
+    {src:"js/google_api.js", id:"26"},
+    {src:"js/neighborhood_new.js", id:"27"},
+    {src:"js/near_west_side.js", id:"28"},
+    // img
+    {src:"img/branding.png", id:"10"},
+    {src:"img/checkIcon.png", id:"11"},
+    {src:"img/chiStar.png", id:"12"},
+    {src:"img/facebook.png", id:"13"},
+    {src:"img/floor.jpg", id:"14"},
+    {src:"img/fourGreyStars.png", id:"15"},
+    {src:"img/google.png", id:"16"},
+    {src:"img/key.png", id:"17"},
+    {src:"img/locationPin.png", id:"18"},
+    {src:"img/searchButton.png", id:"19"},
+    {src:"img/searchIcon.png", id:"20"},
+    {src:"img/selectArrow.png", id:"21"},
+    {src:"img/starsTipsHeader.png", id:"22"},
+    {src:"img/tooltipCarrot.png", id:"23"},
+    {src:"img/twitter.png", id:"24"}
+  ];
+
+  // var preloader = new PreloadJS();
+  var preloader = new createjs.LoadQueue(false);
+  preloader.installPlugin(SoundJS);
+  preloader.onProgress = handleProgress;
+  preloader.onComplete = handleComplete;
+  preloader.loadManifest(manifest);
+}
+
+function handleProgress(event) {
+  //use event.loaded to get the percentage of the loading
+}
+ 
+function handleComplete(event) {
+  //triggered when all loading is complete
+}
+
+
 var main = this;
 
 var w = 960;
@@ -191,6 +242,11 @@ function introAnimation() {
 // add the loaded gis object (in geojson format) to the map
 function addGeoObject() {
 
+    // Show the loader at the beginning of this function
+    $("#container").addClass("grayscaleAndLighten");
+    TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: 0});
+    TweenLite.to($('#loader_gif'), 0, {autoAlpha: 1, delay: 0});
+    
     // calculate the max and min of all the property values
     var gas_eff_min_max = d3.extent(data.features, function(feature){
         return feature.properties.gas_efficiency;
@@ -264,6 +320,11 @@ function addGeoObject() {
     // add to scene
     scene.add(hoodMesh);
   });
+
+  // Remove the loader gif at the end of this function
+  TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
+  TweenLite.to($('#loader_gif'), .5, {autoAlpha: 0});
+  TweenLite.delayedCall(.5, colorizeMap);
 }
 
 TweenLite.delayedCall(.125, startFlying, ["city"]);
@@ -442,16 +503,8 @@ function disappearCity(clickedHood) {
   }
 
 
+  TweenLite.delayedCall(totalTime, growNeighborhoodDetail)
 
-  $.ajax({url:"{% url 'census_blocks' %}",
-           data:{name:clickedNeighborhood,
-            building_subtype: 'All'
-           }
-       })
-    .done(function(response){
-      data = response;        
-      TweenLite.delayedCall(totalTime, growNeighborhoodDetail)
-    });
 }
 
 function cleanUpNeighborhood(obj) {
@@ -706,6 +759,7 @@ $("#neighborhoodEntry").betterAutocomplete('init',neighborhood_names,{},{
     }
 });
 
+
 function colorizeMap() {
   $("#container").removeClass("grayscaleAndLighten");
 }
@@ -763,6 +817,25 @@ function onDocumentClick(event) {
     var newCamPosX = camPosX + Math.cos(angle) * newDist;
     var newCamPosZ = camPosZ + Math.sin(angle) * newDist;
 
+
+
+
+  $.ajax({url:"{% url 'census_blocks' %}",
+           data:{name:clickedNeighborhood,
+            building_subtype: 'All'
+           }
+       })
+    .done(function(response){
+      data = response;        
+      // Adjust the google map
+
+      google_map.setZoom(12);
+      console.log(data.centroid);
+      var newCenter = new google.maps.LatLng(data.centroid[1], data.centroid[0]);
+      google_map.setCenter(newCenter);    
+
+      console.log("done", response);
+
     // tween lookAt position
     TweenLite.to(main, 2, {laX: newLaX, laY:newLaY, laZ: newLaZ, ease:Quint.easeInOut});
     // tween camera position via camPosX/Y vars
@@ -773,7 +846,7 @@ function onDocumentClick(event) {
 
     // kill the city
     TweenLite.delayedCall(.75, disappearCity);
-
+    });
     //console.log(angle, dist, newDist);
     //console.log(currentCentroid);
   }

@@ -35,6 +35,27 @@ p {
   transition: all .25s ease-out;
 }
 
+#startButton {
+  position: absolute;
+  z-index: 5000;
+  left: 55%;
+  bottom: 50%;
+  background-color: #c1c1c1;
+  font-size: 20px
+  font-weight: bold;
+  color: #FFF;
+  height: 35px;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  -webkit-transition: all .0625 ease-out;
+  -moz-transition: all .0625 ease-out;
+  -ms-transition: all .0625 ease-out;
+  -o-transition: all .0625 ease-out;
+  transition: all .0625 ease-out;
+}
+
 #backToCityButton {
   position: absolute;
   z-index: 10000;
@@ -59,28 +80,6 @@ p {
 
 #backToCityButton:hover {
   background-color: #999;
-}
-
-
-#startButton {
-  position: absolute;
-  z-index: 5000;
-  left: 55%;
-  bottom: 50%;
-  background-color: #c1c1c1;
-  font-size: 20px
-  font-weight: bold;
-  color: #FFF;
-  height: 35px;
-  border: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  cursor: pointer;
-  -webkit-transition: all .0625 ease-out;
-  -moz-transition: all .0625 ease-out;
-  -ms-transition: all .0625 ease-out;
-  -o-transition: all .0625 ease-out;
-  transition: all .0625 ease-out;
 }
 
 #startButton:hover {
@@ -144,7 +143,7 @@ p {
 
 /* INPUT FIELD */
 
-#search {
+.search {
   margin: 0 auto;
   width: 450px;
   height: 64px;
@@ -155,7 +154,7 @@ p {
   background-color: #FFF;
 }
 
-#search input, #search textarea {
+.search input, .search textarea {
   background: none;
   padding-left: 55px;
   padding-right: 65px;
@@ -170,7 +169,7 @@ p {
   text-transform: uppercase;
 }
 
-#search input:focus, #search textarea:focus {
+.search input:focus, .search textarea:focus {
   color: #444;
   -webkit-box-shadow: 0 0 6px rgba(27,167,224,.3);
   -moz-box-shadow: 0 0 6px rgba(27,167,224,.3);
@@ -178,12 +177,12 @@ p {
   border: solid 1px #1ba7e0;
 }
 
-#search input, search textarea:-moz-placeholder {
+.search input, search textarea:-moz-placeholder {
   font-size: 16px;
   color: #707070;
 }
 
-#search input, search textarea::-webkit-input-placeholder {
+.search input, search textarea::-webkit-input-placeholder {
   font-size: 16px;
   color: #707070;
 }
@@ -454,6 +453,16 @@ p {
   position: relative;
   width: 503px;
   top: 32px;
+  margin: 0 auto;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#loader_gif {
+  position: absolute;
+  width: 503px;
+  top: 300px;
+  left:200px;
   margin: 0 auto;
   opacity: 0;
   visibility: hidden;
