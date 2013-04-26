@@ -524,6 +524,11 @@ function growNeighborhoodDetail() {
 function reappearCity(clickedHood) {
   //var obj = neighborhoods[59];
 
+
+  // fix up the google map
+  var newCenter = new google.maps.LatLng(41.836084, -87.63073); // chicago
+  google_map.setZoom(9);
+  google_map.setCenter(newCenter);
   // clear neighborhoods array
   neighborhoods = [];
 
