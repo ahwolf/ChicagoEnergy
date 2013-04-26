@@ -334,7 +334,6 @@ def about(request):
     )
 
 def check_auth(request):
-    print "made it"
     if request.user.is_authenticated():
 
         receive_pledge(request)
