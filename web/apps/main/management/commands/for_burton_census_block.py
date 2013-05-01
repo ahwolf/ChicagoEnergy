@@ -22,7 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         census_blocks = CensusBlocks.objects.filter(building_type="Residential",
                                                     building_subtype="All",
-                                                    neighborhood_id = "1")
+                                                    neighborhood_id = "4")
 
 
         census_block_geojson = {
@@ -58,6 +58,6 @@ class Command(BaseCommand):
                     }
                 census_block_geojson['features'].append(feature)
         return_json = json.dumps(census_block_geojson)
-        with open('albany.js', 'wb') as outfile:
+        with open('ashburn.js', 'wb') as outfile:
            outfile.write("var census_block = " + return_json)
 

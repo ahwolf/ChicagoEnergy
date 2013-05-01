@@ -1,8 +1,8 @@
 #map_canvas{
    position: absolute !important;   
-   width: 196px;
+   width: 218px;
    height: 199px;
-   top: 220px;
+   top: 300px;
    left: 20px;
    margin-top: 20px;
    z-index: 1000;
