@@ -1,5 +1,7 @@
+var loadBar = document.getElementById("loadBarInner");
 var queue = new createjs.LoadQueue(false);
 queue.addEventListener("complete", handleComplete);
+queue.addEventListener("progress", handleProgress);
 queue.loadManifest([
    //{src:"./js/app_preload.js"} // got rid of id: "my_js",
 
@@ -36,6 +38,8 @@ queue.loadManifest([
 
 function handleProgress(event) {
   //use event.loaded to get the percentage of the loading
+  loadBar.style.width = Math.ceil(event.progress * 300) + "px";
+  console.log("loading");
 }
 
 var appQueue;
