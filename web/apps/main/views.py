@@ -143,7 +143,6 @@ def find_census_block(request):
         if point.within(wkt.loads(neighborhood.shape)):
             found_neighborhood = True
             break
-    print found_neighborhood
         # neighborhood_dict[neighborhood.name] = wkt.loads(neighborhood.shape)
     # recieved an invalid address
     if found_neighborhood == False:
@@ -364,18 +363,13 @@ def create_spatial_index(shape_dict):
 
 
 def return_from_social_media(request):
-    print request
-    print request.user
     if request.user.is_authenticated():
-        print "about to receive pledge"
         receive_pledge(request)
 
         # Define request
         social_media = request.session['social_auth_last_login_backend']
 
         # After process, we want to call serve_city with the social media
-        print "social media is: ", social_media
         return serve_city(request, social_media = social_media)
     else:
-        print "user is not authenticated"
         return serve_city(request)

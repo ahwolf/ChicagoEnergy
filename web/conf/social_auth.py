@@ -12,7 +12,7 @@ if not 'social_auth' in INSTALLED_APPS:
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
+    # 'social_auth.backends.google.GoogleOAuth2Backend',
     # 'social_auth.backends.google.GoogleOAuthBackend',
     # 'social_auth.backends.google.GoogleBackend',
     # 'social_auth.backends.yahoo.YahooBackend',
@@ -41,15 +41,15 @@ TWITTER_CONSUMER_SECRET = 'ssXNunhDKuy3kXKtwjfHF4ZKbFgUNV8zUJS0XR4GrE'
 # TWITTER_ACCESS_TOKEN_SECRET = 'IGz5itQ3fRXaPRX18TG6utZBctDIEiHM09XJqQs'
 
 # google app credentials
-GOOGLE_OAUTH2_CLIENT_ID      = '686471003393.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET  = 'gprsWBG4trhErgzGe1UGKSpw'
+# GOOGLE_OAUTH2_CLIENT_ID      = '686471003393.apps.googleusercontent.com'
+# GOOGLE_OAUTH2_CLIENT_SECRET  = 'gprsWBG4trhErgzGe1UGKSpw'
 
 # facebook app credentials 
 # XXX THESE ARE NOW IN conf.*.settings FILES BECAUSE FACEBOOK ONLY
 # ALLOWS YOU TO REDIRECT TO A SINGLE SITE PER ID/SECRET PAIR.
 FACEBOOK_APP_ID              = '168209096675522'
 FACEBOOK_API_SECRET          = 'ea424839696c69d64b1d15a96227cbf1'
-FACEBOOK_EXTENDED_PERMISSIONS = ['publish_stream']
+# FACEBOOK_EXTENDED_PERMISSIONS = ['publish_stream']
 
 # LINKEDIN_CONSUMER_KEY        = ''
 # LINKEDIN_CONSUMER_SECRET     = ''
