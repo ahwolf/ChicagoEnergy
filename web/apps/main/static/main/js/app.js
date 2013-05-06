@@ -604,7 +604,7 @@ if (social_media === "facebook"){
 
   var obj = {
       method: 'feed',
-      redirect_uri: 'http://chicagoenergy.datascopeanalytics.com',
+      // redirect_uri: 'http://chicagoenergy.datascopeanalytics.com',
       link: 'https://developers.facebook.com/docs/reference/dialogs/',
       picture: 'http://fbrell.com/f8.jpg',
       name: 'Facebook Dialogs',
@@ -613,7 +613,6 @@ if (social_media === "facebook"){
   };
 
   function callback(response) {
-      document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
   }
 
   FB.ui(obj, callback);
