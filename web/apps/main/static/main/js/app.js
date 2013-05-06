@@ -479,10 +479,55 @@ function cleanUpNeighborhood(obj) {
   delete obj.mesh;
 }
 
+function create2Dmap(){
+
+  var vis = d3.select("#wrapper")
+    .append("svg")
+    .attr("viewbox", "200 200 800 800")//+ window.innerWidth+" "+window.innerHeight)
+    .attr("width", "100%")
+    .attr("height", "100%");
+
+  // Change the albers projection and path
+  var albers_2D = d3.geo.albers()
+    .scale(800000)
+    .origin([data.centroid[0],data.centroid[1]])
+    .translate([400,400]);
+
+  var path_2D = d3.geo.path().projection(albers_2D);
+
+  // calculate the max and min of all the property values
+  var gas_eff_min_max = d3.extent(data.features, function(feature){
+    return feature.properties.gas_efficiency;
+  });
+
+  var color_scale = d3.scale.quantile()
+    .domain(gas_eff_min_max)
+    .range(colorbrewer.RdYlGn[9]);
+
+  var blocks = vis.selectAll("path")
+    .data(data.features);
+
+  var numBlocks = data.features.length;
+  console.log("numblocks is: " + numBlocks);
+
+  blocks.enter().append("path")
+    .attr('fill', function(d){return color_scale(d.properties.gas_efficiency);})
+    .attr('stroke',"none")
+    .attr("d", path_2D);
+    d3.selectAll("path").on("mouseover", function(d){
+        console.log("mouseover!");
+      $("#neighborhoodText").html(d.properties.name);
+      $("#tipGasRankText").html(d.properties.gas_rank + " / " + numBlocks);
+      $("#tipElectricRankText").html(d.properties.elect_rank + " / " + numBlocks);
+    });
+}
+
 function growNeighborhoodDetail() {
   // data = census_block;
-  extrudeMultiplier = 1;
-  addGeoObject();
+  extrudeMultiplier = 0;
+  console.log(data);
+  create2Dmap();
+  // addGeoObject();
   TweenLite.to($("#container"), .25, {autoAlpha:1})
 }
 
@@ -552,6 +597,31 @@ addGeoObject();
 animate();
 //console.log(neighborhoods);
 //renderer.render( scene, camera );
+console.log("Social media is: ", social_media);
+if (social_media === "facebook"){
+  FB.init({appId: facebook_app_id, status: true, cookie: true});
+  $("#energyEfficiencyButton").trigger("click");
+
+  var obj = {
+      method: 'feed',
+      redirect_uri: 'http://chicagoenergy.datascopeanalytics.com',
+      link: 'https://developers.facebook.com/docs/reference/dialogs/',
+      picture: 'http://fbrell.com/f8.jpg',
+      name: 'Facebook Dialogs',
+      caption: 'Reference Documentation',
+      description: 'Using Dialogs to interact with users.'
+  };
+
+  function callback(response) {
+      document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+  }
+
+  FB.ui(obj, callback);
+  }
+else if (social_media == "twitter"){
+    var tweet = encodeURIComponent("I just pledged to improve energy efficiency in Chicago! http://chicagoenergy.datascopeanalytics.com/ Thanks @OpenDataChicago #chicagoEnergy");
+    window.open("http://twitter.com/intent/tweet?text=" + tweet, "", "height=300, width=600");
+}
 
 
 function pledge_return(response) {
@@ -590,7 +660,7 @@ function pledge_return(response) {
 }
 
 function check_neighborhood(){
-
+  console.log("at beginning of check neighborhood");
   var address = document.getElementById("neighborhoodEntry").value.toLowerCase();
 
   if (neighborhood_object[address]){
@@ -602,6 +672,7 @@ function check_neighborhood(){
     });
     var name = $(".tipButtonClicked").siblings('span').text();
     var subtype = $("#subtypeChoices").val();
+    console.log("hello");
     $.ajax({url: auth,
            data:{subtype:subtype,
                name: pledge_array,
@@ -609,12 +680,13 @@ function check_neighborhood(){
            }
        })
     .done(function(response){
+        console.log("heelo: ",response);
         if (response === "failure"){
          TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
         }
         else{
             // We had a success, lets say thanks for the pledge!
-            $("#energyEfficiencyButton").trigger("click");
+            window.location.href = neighborhood_url + "?social_media=" + response;
         }
     });
 
@@ -719,6 +791,7 @@ $("#subtypeChoices").change(function() {
 
 // May not be required because of the auto complete functionality
 $('#neighborhoodEntry').keypress(function(e) {
+    console.log("you typed something");
     if (e.which == 13) {
         check_neighborhood();
     }
@@ -728,6 +801,7 @@ $('#neighborhoodEntry').keypress(function(e) {
 var neighborhood_names = _.values(neighborhood_object);
 $("#neighborhoodEntry").betterAutocomplete('init',neighborhood_names,{},{
     select:function (result, $input){
+        console.log("You selected something.");
         $input.val(result.title);
         $input.blur();
         check_neighborhood();
@@ -750,6 +824,9 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize( window.innerWidth, window.innerHeight );
+  
+  // set the d3 map dimensions?
+
 
 }
 
@@ -805,7 +882,7 @@ function onDocumentClick(event) {
       console.log(data.centroid);
       var newCenter = new google.maps.LatLng(data.centroid[1], data.centroid[0]);
       google_map.setCenter(newCenter);    
-
+      
 
     // tween lookAt position
     TweenLite.to(main, 2, {laX: newLaX, laY:newLaY, laZ: newLaZ, ease:Quint.easeInOut});

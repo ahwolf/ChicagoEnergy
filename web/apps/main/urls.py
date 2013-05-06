@@ -20,6 +20,7 @@ urlpatterns += patterns(
     url(r'^give_pledge/$',views.receive_pledge, name="give_pledge"),
     url(r'^leaderboard/$',views.leaderboard, name="leaderboard"),
     url(r'^auth/$',views.check_auth, name="auth"),
+    url(r'^social/$',views.return_from_social_media, name="social_media"),
 
 )
 

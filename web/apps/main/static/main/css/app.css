@@ -196,6 +196,13 @@ p {
   
 }
 
+svg{
+  position: fixed;
+  top: 0px;
+  left: 200px;
+  z-index:1000;
+}
+
 .grayscaleAndLighten {
   -webkit-filter: grayscale(100%) contrast(150%); /* killed brightness(600%) */
   -moz-filter: grayscale(100%) contrast(150%);

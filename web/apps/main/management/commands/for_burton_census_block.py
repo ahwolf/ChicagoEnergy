@@ -20,6 +20,8 @@ from geopy import geocoders
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+        neighborhood = Neighborhoods.objects.get(id="4")
+
         census_blocks = CensusBlocks.objects.filter(building_type="Residential",
                                                     building_subtype="All",
                                                     neighborhood_id = "4")
@@ -27,8 +29,9 @@ class Command(BaseCommand):
 
         census_block_geojson = {
             "type":"FeatureCollection",
-            "features":[]
+            "features":[],
             }
+        census_block_geojson['centroid'] = list(wkt.loads(neighborhood.shape).centroid.coords)[0]
         for census_block in census_blocks:
             if census_block.shape:
                 coords = [list(wkt.loads(census_block.shape).exterior.coords)]

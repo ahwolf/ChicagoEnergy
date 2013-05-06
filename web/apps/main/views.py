@@ -26,7 +26,14 @@ def login_form(request):
 
 # @login_required
 @xframe_options_exempt
-def serve_city(request):
+def serve_city(request, social_media = None):
+    
+    # handles different request types -- prioritizing request.social_media
+    if social_media == None:
+        try:
+            social_media = request.GET.get('social_media')
+        except AttributeError:
+            pass
 
     # create the geojson object
     neighborhood_geojson = {
@@ -93,7 +100,9 @@ def serve_city(request):
     return render_to_response(
         'main/home.html', {
             'project_root': settings.PROJECT_ROOT,
-            'neighborhood_geojson': return_json
+            'neighborhood_geojson': return_json,
+            'social_media': social_media,
+            'FACEBOOK_APP_ID': settings.FACEBOOK_APP_ID,
             },
         context_instance=RequestContext(request)
         )
@@ -337,15 +346,10 @@ def about(request):
 
 def check_auth(request):
     if request.user.is_authenticated():
-
+        provider =  request.user.social_auth.values()[0]['provider']
         receive_pledge(request)
-        # Do something cool here
-        return render_to_response(
-                    'main/success.html', {
-                    'project_root': settings.PROJECT_ROOT,
-                    },
-                    context_instance=RequestContext(request)
-                )
+        # Do something cool here GABE AND AARON TO FIX
+        return HttpResponse(provider, "text/plain")
 
         # return HttpResponse("success","text/plain")
     else:
@@ -358,3 +362,20 @@ def create_spatial_index(shape_dict):
         spatial_index.insert(index, shape.bounds, obj=name)
     return spatial_index
 
+
+def return_from_social_media(request):
+    print request
+    print request.user
+    if request.user.is_authenticated():
+        print "about to receive pledge"
+        receive_pledge(request)
+
+        # Define request
+        social_media = request.session['social_auth_last_login_backend']
+
+        # After process, we want to call serve_city with the social media
+        print "social media is: ", social_media
+        return serve_city(request, social_media = social_media)
+    else:
+        print "user is not authenticated"
+        return serve_city(request)

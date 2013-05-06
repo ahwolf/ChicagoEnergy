@@ -47,8 +47,8 @@ GOOGLE_OAUTH2_CLIENT_SECRET  = 'gprsWBG4trhErgzGe1UGKSpw'
 # facebook app credentials 
 # XXX THESE ARE NOW IN conf.*.settings FILES BECAUSE FACEBOOK ONLY
 # ALLOWS YOU TO REDIRECT TO A SINGLE SITE PER ID/SECRET PAIR.
-# FACEBOOK_APP_ID              = '234309643376262'
-# FACEBOOK_API_SECRET          = '858b3b49eef5325feaba6852fdc3729f'
+FACEBOOK_APP_ID              = '168209096675522'
+FACEBOOK_API_SECRET          = 'ea424839696c69d64b1d15a96227cbf1'
 FACEBOOK_EXTENDED_PERMISSIONS = ['publish_stream']
 
 # LINKEDIN_CONSUMER_KEY        = ''
@@ -81,6 +81,6 @@ if 'social_auth.context_processors.social_auth_by_type_backends' not in \
 
 # set up the django logins
 LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/auth/'
+LOGIN_REDIRECT_URL = '/social/'
 LOGIN_ERROR_URL    = '/login-error/'
 
