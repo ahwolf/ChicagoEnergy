@@ -192,15 +192,28 @@ p {
   /*visibility: hidden;*/
 }
 
+#censusBlocks {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  -webkit-transition: all 0 ease-out;
+  -moz-transition: all 0 ease-out;
+  -ms-transition: all 0 ease-out;
+  -o-transition: all 0 ease-out;
+  transition: all 0 ease-out;
+}
+
 #container {
   
 }
 
-svg{
+svg {
   position: fixed;
   top: 0px;
   left: 200px;
-  z-index:1000;
 }
 
 .grayscaleAndLighten {
@@ -346,7 +359,7 @@ svg{
   position: absolute;
   left: -200px;
   display: inline-block;
-  min-width: 150px;
+  min-width: 180px;
   padding: 12px;
   padding-bottom: 0px !important;
   line-height: 100%;
@@ -364,12 +377,12 @@ svg{
 
 #tipSubHead {
   position: relative;
-  width: 50px;
+  width: 140px;
   top: -16px;
   margin: 0 auto;
   color: #FFF;
   background-color: #666;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   padding: 3px;
   border-style: solid;
@@ -503,14 +516,14 @@ svg{
 #footer {
   position: fixed;
   width: 100%;
-  height: 38px;
+  height: 42px;
   bottom: 0;
   background-color: #545454;
   color: #CCC;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
-  padding-top: 17px;
+  padding-top: 19px;
 }
 
 #footer a {
@@ -706,7 +719,7 @@ svg{
   height:auto;
   min-height: 420px;
   width: 900px;
-  top: 32px;
+  top: 62px;
   margin: 0 auto;
   z-index: 51;
   border-bottom: 2px dotted #CCC;
@@ -745,7 +758,7 @@ svg{
   width: 598px;
   float: left;
   border-right: 2px dotted #CCC;
-  height: 300px;
+  height: 346px;
   margin-top: 15px;
 }
 
@@ -753,6 +766,7 @@ svg{
   font-weight: bold;
   font-size: 20px;
   line-height: 350%;
+  padding-top: 105px;
 }
 
 #tipsDollarSign {
@@ -761,7 +775,7 @@ svg{
 
 #tipsSavings {
   width: 300px;
-  padding-top: 66px;
+  padding-top: 116px;
   float:right;
   font-size: 75px;
   font-weight: bold;
@@ -774,8 +788,10 @@ svg{
 }
 
 #filterTipsText {
-  font-size: 14px;
-  margin-bottom: 5px;
+  width: 583px;
+  font-size: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px dotted #CCC;
 }
 
 .tipButton {
@@ -813,7 +829,7 @@ svg{
   color: #8b8b8b;
   position: relative;
   margin-left: 12px;
-  top: 340px;
+  top: 110px;
   z-index: 500;
 }
 
@@ -837,7 +853,10 @@ svg{
 .styledDropdown {
    width: 200px;
    height: 34px;
+   margin-top: -50px;
+   margin-left: 240px;
    overflow: hidden;
+   outline: none;
    background: url('../img/selectArrow.png') no-repeat right center #DDD;
 }
 
@@ -852,9 +871,13 @@ svg{
   color: #8b8b8b;
   position: relative;
   margin: 0 auto;
-  top: 60px;
+  top: 80px;
   z-index: 500;
   line-height: 140%;
+}
+
+#neighborhoodEntry {
+  visibility: visible;
 }
 
 #checkButton {
@@ -909,7 +932,7 @@ svg{
 
 #loginNote {
   font-size: 15px;
-  color: #BBB;
+  color: #999;
 }
 
 #socialLogin{

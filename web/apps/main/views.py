@@ -211,6 +211,11 @@ def create_census_json(census_blocks, WKT=True):
             else:
                 coords = [json.loads(census_block.shape)]
 
+            if not census_block.nice_address:
+                nice_address = census_block.census_id
+            else:
+                nice_address = census_block.nice_address
+
             # Put it into geojson format
             feature = {
                     "type": "Feature",
@@ -231,7 +236,8 @@ def create_census_json(census_blocks, WKT=True):
                             'elect_rank':census_block.kwh_rank,
                             'gas_rank':census_block.therm_rank,
                             'elect_percentile':census_block.kwh_percentile,
-                            'gas_percentile':census_block.therm_percentile
+                            'gas_percentile':census_block.therm_percentile,
+                            'nice':nice_address
                             }
                     }
             census_block_geojson['features'].append(feature)

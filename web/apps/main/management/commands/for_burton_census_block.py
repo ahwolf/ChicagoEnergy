@@ -35,7 +35,10 @@ class Command(BaseCommand):
         for census_block in census_blocks:
             if census_block.shape:
                 coords = [list(wkt.loads(census_block.shape).exterior.coords)]
-
+                if not census_block.nice_address:
+                    nice_address = census_block.census_id
+                else:
+                    nice_address = census_block.nice_address
 
                 feature = {
                 "type": "Feature",
@@ -56,7 +59,8 @@ class Command(BaseCommand):
                             'elect_rank':census_block.kwh_rank,
                             'gas_rank':census_block.therm_rank,
                             'elect_percentile':census_block.kwh_percentile,
-                            'gas_percentile':census_block.therm_percentile
+                            'gas_percentile':census_block.therm_percentile,
+                            'nice': nice_address
                             }
                     }
                 census_block_geojson['features'].append(feature)

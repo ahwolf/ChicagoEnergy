@@ -457,6 +457,8 @@ function disappearCity(clickedHood) {
     TweenLite.to(obj.mesh.scale, time, {z:.01, ease:Expo.easeOut, delay: i * delay})
     TweenLite.to(obj.mesh.position, time, {y:obj.extrude * .01, ease:Expo.easeOut, overwrite:false, delay: i * delay});
     if (clickedNeighborhood !== obj.props.name) TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay});
+    else TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay + .75});
+    // TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay});
     TweenLite.delayedCall(25 + i * delay, cleanUpNeighborhood, [obj]);
   }
 
@@ -467,7 +469,7 @@ function disappearCity(clickedHood) {
   TweenLite.to($("#footer"), .25, {autoAlpha:0, delay:totalTime - 1});
   TweenLite.to($("#hoodOverviewContainer"), .25, {autoAlpha:1, delay:totalTime - 1});
   TweenLite.to($("#container"), .25, {autoAlpha:0, delay:totalTime - .25});
-  TweenLite.delayedCall(totalTime, growNeighborhoodDetail);
+  TweenLite.delayedCall(totalTime - .25, growNeighborhoodDetail);
 
 }
 
@@ -524,10 +526,10 @@ function create2Dmap(){
 
 function growNeighborhoodDetail() {
   // data = census_block;
-  extrudeMultiplier = 0;
-  console.log(data);
-  create2Dmap();
-  // addGeoObject();
+  extrudeMultiplier = .15;
+  // console.log(data);
+  // create2Dmap();
+  addGeoObject();
   TweenLite.to($("#container"), .25, {autoAlpha:1})
 }
 
@@ -539,9 +541,22 @@ function colorizeContainer() {
   $("#container").removeClass("grayscaleAndLighten");
 }
 
+function removeBlocks() {
+  var i;
+  var totalNeighborhoods = neighborhoods.length;
+  for (i = 0; i < totalNeighborhoods; i++)
+  {
+    var obj = neighborhoods[i];
+    cleanUpNeighborhood(obj);
+  }
+}
+
 function reappearCity(clickedHood) {
   //var obj = neighborhoods[59];
 
+  TweenLite.to($("#container"), .125, {autoAlpha:0});
+  removeBlocks();
+  TweenLite.to($("#container"), .125, {autoAlpha:1});
 
   // fix up the google map
   var newCenter = new google.maps.LatLng(41.836084, -87.63073); // chicago
@@ -606,10 +621,10 @@ if (social_media === "facebook"){
       method: 'feed',
       // redirect_uri: 'http://chicagoenergy.datascopeanalytics.com',
       link: 'https://developers.facebook.com/docs/reference/dialogs/',
-      picture: 'http://fbrell.com/f8.jpg',
-      name: 'Facebook Dialogs',
-      caption: 'Reference Documentation',
-      description: 'Using Dialogs to interact with users.'
+      picture: fb_screenshot_url,
+      name: 'Chicago Energy Data Map',
+      caption: 'Improving energy efficiency in Chicago',
+      description: 'I just pledged to be more energy efficient on behalf of my neighborhood via the Chicago Energy Data Map!'
   };
 
   function callback(response) {
@@ -690,9 +705,57 @@ function check_neighborhood(){
     });
 
   }
+  // Not a neighborhood, maybe a valid address?
   else{
-    var input = document.getElementById('neighborhoodEntry');
-    input.value = "";
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address':address}, function(results, status){
+        var point = results[0].geometry.location
+        var lat = point.kb;
+        var lon = point.jb;
+        console.log(lat,lon, address)
+        $.ajax({
+            url:find_census_block,
+            data:{lat:lat,
+              lon: lon},
+              success:function(data){
+                console.log(data);
+                // If data is valid, then we have a census block otherwise
+                // we have a bad search
+                if (data !==""){
+                    currentRollover = data;
+                    var pledge_array = _.map($(".tipButtonClicked"), function(node){
+                        return $(node).siblings('.pledge_name').text();
+                    });
+                    var name = $(".tipButtonClicked").siblings('span').text();
+                    var subtype = $("#subtypeChoices").val();
+                    $.ajax({url: auth,
+                       data:{subtype:subtype,
+                         name: pledge_array,
+                         neighborhood:data
+                     }
+                    })
+                    .done(function(response){
+                        if (response === "failure"){
+                           TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
+                       }
+                       else{
+                         // We had a success, lets say thanks for the pledge!
+                         window.location.href = neighborhood_url + "?social_media=" + response;
+                       }
+                    });
+                }
+                // reset the search value
+                else{
+                    var input = document.getElementById('neighborhoodEntry');
+                    input.value = "ENTER ADDRESS OR NEIGHBORHOOD";
+                }
+            }
+        })
+    });
+
+
+
+
   }
 }
 
@@ -763,7 +826,7 @@ $("#backToCityButton").click(function() {
   // tween camera position via camPosX/Y vars
   TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
   // tween lookAt position
-  TweenLite.to(main, 2, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:0, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
+  TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
 
   // kill the city
   TweenLite.delayedCall(.75, reappearCity);
