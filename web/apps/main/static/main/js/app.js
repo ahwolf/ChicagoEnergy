@@ -554,9 +554,9 @@ function removeBlocks() {
 function reappearCity(clickedHood) {
   //var obj = neighborhoods[59];
 
-  TweenLite.to($("#container"), .125, {autoAlpha:0});
-  removeBlocks();
-  TweenLite.to($("#container"), .125, {autoAlpha:1});
+  // TweenLite.to($("#container"), .125, {autoAlpha:0});
+  // removeBlocks();
+  // TweenLite.to($("#container"), .125, {autoAlpha:1});
 
   // fix up the google map
   var newCenter = new google.maps.LatLng(41.836084, -87.63073); // chicago
@@ -823,6 +823,8 @@ $("#backToCityButton").click(function() {
   // hide 'back to city' button
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
 
+  removeBlocks();
+  
   // tween camera position via camPosX/Y vars
   TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
   // tween lookAt position
