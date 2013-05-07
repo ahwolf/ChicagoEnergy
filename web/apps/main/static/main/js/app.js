@@ -549,6 +549,13 @@ function removeBlocks() {
     var obj = neighborhoods[i];
     cleanUpNeighborhood(obj);
   }
+  // tween camera position via camPosX/Y vars
+  TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
+  // tween lookAt position
+  TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
+
+  // kill the city
+  TweenLite.delayedCall(.75, reappearCity);
 }
 
 function reappearCity(clickedHood) {
@@ -824,14 +831,8 @@ $("#backToCityButton").click(function() {
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
 
   removeBlocks();
-  
-  // tween camera position via camPosX/Y vars
-  TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
-  // tween lookAt position
-  TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
 
-  // kill the city
-  TweenLite.delayedCall(.75, reappearCity);
+
 });
 
 $(".socialButton").click(function() {
