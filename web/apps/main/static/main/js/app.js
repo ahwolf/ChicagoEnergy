@@ -240,8 +240,13 @@ function addGeoObject() {
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
     // matching functionality later
-    var mathColor = color_scale(geoFeature.properties.gas_efficiency);
-    var hexMathColor = parseInt(mathColor.replace("#", "0x"));
+    if (geoFeature.properties.gas_efficiency === 0){
+	var hexMathColor = "0x333333";
+    }	
+    else{
+	var mathColor = color_scale(geoFeature.properties.gas_efficiency);
+	var hexMathColor = parseInt(mathColor.replace("#", "0x"));
+    } 
     material = new THREE.MeshLambertMaterial({
       color: hexMathColor
     });
@@ -383,7 +388,7 @@ function render() {
   var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
   var intersects = raycaster.intersectObjects( scene.children );
 
-  if ( intersects.length > 0 && currentState == "city" && !overFooter || currentState == "neighborhood" && !overFooter) {
+  if (intersects.length > 0 && currentState == "city" && !overFooter || currentState == "neighborhood" && !overFooter) {
   
     if ( INTERSECTED !== intersects[ 0 ].object ) {
       if ( INTERSECTED && INTERSECTED.properties.name !== "floor" ) {
@@ -408,30 +413,36 @@ function render() {
       var max_rank = data.features.length;
       if (currentState == "neighborhood"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.nice);
-	  $("#tipSubHead").html("CENSUS BLOCK RANK");
+	  $("#tipSubHead").html("ENERGY USE");
+	  
+	  $("#tipGasRankText").html(INTERSECTED.properties.gas_efficiency.toFixed(2) + " th");
+	  $("#tipElectricRankText").html(INTERSECTED.properties.elect_efficiency.toFixed(2) + " kWh");
+	  $("#detailText").html("");
       }
       else if (currentState == "city"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.name);
 	  $("#tipSubHead").html("NEIGHBORHOOD RANK");
+	  $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / " + max_rank);
+	  $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / " + max_rank);
+	  $("#detailText").html("• CLICK FOR DETAIL •");
       }
-      $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / " + max_rank);
-      $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / " + max_rank);
 
     }
 
   } else {
+    
+    TweenLite.to(rolloverTip, .25, {autoAlpha:0});
+    currentRollover = "";  
 
-    TweenLite.to(rolloverTip, .25, {autoAlpha:0})
+    if ( INTERSECTED && INTERSECTED.properties.name !== "floor" ) {
+      INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+    }
 
     // change color of object on rollover only if it's not the floor
     if (INTERSECTED && INTERSECTED.properties.name == "floor") {
       INTERSECTED = null;
-      return;
     }
 
-    if ( INTERSECTED ) {
-      INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-    }
 
     currentRollover = "";
     INTERSECTED = null;
@@ -727,7 +738,7 @@ function pledge_return(response) {
 }
 
 function check_neighborhood(){
-  console.log("at beginning of check neighborhood");
+
   var address = document.getElementById("neighborhoodEntry").value.toLowerCase();
 
   if (neighborhood_object[address]){
@@ -883,7 +894,7 @@ $("#backToCityButton").click(function() {
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
   TweenLite.to($('#container'), .25, {autoAlpha:0});
   // TweenLite.delayCall(.25,removeBlocks); 
-
+  
   removeBlocks();
 });
 
@@ -976,8 +987,8 @@ function onDocumentClick(event) {
   cityLaZ = laZ;
 
   // if we've clicked on a neighborhood
-  if (currentRollover !== "" && currentState == "city" && !overFooter) {
-
+  if (INTERSECTED.properties.name !== "floor" && currentRollover !== "" && currentState == "city" && !overFooter) {
+    $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
     console.log(camPosX, camPosZ);
 
     clickedNeighborhood = currentRollover;
@@ -992,6 +1003,7 @@ function onDocumentClick(event) {
     var newDist = dist - radiusHood;
     var newCamPosX = camPosX + Math.cos(angle) * newDist;
     var newCamPosZ = camPosZ + Math.sin(angle) * newDist;
+
 
   $.ajax({url:census_blocks,
            data:{name:clickedNeighborhood,
@@ -1019,6 +1031,8 @@ function onDocumentClick(event) {
     // kill the city
     TweenLite.delayedCall(.75, disappearCity);
     });
+  sourceJSON = census_blocks;
+  loadJSON();
   }
 }
 
