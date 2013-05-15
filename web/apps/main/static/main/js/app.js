@@ -566,6 +566,7 @@ function removeBlocks() {
     var obj = neighborhoods[i];
     cleanUpNeighborhood(obj);
   }
+
   TweenLite.to($("#container"),.25,{autoAlpha:1});
   // tween camera position via camPosX/Y vars
   TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
@@ -576,7 +577,20 @@ function removeBlocks() {
 
   TweenLite.delayedCall(1.5, reappearCity); 
 
-  // TweenLite.delayedCall(.5, transition_neighborhood);
+  // TweenLite.delayedCall(.5, removeHelperFunction);
+  // removeHelperFunction();
+}
+
+function removeHelperFunction (){
+  TweenLite.to($("#container"),.25,{autoAlpha:1});
+  // tween camera position via camPosX/Y vars
+  TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, delay: 1.25, ease:Quint.easeInOut});
+  // tween lookAt position
+  TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:1.75, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
+
+  // kill the city
+
+  TweenLite.delayedCall(1, reappearCity); 
 }
 
 function transition_neighborhood(){
@@ -586,7 +600,7 @@ function transition_neighborhood(){
   TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
 
   // kill the city
-  reappearCity();
+  // reappearCity();
   // TweenLite.delayedCall(.75, reappearCity); 
 
 }
