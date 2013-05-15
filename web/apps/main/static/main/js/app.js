@@ -851,7 +851,7 @@ $("#leaderboardButton").click(function() {
     .done(function (leaders){
         var html = ""
         _.each(leaders, function(leader, index){
-            html +=  "<li>"+leader[0]+' <div class="pledge">'+leader[1]+"</div></li>"
+		html +=  "<li>"+leader[0]+' <div class="pledge">'+leader[1]+ ' / '+ leader[2] + "</div></li>";
         });
         $("#board").html(html);
     });
@@ -1031,8 +1031,6 @@ function onDocumentClick(event) {
     // kill the city
     TweenLite.delayedCall(.75, disappearCity);
     });
-  sourceJSON = census_blocks;
-  loadJSON();
   }
 }
 
