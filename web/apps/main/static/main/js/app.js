@@ -942,7 +942,7 @@ function onDocumentMouseMove(event) {
   TweenLite.to($('#rolloverTip'), .1, { css: { left: event.pageX - 28, top: event.pageY - 150 }});
 
   // detect mouse position
-  if ( event.pageY >= window.innerHeight - 61 )
+  if ( event.pageY >= window.innerHeight - 61 && currentState == "city")
   {
     overFooter = true;
   } else {
