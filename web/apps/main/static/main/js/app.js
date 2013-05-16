@@ -909,6 +909,7 @@ $("#backToCityButton").click(function() {
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
   TweenLite.to($('#container'), .25, {autoAlpha:0});
   TweenLite.to($('#key'), .25, {autoAlpha:0});
+  TweenLite.to($('#map_canvas'), .25, {autoAlpha: 0});
   TweenLite.to($('#hoodOverviewContainer'), .25, {autoAlpha:0, onComplete:cheatRefresh});
   // TweenLite.delayCall(.25,removeBlocks); 
   
