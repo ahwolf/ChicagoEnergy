@@ -881,7 +881,7 @@ svg {
 }
 
 #neighborhoodEntry {
-  visibility: visible;
+  visibility: hidden;
 }
 
 #checkButton {

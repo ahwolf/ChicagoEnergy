@@ -59,8 +59,14 @@ var centerY = 150;
 var radiusX = 300;
 var radiusZ = 550;
 var radiusHood = 1;
-var currentAngle = Math.PI * 1.988;
+var currentAngle;
 var angleStep = 0;
+
+// check to see if there's a stored value & set currentAngle accordingly
+var storedValue = localStorage.getItem('angle');
+if (storedValue) currentAngle = storedValue;
+else currentAngle = Math.PI * 1.988;
+
 
 // camera position vars
 var camPosX;
@@ -418,7 +424,7 @@ function render() {
       var max_rank = data.features.length;
       if (currentState == "neighborhood"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.nice.replace(/ [S|N|W|E] /, " Block of "));
-	  $("#tipSubHead").html("ENERGY USE");
+	  $("#tipSubHead").html("ENERGY USE / SQFT");
 
     if (INTERSECTED.properties.gas_efficiency === 0){
         $("#tipGasRankText").html("N/A");
@@ -881,6 +887,7 @@ $(".closeButton").click(function() {
   TweenLite.to($('#about'), .5, {autoAlpha: 0});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 0});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 0});
+  TweenLite.to($('#neighborhoodEntry'), .5, {autoAlpha: 0});
   TweenLite.to($('#key'), .5, {autoAlpha: 1, delay: .25});
   TweenLite.delayedCall(.5, colorizeMap)
 });
@@ -890,12 +897,14 @@ $(".closeButton").click(function() {
 $("#energyEfficiencyButton").click(function() {
   currentState = "overlay";
   $("#container").addClass("grayscaleAndLighten");
+  TweenLite.to($('#neighborhoodEntry'), .5, {autoAlpha: 1, delay: .375});
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#addressField'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#map_canvas'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
   // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 1, delay: .375});
+  TweenLite.to($('#neighborhoodEntry'), .5, {autoAlpha: 1, delay: .375});
   var subtype = $("#subtypeChoices").val();
 
   $.ajax({url: pledge,
@@ -917,6 +926,7 @@ $("#backToCityButton").click(function() {
 });
 
 function cheatRefresh() {
+    
     window.location.reload();
 }
 
@@ -1012,7 +1022,7 @@ function onDocumentClick(event) {
   if (INTERSECTED.properties.name !== "floor" && currentRollover !== "" && currentState == "city" && !overFooter) {
     $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
 
-
+    localStorage.setItem('angle', currentAngle);
     clickedNeighborhood = currentRollover;
     currentState = "";
     flying = false;
