@@ -331,11 +331,11 @@ def leaderboard(request):
     leader_list = []
     for neighborhood in neighborhoods:
         pledges = RealPledge.objects.filter(neighborhood = neighborhood)
-        #amount = pledges.aggregate(Sum('initiative__savings'))
+        total = pledges.aggregate(Sum('initiative__savings'))
         # leader_list.append([neighborhood.name,amount['initiative__savings__sum']])
 
         count = len(pledges)
-        leader_list.append([neighborhood.name,count])
+        leader_list.append([neighborhood.name,count, total['initiative__savings__sum']])
 
     leader_list = sorted(leader_list, key = lambda leader:leader[1], reverse = True)
     leader_list = leader_list[:amount]
