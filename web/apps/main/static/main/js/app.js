@@ -243,7 +243,7 @@ function addGeoObject() {
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
     // matching functionality later
-    console.log(geoFeature.properties.gas_efficiency)
+
     if (geoFeature.properties.gas_efficiency === 0){
        var hexMathColor = parseInt("0xAAAAAA");
     }	
@@ -251,7 +251,7 @@ function addGeoObject() {
        var mathColor = color_scale(geoFeature.properties.gas_rank);
        var hexMathColor = parseInt(mathColor.replace("#", "0x"));
     } 
-    console.log("Math color is: ",mathColor, hexMathColor);
+
     material = new THREE.MeshLambertMaterial({
       color: hexMathColor
     });
@@ -419,7 +419,7 @@ function render() {
       if (currentState == "neighborhood"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.nice.replace(/ [S|N|W|E] /, " Block of "));
 	  $("#tipSubHead").html("ENERGY USE");
-console.log(INTERSECTED.properties.gas_efficiency.toFixed(2));
+
     if (INTERSECTED.properties.gas_efficiency === 0){
         $("#tipGasRankText").html("N/A");
     }
@@ -547,14 +547,14 @@ function create2Dmap(){
     .data(data.features);
 
   var numBlocks = data.features.length;
-  console.log("numblocks is: " + numBlocks);
+
 
   blocks.enter().append("path")
     .attr('fill', function(d){return color_scale(d.properties.gas_rank);})
     .attr('stroke',"none")
     .attr("d", path_2D);
     d3.selectAll("path").on("mouseover", function(d){
-        console.log("mouseover!");
+
       $("#neighborhoodText").html(d.properties.name);
       $("#tipGasRankText").html(d.properties.gas_rank + " / " + numBlocks);
       $("#tipElectricRankText").html(d.properties.elect_rank + " / " + numBlocks);
@@ -564,7 +564,7 @@ function create2Dmap(){
 function growNeighborhoodDetail() {
   // data = census_block;
   extrudeMultiplier = .15;
-  console.log(data);
+
   // create2Dmap();
 
   TweenLite.delayedCall(.25,addGeoObject);
@@ -585,7 +585,7 @@ function colorizeContainer() {
 
 function removeBlocks() {
   var i;
-  console.log("new code!");
+
   var totalNeighborhoods = neighborhoods.length;
   for (i = totalNeighborhoods - 1; i >= 0; i--)
   {
@@ -691,7 +691,7 @@ addGeoObject();
 animate();
 //console.log(neighborhoods);
 //renderer.render( scene, camera );
-console.log("Social media is: ", social_media);
+
 if (social_media === "facebook"){
   FB.init({appId: facebook_app_id, status: true, cookie: true});
   $("#energyEfficiencyButton").trigger("click");
@@ -765,7 +765,7 @@ function check_neighborhood(){
     });
     var name = $(".tipButtonClicked").siblings('span').text();
     var subtype = $("#subtypeChoices").val();
-    console.log("hello");
+
     $.ajax({url: auth,
            data:{subtype:subtype,
                name: pledge_array,
@@ -773,7 +773,7 @@ function check_neighborhood(){
            }
        })
     .done(function(response){
-        console.log("heelo: ",response);
+
         if (response === "failure"){
          TweenLite.to($('#socialLogin'), .25, {autoAlpha: 1});
         }
@@ -791,13 +791,13 @@ function check_neighborhood(){
         var point = results[0].geometry.location
         var lat = point.kb;
         var lon = point.jb;
-        console.log(lat,lon, address)
+
         $.ajax({
             url:find_census_block,
             data:{lat:lat,
               lon: lon},
               success:function(data){
-                console.log(data);
+
                 // If data is valid, then we have a census block otherwise
                 // we have a bad search
                 if (data !==""){
@@ -940,7 +940,7 @@ $("#subtypeChoices").change(function() {
 
 // May not be required because of the auto complete functionality
 $('#neighborhoodEntry').keypress(function(e) {
-    console.log("you typed something");
+
     if (e.which == 13) {
         check_neighborhood();
     }
@@ -950,7 +950,7 @@ $('#neighborhoodEntry').keypress(function(e) {
 var neighborhood_names = _.values(neighborhood_object);
 $("#neighborhoodEntry").betterAutocomplete('init',neighborhood_names,{},{
     select:function (result, $input){
-        console.log("You selected something.");
+
         $input.val(result.title);
         $input.blur();
         check_neighborhood();
@@ -1010,7 +1010,7 @@ function onDocumentClick(event) {
   // if we've clicked on a neighborhood
   if (INTERSECTED.properties.name !== "floor" && currentRollover !== "" && currentState == "city" && !overFooter) {
     $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
-    console.log(camPosX, camPosZ);
+
 
     clickedNeighborhood = currentRollover;
     currentState = "";
@@ -1036,7 +1036,7 @@ function onDocumentClick(event) {
       // Adjust the google map
 
       google_map.setZoom(12);
-      console.log(data.centroid);
+
       var newCenter = new google.maps.LatLng(data.centroid[1], data.centroid[0]);
       google_map.setCenter(newCenter);    
       
@@ -1072,7 +1072,7 @@ function getDistance(x1, y1, x2, y2) {
 }
 
 function setCurrentState(state, fly) {
-  console.log(camPosX, camPosZ);
+
   currentState = state;
   if (fly == "resumeFlying") flying = true;
 }
