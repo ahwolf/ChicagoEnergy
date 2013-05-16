@@ -364,6 +364,7 @@ svg {
   padding-bottom: 0px !important;
   line-height: 100%;
   visibility: hidden;
+  z-index: 20000;
 }
 
 #tipHeader {

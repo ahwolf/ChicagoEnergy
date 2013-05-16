@@ -405,9 +405,18 @@ function render() {
       currentRollover = INTERSECTED.properties.name;
       currentCentroid = INTERSECTED.properties.centroid;
       drawmap(INTERSECTED.properties.shape);
-      $("#neighborhoodText").html(INTERSECTED.properties.name);
-      $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / 77");
-      $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / 77");
+      var max_rank = data.features.length;
+      if (currentState == "neighborhood"){
+	  $("#neighborhoodText").html(INTERSECTED.properties.nice);
+	  $("#tipSubHead").html("CENSUS BLOCK RANK");
+      }
+      else if (currentState == "city"){
+	  $("#neighborhoodText").html(INTERSECTED.properties.name);
+	  $("#tipSubHead").html("NEIGHBORHOOD RANK");
+      }
+      $("#tipGasRankText").html(INTERSECTED.properties.gas_rank + " / " + max_rank);
+      $("#tipElectricRankText").html(INTERSECTED.properties.elect_rank + " / " + max_rank);
+
     }
 
   } else {
@@ -453,7 +462,7 @@ function disappearCity(clickedHood) {
   var time = .5;
   var totalTime = time + totalNeighborhoods * delay + .25;
 
-  for (i = 0; i < totalNeighborhoods; i++)
+  for (i = totalNeighborhoods - 1; i >=0; i--)
   {
     var obj = neighborhoods[i];
     TweenLite.to(obj.mesh.scale, time, {z:.01, ease:Expo.easeOut, delay: i * delay})
@@ -467,7 +476,7 @@ function disappearCity(clickedHood) {
   TweenLite.delayedCall(totalTime - .5, greyContainer);
   TweenLite.to($("#branding"), .25, {autoAlpha:0, delay:totalTime - 1});
   TweenLite.to($(".search"), .25, {autoAlpha:0, delay:totalTime - 1});
-  TweenLite.to($("#key"), .25, {autoAlpha:0, delay:totalTime - 1});
+  // TweenLite.to($("#key"), .25, {autoAlpha:0, delay:totalTime - 1});
   TweenLite.to($("#footer"), .25, {autoAlpha:0, delay:totalTime - 1});
   TweenLite.to($("#hoodOverviewContainer"), .25, {autoAlpha:1, delay:totalTime - 1});
   TweenLite.to($("#container"), .25, {autoAlpha:0, delay:totalTime - .25});
@@ -529,9 +538,14 @@ function create2Dmap(){
 function growNeighborhoodDetail() {
   // data = census_block;
   extrudeMultiplier = .15;
-  // console.log(data);
+  console.log(data);
   // create2Dmap();
-  addGeoObject();
+
+  TweenLite.delayedCall(.25,addGeoObject);
+  // $("#neighborhoodText").html(d.properties.name);
+  // $("#tipGasRankText").html(d.properties.gas_rank + " / " + numBlocks);
+  // $("#tipElectricRankText").html(d.properties.elect_rank + " / " + numBlocks);
+
   TweenLite.to($("#container"), .25, {autoAlpha:1})
 }
 
@@ -545,21 +559,37 @@ function colorizeContainer() {
 
 function removeBlocks() {
   var i;
+  console.log("new code!");
   var totalNeighborhoods = neighborhoods.length;
-  for (i = 0; i < totalNeighborhoods; i++)
+  for (i = totalNeighborhoods - 1; i >= 0; i--)
   {
     var obj = neighborhoods[i];
     cleanUpNeighborhood(obj);
   }
+  TweenLite.to($("#container"),.25,{autoAlpha:1});
   // tween camera position via camPosX/Y vars
   TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
   // tween lookAt position
   TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
 
   // kill the city
-  TweenLite.delayedCall(.75, reappearCity);
+
+  TweenLite.delayedCall(1.5, reappearCity); 
+
+  // TweenLite.delayedCall(.5, transition_neighborhood);
 }
 
+function transition_neighborhood(){
+  // tween camera position via camPosX/Y vars
+  TweenLite.to(main, 2, {camPosX: cityCamPosX, camPosY:cityCamPosY, camPosZ: cityCamPosZ, ease:Quint.easeInOut});
+  // tween lookAt position
+  TweenLite.to(main, 1.5, {laX: cityLaX, laY:cityLaY, laZ: cityLaZ, delay:.5, ease:Quint.easeInOut, onComplete: setCurrentState, onCompleteParams: ["city", "resumeFlying"]});
+
+  // kill the city
+  reappearCity();
+  // TweenLite.delayedCall(.75, reappearCity); 
+
+}
 function reappearCity(clickedHood) {
   //var obj = neighborhoods[59];
 
@@ -776,18 +806,22 @@ $("#aboutButton").click(function() {
   currentState = "overlay";
   $("#container").addClass("grayscaleAndLighten");
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
-  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#addressField'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#map_canvas'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#about'), .5, {autoAlpha: 1, delay: .375});
+  TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
 });
 
 $("#leaderboardButton").click(function() {
   currentState = "overlay";
   $("#container").addClass("grayscaleAndLighten");
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
-  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#addressField'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#map_canvas'), .5, {autoAlpha: 0, delay: .25});
   // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 1, delay: .375});
+  TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
   $.ajax({url: leaderboard})
     .done(function (leaders){
         var html = ""
@@ -801,7 +835,8 @@ $("#leaderboardButton").click(function() {
 $(".closeButton").click(function() {
   currentState = "city";
   TweenLite.to($('#branding'), .5, {autoAlpha: 1, delay: .25});
-  TweenLite.to($('#search'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#addressField'), .5, {autoAlpha: 1, delay: .25});
+  TweenLite.to($('#map_canvas'), .5, {autoAlpha: 1, delay: .25});
   TweenLite.to($('#overlay'), .5, {autoAlpha: 0});
   TweenLite.to($('#about'), .5, {autoAlpha: 0});
   TweenLite.to($('#leaderboard'), .5, {autoAlpha: 0});
@@ -816,7 +851,8 @@ $("#energyEfficiencyButton").click(function() {
   currentState = "overlay";
   $("#container").addClass("grayscaleAndLighten");
   TweenLite.to($('#branding'), .5, {autoAlpha: 0, delay: .25});
-  TweenLite.to($('#search'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#addressField'), .5, {autoAlpha: 0, delay: .25});
+  TweenLite.to($('#map_canvas'), .5, {autoAlpha: 0, delay: .25});
   TweenLite.to($('#key'), .5, {autoAlpha: 0, delay: .25});
   // TweenLite.to($('#overlay'), .5, {autoAlpha: .75, delay: .375});
   TweenLite.to($('#efficiencyTips'), .5, {autoAlpha: 1, delay: .375});
@@ -831,10 +867,10 @@ $("#energyEfficiencyButton").click(function() {
 $("#backToCityButton").click(function() {
   // hide 'back to city' button
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
+  TweenLite.to($('#container'), .25, {autoAlpha:0});
+  // TweenLite.delayCall(.25,removeBlocks); 
 
   removeBlocks();
-
-
 });
 
 $(".socialButton").click(function() {
