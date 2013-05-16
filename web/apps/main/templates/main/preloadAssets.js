@@ -1,4 +1,6 @@
 var loadBar = document.getElementById("loadBarInner");
+document.getElementById('loadBar').style.opacity = 1;
+
 var queue = new createjs.LoadQueue(false);
 queue.addEventListener("complete", handleComplete);
 queue.addEventListener("progress", handleProgress);
