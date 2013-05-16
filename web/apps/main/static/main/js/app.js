@@ -76,6 +76,8 @@ var currentCentroid;
 var clickedNeighborhood;
 var total_savings = 0;
 
+var overFooter = true;
+
 // this file contains all the geo related objects and functions
 geons.geoConfig = function() {
     this.TRANSLATE_0 = appConstants.TRANSLATE_0;
@@ -381,7 +383,7 @@ function render() {
   var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
   var intersects = raycaster.intersectObjects( scene.children );
 
-  if ( intersects.length > 0 && currentState == "city" || currentState == "neighborhood") {
+  if ( intersects.length > 0 && currentState == "city" && !overFooter || currentState == "neighborhood" && !overFooter) {
   
     if ( INTERSECTED !== intersects[ 0 ].object ) {
       if ( INTERSECTED && INTERSECTED.properties.name !== "floor" ) {
@@ -456,10 +458,10 @@ function disappearCity(clickedHood) {
     var obj = neighborhoods[i];
     TweenLite.to(obj.mesh.scale, time, {z:.01, ease:Expo.easeOut, delay: i * delay})
     TweenLite.to(obj.mesh.position, time, {y:obj.extrude * .01, ease:Expo.easeOut, overwrite:false, delay: i * delay});
-    if (clickedNeighborhood !== obj.props.name) TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay});
-    else TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay + .75});
+    if (clickedNeighborhood !== obj.props.name) TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay, onComplete: cleanUpNeighborhood, onCompleteParams: [obj]});
+    else TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay + .75, onComplete: cleanUpNeighborhood, onCompleteParams: [obj]});
     // TweenLite.to(obj.material, time, {opacity:0, delay:.25 + i * delay});
-    TweenLite.delayedCall(25 + i * delay, cleanUpNeighborhood, [obj]);
+    // TweenLite.delayedCall(25 + i * delay, cleanUpNeighborhood, [obj]);
   }
 
   TweenLite.delayedCall(totalTime - .5, greyContainer);
@@ -903,6 +905,13 @@ function onDocumentMouseMove(event) {
 
   TweenLite.to($('#rolloverTip'), .1, { css: { left: event.pageX - 28, top: event.pageY - 150 }});
 
+  // detect mouse position
+  if ( event.pageY >= window.innerHeight - 61 )
+  {
+    overFooter = true;
+  } else {
+    overFooter = false;
+  }
 }
 
 var cityCamPosX, cityCamPosY, cityCamPosZ, cityLaX, cityLaY, cityLaZ; 
@@ -917,7 +926,7 @@ function onDocumentClick(event) {
   cityLaZ = laZ;
 
   // if we've clicked on a neighborhood
-  if (currentRollover !== "" & currentState == "city") {
+  if (currentRollover !== "" && currentState == "city" && !overFooter) {
 
     console.log(camPosX, camPosZ);
 

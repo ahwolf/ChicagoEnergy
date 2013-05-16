@@ -21,47 +21,89 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         g = geocoders.GeoNames()
-        census_blocks = CensusBlocks.objects.all()
+        census_blocks = CensusBlocks.objects.filter(nice_address=None,
+                                                    building_type='Residential',
+                                                    building_subtype='All')
         census_ids = set()
         for census_block in census_blocks:
             census_ids.add(census_block.census_id)
 
         for i,census_id in enumerate(census_ids):
-            single_census = CensusBlocks.objects.get(building_type = 'Residential',
-                                                        census_id = census_id,
-                                                        building_subtype = 'All')
+            try:
+                single_census = CensusBlocks.objects.get(building_type = 'Residential',
+                                                         census_id = census_id,
+                                                         building_subtype = 'All')
+            except:
+                print census_id
+                continue
             try:
                 shape = single_census.shape
                 if shape != None:
-                    print single_census.neighborhood
-                    print single_census.neighborhood.name
 
-                    lat, lon = list(wkt.loads(shape).exterior.coords)[:1][0]
-                    (place, point) = g.reverse((lon,lat))
-
+                    lat, lon = list(wkt.loads(shape).representative_point().coords)[0]
+                    try:
+                        (place, point) = g.reverse((lon,lat))
+                    except:
+                        pass
                     # Get the address because we are rounding it out
                     address = place.split(",")[0]
+                    print address
                     broken = address.split()
-                    new_street = str(int(round(int(broken[0]) ,-2)))
+                    try:
+                        new_street = str(int(round(int(broken[0]) ,-2)))
+                    except ValueError:
+                        print "ValueError, rechecking..."
+                        lat, lon = list(wkt.loads(shape).centroid.coords)[0]
+                        try:
+                            (place, point) = g.reverse((lon,lat))
+                        except:
+                            pass
+                        # Get the address because we are rounding it out
+                        address = place.split(",")[0]
+                        print address
+                        broken = address.split()
+                        try:
+                            new_street = str(int(round(int(broken[0]) ,-2)))
+                        except ValueError:
+                            print "ValueError, rechecking..."
+                            for x in wkt.loads(shape).exterior.coords:
+                                lat, lon = x
+                                try:
+                                    (place, point) = g.reverse((lon,lat))
+                                except:
+                                    pass
+                                # Get the address because we are rounding it out
+                                address = place.split(",")[0]
+                                print address
+                                broken = address.split()
+                                try:
+                                    new_street = str(int(round(int(broken[0]) ,-2)))
+                                    break
+                                except ValueError:
+                                    print "ValueError, rechecking..."
+                                    pass
+
+
                     broken = ' '.join(broken[1:])
                     broken = new_street + " " + broken
+                
 
             except (AttributeError) as e:
                 print "attribute error", census_id
+                continue
+            nice_address = broken
+            try:
+                CensusBlocks.objects.filter(building_type = "Residential",
+                                            census_id = census_id)\
+                                    .update(nice_address = nice_address)
 
-            # # nice_address =
-            # try:
-            #     CensusBlocks.objects.filter(building_type = "Residential",
-            #                                 census_id = census_id)\
-            #                         .update(
-            #                                 shape = shape,
-            #                                 neighborhood = neighborhood)
+            except (TypeError, ZeroDivisionError) as e:
+                print >> sys.stderr, "Nothing to aggregate."
 
-            # except (TypeError, ZeroDivisionError) as e:
-            #     print >> sys.stderr, "Nothing to aggregate."
+            if i%100 == 0:
+                print >> sys.stderr, "Aggregating %i of %i" %(i, len(census_ids))
 
-            # if i%1000 == 0:
-            #     print >> sys.stderr, "Aggregating %i of %i" %(i, len(census_ids))
+                # 170310803001002
 
 
 
