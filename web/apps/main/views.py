@@ -335,7 +335,7 @@ def leaderboard(request):
         # leader_list.append([neighborhood.name,amount['initiative__savings__sum']])
 
         count = len(pledges)
-        if total['initiative__savings__sum'] == "NULL":
+        if total['initiative__savings__sum'] == "null":
             total['initiative__savings__sum'] = '0'
         leader_list.append([neighborhood.name,count, total['initiative__savings__sum']])
 
