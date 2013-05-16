@@ -216,6 +216,22 @@ def create_census_json(census_blocks, WKT=True):
             else:
                 nice_address = census_block.nice_address
 
+
+            if census_block.kwh_efficiency:
+                kwh_efficiency = census_block.kwh_efficiency
+                kwh_rank = census_block.kwh_rank
+            else:
+                kwh_efficiency = 0
+                kwh_rank = 0
+
+
+            if census_block.therm_efficiency:
+                therm_efficiency = census_block.therm_efficiency
+                therm_rank = census_block.therm_rank
+            else:
+                therm_efficiency = 0
+                therm_rank = 0
+
             # Put it into geojson format
             feature = {
                     "type": "Feature",
@@ -227,14 +243,14 @@ def create_census_json(census_blocks, WKT=True):
                             # 'elect': census_block.total_kwh,
                             # 'gas': census_block.total_therm,
                             # total_energy = total_energy,
-                            'elect_efficiency': census_block.kwh_efficiency,
-                            'gas_efficiency': census_block.therm_efficiency,
+                            'elect_efficiency': kwh_efficiency,
+                            'gas_efficiency': therm_efficiency,
                             # 'total_sqft': census_block.total_sqft,
                             # 'gas_sqft': census_block.sqft_therm,
                             # 'elect_sqft': census_block.sqft_kwh,
                             'name': census_block.census_id,
-                            'elect_rank':census_block.kwh_rank,
-                            'gas_rank':census_block.therm_rank,
+                            'elect_rank':kwh_rank,
+                            'gas_rank':therm_rank,
                             'elect_percentile':census_block.kwh_percentile,
                             'gas_percentile':census_block.therm_percentile,
                             'nice':nice_address

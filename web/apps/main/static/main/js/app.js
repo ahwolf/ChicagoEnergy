@@ -4,8 +4,11 @@ if (isSafari && !webgl_detect()) {
   TweenLite.to($('#safariModal'), .25, {autoAlpha:1})
 }
 
+
+
 // get rid of loadBar
 TweenLite.to($('#loadBar'), .25, {autoAlpha:0})
+TweenLite.to($('#wrapper'), .25, {autoAlpha:1})
 
 // Clear out extra space in the body, don't let scrollbars show
 document.body.style.margin = 0;
@@ -209,11 +212,11 @@ function addGeoObject() {
     
     // calculate the max and min of all the property values
     var gas_eff_min_max = d3.extent(data.features, function(feature){
-        return feature.properties.gas_efficiency;
+        return feature.properties.gas_rank;
     });
 
     var elec_eff_min_max = d3.extent(data.features, function(feature){
-        return feature.properties.elect_efficiency;
+        return feature.properties.elect_rank;
     });
   // convert to mesh and calculate values
   _.each(data.features, function (geoFeature) {
@@ -240,19 +243,21 @@ function addGeoObject() {
     // create material color based on gas efficiency Ensure the
     // property matches with the scale above, we'll add automatic
     // matching functionality later
+    console.log(geoFeature.properties.gas_efficiency)
     if (geoFeature.properties.gas_efficiency === 0){
-	var hexMathColor = "0x333333";
+       var hexMathColor = parseInt("0xAAAAAA");
     }	
     else{
-	var mathColor = color_scale(geoFeature.properties.gas_efficiency);
-	var hexMathColor = parseInt(mathColor.replace("#", "0x"));
+       var mathColor = color_scale(geoFeature.properties.gas_rank);
+       var hexMathColor = parseInt(mathColor.replace("#", "0x"));
     } 
+    console.log("Math color is: ",mathColor, hexMathColor);
     material = new THREE.MeshLambertMaterial({
       color: hexMathColor
     });
 
     // create extrude based on electricity efficiency
-    var extrude = extrude_scale(geoFeature.properties.elect_efficiency);
+    var extrude = extrude_scale(geoFeature.properties.elect_rank);
 
     // Add the attributes to the mesh for the height of the polygon
     var shape3d = mesh.extrude({
@@ -414,10 +419,20 @@ function render() {
       if (currentState == "neighborhood"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.nice.replace(/ [S|N|W|E] /, " Block of "));
 	  $("#tipSubHead").html("ENERGY USE");
-	  
-	  $("#tipGasRankText").html(INTERSECTED.properties.gas_efficiency.toFixed(2) + " th");
-	  $("#tipElectricRankText").html(INTERSECTED.properties.elect_efficiency.toFixed(2) + " kWh");
-	  $("#detailText").html("");
+console.log(INTERSECTED.properties.gas_efficiency.toFixed(2));
+    if (INTERSECTED.properties.gas_efficiency === 0){
+        $("#tipGasRankText").html("N/A");
+    }
+    else{
+       $("#tipGasRankText").html(INTERSECTED.properties.gas_efficiency.toFixed(2) + " th");
+    }
+    if (INTERSECTED.properties.elect_efficiency === 0){
+      $("#tipElectricRankText").html("N/A");
+    }
+    else{
+      $("#tipElectricRankText").html(INTERSECTED.properties.elect_efficiency.toFixed(2) + " kWh");
+	}
+      $("#detailText").html("");
       }
       else if (currentState == "city"){
 	  $("#neighborhoodText").html(INTERSECTED.properties.name);
@@ -521,7 +536,7 @@ function create2Dmap(){
 
   // calculate the max and min of all the property values
   var gas_eff_min_max = d3.extent(data.features, function(feature){
-    return feature.properties.gas_efficiency;
+    return feature.properties.gas_rank;
   });
 
   var color_scale = d3.scale.quantile()
@@ -535,7 +550,7 @@ function create2Dmap(){
   console.log("numblocks is: " + numBlocks);
 
   blocks.enter().append("path")
-    .attr('fill', function(d){return color_scale(d.properties.gas_efficiency);})
+    .attr('fill', function(d){return color_scale(d.properties.gas_rank);})
     .attr('stroke',"none")
     .attr("d", path_2D);
     d3.selectAll("path").on("mouseover", function(d){
@@ -893,10 +908,15 @@ $("#backToCityButton").click(function() {
   // hide 'back to city' button
   TweenLite.to($('#backToCityButton'), .25, {autoAlpha:0});
   TweenLite.to($('#container'), .25, {autoAlpha:0});
+  TweenLite.to($('#hoodOverviewContainer'), .25, {autoAlpha:0, onComplete:cheatRefresh});
   // TweenLite.delayCall(.25,removeBlocks); 
   
-  removeBlocks();
+//  removeBlocks();
 });
+
+function cheatRefresh() {
+    window.location.reload();
+}
 
 $(".socialButton").click(function() {
   TweenLite.to($('#socialLogin'), .25, {autoAlpha: 0});
