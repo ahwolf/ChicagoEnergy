@@ -335,6 +335,8 @@ def leaderboard(request):
         # leader_list.append([neighborhood.name,amount['initiative__savings__sum']])
 
         count = len(pledges)
+        if total['initiative__savings__sum'] == "NULL":
+            total['initiative__savings__sum'] = '0'
         leader_list.append([neighborhood.name,count, total['initiative__savings__sum']])
 
     leader_list = sorted(leader_list, key = lambda leader:leader[1], reverse = True)
