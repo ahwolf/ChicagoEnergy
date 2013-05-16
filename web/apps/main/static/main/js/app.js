@@ -63,7 +63,7 @@ var currentAngle;
 var angleStep = 0;
 
 // check to see if there's a stored value & set currentAngle accordingly
-var storedValue = localStorage.getItem('angle');
+var storedValue = parseFloat(localStorage.getItem('angle'));
 if (storedValue) currentAngle = storedValue;
 else currentAngle = Math.PI * 1.988;
 
@@ -78,6 +78,11 @@ var la = new THREE.Object3D();
 var laX;
 var laY;
 var laZ;
+
+var storedValueLAX = localStorage.getItem('lax');
+var storedValueLAY = localStorage.getItem('lay');
+var storedValueLAZ = localStorage.getItem('laz');
+
 
 var currentState;
 var currentRollover;
@@ -136,6 +141,10 @@ function initScene() {
   //camera.lookAt( scene.position );
 
   // calculate dynamic lookAt object position
+  // if (storedValueLAZ) laZ = storedValueLAZ;
+  // if (storedValueLAY) laY = storedValueLAY;
+  // if (storedValueLAX) laX = storedValueLAX;
+
   laX = Math.cos(currentAngle * Math.PI * 2) * radiusX * .6;
   laY = 150;
   laZ = Math.sin(currentAngle * Math.PI * 2) * radiusZ * .6;
@@ -313,6 +322,7 @@ function startFlying(state) {
 }
 
 function flyAround() {
+
 
   // ease into flying animation
   if (angleStep < .00015) angleStep += .000001; // change back to .00015 & .000001 for launch
@@ -926,7 +936,7 @@ $("#backToCityButton").click(function() {
 });
 
 function cheatRefresh() {
-    
+
     window.location.reload();
 }
 
@@ -1023,6 +1033,10 @@ function onDocumentClick(event) {
     $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
 
     localStorage.setItem('angle', currentAngle);
+    localStorage.setItem('lax', laX);
+    localStorage.setItem('lay', laY);
+    localStorage.setItem('laz', laZ);
+
     clickedNeighborhood = currentRollover;
     currentState = "";
     flying = false;
