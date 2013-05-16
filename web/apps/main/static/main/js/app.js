@@ -412,7 +412,7 @@ function render() {
       drawmap(INTERSECTED.properties.shape);
       var max_rank = data.features.length;
       if (currentState == "neighborhood"){
-	  $("#neighborhoodText").html(INTERSECTED.properties.nice);
+	  $("#neighborhoodText").html(INTERSECTED.properties.nice.replace(/ [S|N|W|E] /, " Block of "));
 	  $("#tipSubHead").html("ENERGY USE");
 	  
 	  $("#tipGasRankText").html(INTERSECTED.properties.gas_efficiency.toFixed(2) + " th");
