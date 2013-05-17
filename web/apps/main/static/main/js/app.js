@@ -1019,7 +1019,7 @@ function onDocumentMouseMove(event) {
 
 var cityCamPosX, cityCamPosY, cityCamPosZ, cityLaX, cityLaY, cityLaZ; 
 
-function onDocumentClick(event) {
+function onDocumentClick(event, test) {
   // save city view vars
   cityCamPosX = camPosX;
   cityCamPosY = camPosY;
@@ -1029,8 +1029,14 @@ function onDocumentClick(event) {
   cityLaZ = laZ;
 
   // if we've clicked on a neighborhood
-  if (INTERSECTED.properties.name !== "floor" && currentRollover !== "" && currentState == "city" && !overFooter) {
-    $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
+  if (test ||(INTERSECTED.properties.name !== "floor" && currentRollover !== "" && currentState == "city" && !overFooter)) {
+
+    if (test){
+        $("#hoodOverviewSubHead").html(event + " Census Block Detail");
+    }
+    else{
+        $("#hoodOverviewSubHead").html(INTERSECTED.properties.name + " Census Block Detail");
+    }
 
     localStorage.setItem('angle', currentAngle);
     localStorage.setItem('lax', laX);
