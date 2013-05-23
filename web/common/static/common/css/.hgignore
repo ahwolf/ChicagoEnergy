@@ -1,0 +1,11 @@
+syntax: glob
+
+# temp files
+*~
+
+# compiled css
+*.css
+
+# non-standard fonts
+fonts/desktop/Knowledge-*
+

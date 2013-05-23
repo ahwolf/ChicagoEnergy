@@ -1,0 +1,457 @@
+@import "common/admin/scss_definitions/base.scss";
+
+/*
+    DJANGO Admin styles
+*/
+
+$media_url: "/static/";
+@include fonts("#{$media_url}common/admin/scss_definitions/");
+
+body {
+  font-size: $font_size * 1.1;
+  color: $dark_grey;
+  background: white;
+}
+
+/* LINKS */
+
+a {
+  &:link, &:visited {
+    color: $light_blue;
+  }
+  &:hover {
+    color: $light_blue;
+    text-decoration: underline;
+  }
+  img {
+    border: none;
+  }
+  &.section {
+    &:link, &:visited {
+      color: $dark_grey;
+      font-family: QuicksandBook;
+      letter-spacing: 1px;
+      color: $light_grey;
+    }
+  }
+}
+
+/* GLOBAL DEFAULTS */
+
+h1, h2, h3, h4, h5 {
+  color: $dark_grey;
+  font-family: QuicksandBook;
+}
+
+h1 {
+  font-size: $font_size * 1.4;
+}
+
+h2 {
+  font-size: $font_size * 1.3;
+}
+
+h3 {
+  font-size: $font_size * 1.2;
+}
+
+h4 {
+  font-size: $font_size * 1.1;
+}
+
+h5 {
+  font-size: $font_size;
+}
+
+li {
+  ul {
+    margin-bottom: 0;
+  }
+  font-size: $font_size;
+  line-height: 1.3em;
+}
+
+dt, dd {
+  font-size: $font_size;
+  line-height: 1.3em;
+}
+
+blockquote {
+  font-size: $font_size;
+  color: $grey;
+  border-left-color: $light_grey;
+}
+
+code, pre {
+  color: $dark_grey;
+  font-size: $font_size; 
+}
+
+pre {
+  &.literal-block {
+    background: $ultra_light_grey;
+  }
+}
+
+code {
+  strong {
+    color: $dark_grey; 
+  }
+}
+
+hr {
+  color: $ultra_light_grey;
+  background-color: $ultra_light_grey;
+}
+
+/* TEXT STYLES & MODIFIERS */
+
+.small {
+  font-size: $font_size; 
+}
+
+.tiny {
+  font-size: $font_size*0.9; 
+}
+
+.mini {
+  font-size: $font_size*0.8; }
+
+p.mini {
+  margin-top: -3px; 
+}
+
+.help {
+  font-size: $font_size*0.9 !important;
+  color: $grey;
+}
+
+.quiet, a.quiet:link, a.quiet:visited {
+  color: $grey !important;
+}
+
+.example {
+  background: $ultra_light_grey;
+}
+
+/* TABLES */
+
+table {
+  border-color: $light_grey;
+}
+
+td, th {
+  font-size: $font_size;
+  line-height: 1.3em;
+  border: none;
+}
+
+thead th, tfoot td {
+  color: $dark_grey;
+  font-size: $font_size;
+  background: $ultra_light_grey;
+  border: none;
+  border-bottom: 1px dashed $light_grey;
+}
+
+fieldset table {
+  border-right-color: $light_grey;
+}
+
+tr {
+  &.row-label td {
+    font-size: $font_size*0.8;
+    color: $dark_grey;
+  }
+  &.alt {
+    background: $ultra_light_grey;
+  }
+}
+
+.row1, .row2 {
+  background: $ultra_light_grey;
+  th, td {
+    background: $ultra_light_grey;
+    border: none !important;
+  }
+}
+
+/* SORTABLE TABLES */
+
+thead th a:link, thead th a:visited {
+  color: $grey;
+}
+
+thead th.sorted {
+  background: $grey;
+  color: $light_grey;
+  &:hover {
+    color: $grey;
+    a {
+      color: $grey;
+    }
+  }
+  a {
+    color: $ultra_light_grey;
+  }
+}
+
+table thead th.sorted .sortpriority {
+  font-size: $font_size*.8;
+}
+
+table thead th {
+  &.sortable:hover {
+    background: $ultra_light_grey;
+  }
+}
+
+
+/* ORDERABLE TABLES */
+
+
+/* FORM DEFAULTS */
+
+input, textarea, select, .form-row p {
+  font-size: $font_size;
+}
+
+input {
+  &[type=text], &[type=password] {
+    border-color: $light_grey; 
+  }
+}
+
+textarea, select, .vTextField {
+  border-color: $light_grey;
+}
+
+/* FORM BUTTONS */
+
+@mixin button {
+  background: $very_light_grey;
+  padding: {
+    top: 0.5em;
+    bottom: 0.5em;
+    left: 1em;
+    right: 1em;
+  };
+  color: $dark_grey;
+  border: 1px solid $light_grey;
+  border-color: $very_light_grey $light_grey $light_grey $very_light_grey;
+  // @include rounded(0.5em);
+}
+
+@mixin button-active {
+  background: lighten($very_light_grey, 10%);
+  border-color: lighten($light_grey, 10%);
+}
+
+@mixin button-hover {
+  background: darken($very_light_grey, 10%);
+  border-color: darken($light_grey, 10%);
+}
+
+.button {
+  @include button;
+}
+input {
+  &[type=submit], &[type=button] {
+    @include button;
+  }
+}
+.submit-row input {
+  @include button;
+}
+
+.button:hover {
+  @include button-hover;
+}
+input {
+  &[type=submit]:hover, &[type=button]:hover {
+    @include button-hover;
+  }
+}
+.button.default:hover, input[type=submit].default:hover {
+  @include button-hover;
+}
+.button:active {
+  @include button-active;
+}
+input {
+  &[type=submit]:active, &[type=button]:active {
+    @include button-active;
+  }
+}
+.button.default:active, input[type=submit].default:active {
+  @include button-active;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+  font-weight: bold;
+  float: right;
+  color: $dark_grey;
+  background: darken($very_light_grey, 5%);
+  border-color: $light_grey $grey $grey $light_grey;
+  border-width: 1px;
+}
+
+
+/* MODULES */
+
+.module {
+  @include rounded(10px);
+  padding: 5px;
+  border-color: $light_grey;
+  margin-bottom: 15px;
+  background: $ultra_light_grey;
+  h2, caption {
+    font-size: $font_size;
+    color: $dark_grey;
+    background: $ultra_light_grey;
+    a.section {
+      color: $grey;
+      background: $ultra_light_grey;
+    }
+  };
+};
+
+.inline-group h2 {
+  font-size: $font_size;
+  color: $dark_grey;
+}
+
+/* MESSAGES & ERRORS */
+
+ul.messagelist {
+  li {
+    font-size: $font_size * 1.1;
+    border-bottom-color: $light_grey;
+    color: $dark_grey;
+  }
+}
+
+.errornote {
+  font-size: ($font_size * 1.1) !important;
+}
+
+.errorlist li {
+  font-size: ($font_size * 1.1) !important;
+  color: $dark_grey;
+  a {
+    color: $grey;
+  }
+}
+
+.errors {
+  background: $ultra_light_grey;
+}
+
+div.system-message {
+  background: $ultra_light_grey;
+  p.system-message-title {
+    background: $ultra_light_grey url(../img/admin/icon_error.gif) 5px 0.3em no-repeat; 
+  }
+}
+
+.description {
+  font-size: $font_size * 1.1;
+}
+
+/* BREADCRUMBS */
+
+div.breadcrumbs {
+  background: $ultra_light_grey;
+  font-size: $font_size;
+  color: $grey;
+  border-bottom-color: $light_grey;
+  text-align: left;
+}
+
+/* ACTION ICONS */
+
+/* OBJECT TOOLS */
+
+.object-tools {
+  li {
+    background: none !important;
+  }
+  a {
+    &:link, &:visited, &:hover {
+      background: none !important;
+      color: $light_blue;
+      padding-right: 0.5em;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+    &.addlink {
+      background: url("/static/common/admin/img/admin/icon_addlink.gif") 0.75em 0.2em no-repeat;
+      padding: {
+	left: 1.5em;
+	right: 1em;
+      }
+    }
+  }
+}
+
+/* OBJECT HISTORY */
+
+/* PAGE STRUCTURE */
+
+#content-main {
+  background: $ultra_light_grey;
+}
+
+/* COLUMN TYPES */
+
+/* HEADER */
+
+#header {
+  background: $dark_grey;
+  color: $very_light_grey;
+  a {
+    &:link, &:visited {
+      color: $very_light_grey;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#branding {
+  float: left;
+  h1, h2 {
+    font-family: QuicksandBold !important;
+    color: $very_light_grey;
+  }
+  h1 {
+    font-size: $branding_font_size;
+  }
+  h2 {
+    font-size: $branding_font_size * 0.75;
+    margin: -8px 0 8px 0;
+  }
+}
+
+#user-tools {
+  font-size: $font_size;
+  text-align: right;
+}
+
+/* SIDEBAR */
+
+#content-related {
+  h3 {
+    font-size: $font_size * 1.1;
+    color: $dark_grey;
+  }
+  h4 {
+    font-size: $font_size;
+  }
+  .module h2 {
+    background: $ultra_light_grey;
+    color: $light_grey;
+  }
+}

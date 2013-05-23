@@ -1,0 +1,22 @@
+@import "common/css/dsa_colors";
+
+.dsa_logo {
+  font-size: smaller;
+  color: $light_grey;
+  .orange {
+    color: $orange;
+  }
+  .separator {
+    padding: {
+      left: 0.25em;
+      right: 0.25em;
+    };
+  }
+  .grey {
+    color: $light_grey;
+  }
+  a:hover {
+    color: $light_grey;
+    text-decoration: underline;
+  }
+}

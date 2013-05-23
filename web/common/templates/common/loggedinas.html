@@ -1,0 +1,5 @@
+<div id="loggedinas">
+  {% if user.is_authenticated %}
+  <p>logged in as <span class="username">{{user}}</span> | <a href="{% url django.contrib.auth.views.logout_then_login %}">logout</a>{% if user.is_staff %} | <a href="{% url admin:index %}">admin</a>{% endif %}</p>
+  {% endif %}
+</div>

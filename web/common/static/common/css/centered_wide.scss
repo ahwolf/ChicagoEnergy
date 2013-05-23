@@ -1,0 +1,39 @@
+@import "common/scss_definitions/centered_wide.scss";
+
+html {
+  font: {
+    family: sans-serif;
+  };
+  background: $footer_color;
+}
+
+.wrapper {
+  width: $width;
+  margin: 0px auto;
+}
+
+#header {
+  min-height: $header_height;
+  background: $header_color;
+  h1 {
+    font: {
+      size: $header_height / 2;
+      weight: bold;
+    };
+    line-height: $header_height;
+    color: $footer_color;
+  }
+}
+
+#content {
+  padding: {
+    top: $pad;
+    bottom: $pad;
+  };
+  background: $content_color;
+}
+
+#footer {
+  background: $footer_color;
+  line-height: 2em;
+}

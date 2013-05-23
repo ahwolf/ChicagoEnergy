@@ -1,0 +1,6 @@
+# freeze to latest minor version of django 1.5.
+Django==1.5
+wsgiref==0.1.2
+-e git://github.com/deanmalmgren/linode-python.git#egg=linode
+-e git://github.com/jezdez/django-robots.git@0.9.2#egg=robots
+django_compressor==1.3

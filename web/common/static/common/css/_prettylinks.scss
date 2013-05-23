@@ -1,0 +1,14 @@
+@mixin prettylinks($color:black, $active_color:black, $decoration:underline) {
+  text-decoration: none;
+  outline: none;
+  &:link, &:visited {
+    color: $color;
+  }
+  &:active, &:hover {
+    color: $active_color;
+    text-decoration: $decoration;
+  }
+}
+
+a { @include prettylinks(); }
+

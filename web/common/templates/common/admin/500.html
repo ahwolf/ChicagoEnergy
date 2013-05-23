@@ -1,0 +1,12 @@
+{% extends "django/contrib/admin/templates/admin/500.html" %}
+{% load admin_static %}
+{% load url from future %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  &lsaquo; <a href="{{ROOT_URL}}">{% trans "Back to site" %}</a> |
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; {% trans 'Server error' %}
+</div>
+{% endblock %}

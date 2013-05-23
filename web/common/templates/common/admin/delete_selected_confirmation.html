@@ -1,0 +1,15 @@
+{% extends "django/contrib/admin/templates/admin/delete_selected_confirmation.html" %}
+
+{% load i18n %}
+{% load url from future %}
+{% load admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  &lsaquo; <a href="{{ROOT_URL}}">{% trans "Back to site" %}</a> |
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+&rsaquo; {% trans 'Delete multiple objects' %}
+</div>
+{% endblock %}

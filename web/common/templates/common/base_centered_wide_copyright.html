@@ -1,0 +1,15 @@
+{% extends "common/base_centered_wide.html" %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/css/copyright.scss" />
+{% endblock css %}
+
+{% block footer %}
+<div id="copyright">
+  {% block copyright %}
+  {% include "copyright.html" %}
+  {% endblock copyright %}
+</div>
+{% endblock footer %}

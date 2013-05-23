@@ -1,0 +1,34 @@
+
+* test that everything is working on staging and production!
+
+* fix virtualenv so that correct python interpretor is being used, and
+  *only* packages from virtualenv are being used.
+
+* true upgrade to html5 by adding and contributing to
+   https://github.com/ross/django-html5bp to the virtualenv and
+   extending these base templates directly
+
+* improve workflow scripts to go to arbitrary servers
+
+* have workflow scripts request all passwords before everything starts
+   so that its truly one-click and walk away
+
+* update documentation
+
+* test that everything is working on staging and production!
+
+* integrate twitter bootstrap into our common elements
+
+* gziping media
+
+* use nginx to serve media
+
+* update documentation
+
+* test that everything is working on staging and production!
+
+* use javascript loader modules (e.g., Require.js)
+
+* only include dsa/js/lib packages once (e.g., jquery and raphael) in
+   compress blocks. custom filters with django compressor?
+   http://django_compressor.readthedocs.org/en/latest/settings/index.html?highlight=filter#backend-settings

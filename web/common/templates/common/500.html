@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss"
+      href="{{STATIC_URL}}common/css/error.scss" />
+{% endblock css %}
+
+{% block content %}
+<div class="error_message">
+  <h1>500</h1>
+  <p>
+    An unexpected error seems to have occured.
+    Please try refreshing the page
+    and <a href="mailto:web.services@datascopeanalytics.com">contact
+    us</a> if the problem persists.
+  </p>
+  <p>
+    What is
+    500? <a href="http://en.wikipedia.org/wiki/HTTP_500">Wikipedia has
+    the answer.</a>
+  </p>
+</div>
+{% endblock content %}

@@ -1,0 +1,21 @@
+@import "common/admin/scss_definitions/base.scss";
+
+/* LOGIN FORM */
+
+body.login {
+  background: white !important;
+}
+
+.login {
+  #container {
+    background: $ultra_light_grey;
+    border-color: $dark_grey !important;
+    @include shadow(10px,$light_grey);
+  }
+  input[type=submit] {
+    background: darken($very_light_grey, 5%);
+  }
+  .breadcrumbs {
+    display: none;
+  }
+}

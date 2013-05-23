@@ -1,0 +1,5 @@
+[keys]
+# to use the secret key, uncomment the following line and enter the
+# linode secret key, which can be obetained from
+# https://manager.linode.com/profile/index
+#secret = XXXX_GET_KEY_FROM_LINODE_XXXX

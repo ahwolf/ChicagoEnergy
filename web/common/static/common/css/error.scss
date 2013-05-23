@@ -1,0 +1,34 @@
+@import "common/scss_definitions/error.scss";
+
+@mixin link_formatting {
+  a {
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none;
+	color: $secondary_color;
+    }
+    &:hover {
+      text-decoration: underline;
+      color: $secondary_color;
+    }
+  }
+}
+
+div.error_message {
+  font-size: $font_size;
+
+  h1 {
+    font-size: 150%;
+    font-weight: bold;
+  }
+  p {
+    padding-bottom: 1em;
+    @include link_formatting;
+  }
+  ul {
+    padding-left: 2em;
+    padding-bottom: 1em;
+    li {
+      
+    }
+  }
+}

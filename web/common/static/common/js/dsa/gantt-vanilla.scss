@@ -1,0 +1,55 @@
+$stripe_color: rgb(230,230,230);
+$phase_color: rgb(255,96,0);
+$today_color: rgb(192,192,192);
+$text_color: rgb(128,128,128);
+
+#content {
+}
+.even {
+  fill: rgb(242,242,242);
+}
+.odd {
+  fill: $stripe_color;
+}
+g.phase {
+  rect {
+    fill: $phase_color;
+    fill-opacity: 0.5;
+  }
+  text {
+    fill: white;
+  }
+  &.highlighted {
+    cursor: pointer;
+    rect {
+      fill-opacity: 0.75;
+      stroke: $text_color;
+      stroke-opacity: 1;
+    }
+    text {
+      // fill: $text_color;
+    }
+  }
+}
+.start_line, .finish_line, .current_line {
+  $color: black;
+  stroke: $color;
+  stroke-width: 1;
+  &.highlighted {
+    stroke: lighten($color, 50%);
+  }
+}
+.current_line {
+  stroke-width: 5;
+}
+.current_line {
+  stroke: $today_color;
+} 
+.axislabel {
+  font: {
+    family: LeagueGothicRegular, Helvetica, sans-serif;
+    size: 16px;
+  };
+  fill: $text_color;
+  text-transform: uppercase;
+}

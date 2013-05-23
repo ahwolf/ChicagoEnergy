@@ -1,0 +1,21 @@
+@import "common/scss_definitions/loggedinas.scss";
+
+div#loggedinas {
+  float: left;
+  font-size: smaller;
+  color: $secondary_color;
+  span {
+    &.username {
+      color: $primary_color;
+    }
+  }
+  a {
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+  a:hover {
+    text-decoration: underline;
+    color: $secondary_color;
+  }
+}

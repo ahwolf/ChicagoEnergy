@@ -1,0 +1,124 @@
+/* TipTip CSS - Version 1.2 */
+
+/* 
+
+NOTE: To use the default tipTip configuration, add a soft link from
+main/scss_definitions/tipTip_definitions.scss to enable the basic
+functionality. 
+
+If you want to tweak things, you can create a new file in
+apps/main/media/main/scss_definitions/tipTip_definitions.scss that
+starts with the line 
+
+@import "main/media/main/dsa/js/lib/tiptip/tipTip_definitions.scss";
+
+and revise any of the variable names that you would like.
+
+*/
+@import "main/scss_definitions/tipTip_definitions.scss";
+
+#tiptip_holder {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  &.tip_top {
+    padding-bottom: $pad; 
+  }
+  &.tip_bottom {
+    padding-top: $pad; 
+  }
+  &.tip_right {
+    padding-left: $pad; 
+  }
+  &.tip_left {
+    padding-right: $pad; 
+  } 
+}
+
+#tiptip_content {
+  font-size: $font_size;
+  font-family: Arial, sans-serif;
+  color: $font_color;
+  text-shadow: $text_shadow;
+  padding: $pad 2*$pad;
+  border: $border-width solid rgba($border_color, $border_alpha);
+  background-color: $background_color;
+  background-color: rgba($background_color, $background_alpha);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to($gradient_color));
+  border-radius: $border_radius;
+  -webkit-border-radius: $border_radius;
+  -moz-border-radius: $border_radius;
+  box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+}
+
+#tiptip_arrow, #tiptip_arrow_inner {
+  position: absolute;
+  border-color: transparent;
+  border-style: solid;
+  border-width: $pad;
+  height: 0;
+  width: 0; 
+}
+
+#tiptip_holder {
+  &.tip_top #tiptip_arrow {
+    border-top-color: $border_color;
+    border-top-color: rgba($border_color, $border_alpha); 
+  }
+  &.tip_bottom #tiptip_arrow {
+    border-bottom-color: $border_color;
+    border-bottom-color: rgba($border_color, $border_alpha); 
+  }
+  &.tip_right #tiptip_arrow {
+    border-right-color: $border_color;
+    border-right-color: rgba($border_color, $border_alpha); 
+  }
+  &.tip_left #tiptip_arrow {
+    border-left-color: $border_color;
+    border-left-color: rgba($border_color, $border_alpha); 
+  }
+  &.tip_top #tiptip_arrow_inner {
+    margin-top: -($pad + 2*$border_width);
+    margin-left: -($pad + $border_width);
+    border-top-color: $background_color;
+    border-top-color: rgba($background_color, $background_alpha); 
+  }
+  &.tip_bottom #tiptip_arrow_inner {
+    margin-top: -$pad;
+    margin-left: -($pad + $border_width);
+    border-bottom-color: $background_color;
+    border-bottom-color: rgba($background_color, $background_alpha); 
+  }
+  &.tip_right #tiptip_arrow_inner {
+    margin-top: -($pad + $border_width);
+    margin-left: -$pad;
+    border-right-color: $background_color;
+    border-right-color: rgba($background_color, $background_alpha); 
+  }
+  &.tip_left #tiptip_arrow_inner {
+    margin-top: -($pad + $border_width);
+    margin-left: -($pad + 2*$border_width);
+    border-left-color: $background_color;
+    border-left-color: rgba($background_color, $background_alpha); 
+  }
+}
+
+/* Webkit Hacks  */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  #tiptip_content {
+    padding: $pad 2*$pad;
+    background-color: rgba($background_color, $background_alpha); 
+  }
+  #tiptip_holder {
+    &.tip_bottom #tiptip_arrow_inner {
+      border-bottom-color: rgba($background_color, $background_alpha); 
+    }
+    &.tip_top #tiptip_arrow_inner {
+      border-top-color: rgba($background_color, $background_alpha); 
+    } 
+  } 
+}

@@ -1,0 +1,11 @@
+/* modify tiptip to exclude shadows */
+
+@import "tipTip.scss";
+
+#tiptip_content {
+  text-shadow: none;
+  background-image: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}

@@ -1,0 +1,66 @@
+@import "basic.scss";
+
+/*
+
+  Row highlight and select. This scss template provides a .highlighted
+  class for row highlighting as well as a .selected class for selected
+  rows. The default behavior for the highlight is a solid border. The
+  default behavior for the select is a solid background color.
+
+*/
+
+$highlight_color: #666; // same color as text
+$even_highlight_color: $highlight_color; //lighten($highlight_color, 15%);
+$odd_highlight_color: $highlight_color; //darken($even_highlight_color, 5%);
+$highlight_border_width: 3px;
+
+$select_color: #8c93fe; // same color as sort arrows
+$even_select_color: lighten($select_color, 15%);
+$odd_select_color: darken($even_select_color, 5%);
+
+table.row_highlight_select tbody tr td {
+  cursor: pointer;
+}
+
+// highlight behavior
+table.row_highlight_select tr {
+  &.even.highlighted {
+    border: $highlight_border_width solid $even_highlight_color;
+  }
+  &.odd.highlighted {
+    border: $highlight_border_width solid $odd_highlight_color;
+  }
+}
+
+// select behavior
+table.row_highlight_select tr {
+  &.even.selected {
+    background-color: $even_select_color;
+    td {
+      &.sorting_1 {
+        background-color: darken($even_select_color, 5%);
+      }
+      &.sorting_2 {
+        background-color: darken($even_select_color, 10%);
+      }
+      &.sorting_3 {
+        background-color: darken($even_select_color, 15%);
+      }
+    }
+  }
+  &.odd.selected {
+    background-color: $odd_select_color;
+    td {
+      &.sorting_1 {
+        background-color: darken($odd_select_color, 5%);
+      }
+      &.sorting_2 {
+        background-color: darken($odd_select_color, 10%);
+      }
+      &.sorting_3 {
+        background-color: darken($odd_select_color, 15%);
+      }
+    }
+  }
+}
+

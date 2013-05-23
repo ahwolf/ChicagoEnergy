@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss"
+      href="{{STATIC_URL}}common/css/error.scss" />
+{% endblock css %}
+
+{% block content %}
+<div class="error_message">
+  <h1>404</h1>
+  <p>
+    This is not the page you are looking for.
+    But seriously, perhaps you are receiving this message because:
+  </p>
+  <ul>
+    <li>the address of the page is not correct.</li>
+    <li>the page has moved.</li>
+    <li>the page no longer exists.</li>
+  </ul>
+  <p>
+    Please <a href="mailto:web.services@datascopeanalytics.com">contact us</a>
+    if you think this is an error.
+  </p>
+  <p>
+    What is
+    404? <a href="http://en.wikipedia.org/wiki/HTTP_404">Wikipedia has
+      the answer.</a>
+  </p>
+</div>
+{% endblock content %}

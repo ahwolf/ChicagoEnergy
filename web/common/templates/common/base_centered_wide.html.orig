@@ -1,0 +1,29 @@
+{% extends "common/base.html" %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/css/centered_wide.scss" />
+{% endblock css %}
+
+{% block body %}
+{{block.super}}
+
+<div id="content">
+  <div class="wrapper">
+    {% block content %}
+    <p>content</p>
+    {% endblock content %}
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div id="footer">
+  <div class="wrapper">
+    {% block footer %}
+    <p>footer</p>
+    {% endblock footer %}
+  </div>
+  <div class="clear"></div>
+</div>
+{% endblock body %}

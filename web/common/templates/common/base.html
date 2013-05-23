@@ -1,0 +1,151 @@
+{% spaceless %}
+{% load compress %}
+{##############################################################################}
+{##############################################################################}
+{##############################################################################}
+{# THIS ENTIRE TEMPLATE IS BASED OFF THE HTML5 BOILERPLATE 4.0.0              #}
+{# http://html5boilerplate.com/                                               #}
+{##############################################################################}
+{##############################################################################}
+{##############################################################################}
+{% block doctype %}
+<!DOCTYPE html>
+{% endblock doctype %}
+{% block conditional_html %}
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+{% endblock conditional_html %}
+  <head>
+    {% block head %}
+    {% block meta %}
+    {# charset should appear in first 1024 bytes. needs to appear early #}
+    <meta charset="utf-8" />
+
+    {# use the best possible IE rendering engine available and, if installed #}
+    {# use Chrome Frame #}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    {# have mobile devices behave properly. put in block for omission #}
+    {% block meta_viewport %}
+    <meta name="viewport" content="width=device-width" />
+    {% endblock meta_viewport %}
+
+    {# optimize page rank with good descriptions (and keywords) #}
+    <meta name="description" content="{% block meta_description %}{% endblock meta_description %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock meta_keywords %}" />
+    {% endblock meta %}
+
+    <title>{% block title %}Default title{% endblock title %}</title>
+    
+    {# just in case... #}
+    {% block ascii_art %}
+    {% endblock ascii_art %}
+    
+    {# various summary icons go here. for details, see: #}
+    {# http://www.insidefacebook.com/2009/04/06/increase-your-sites-traffic-through-facebook-share/ #}
+    {# http://mathiasbynens.be/notes/touch-icons #}
+    {% block favicon %}
+    <link rel="shortcut icon"
+	  href="{{STATIC_URL}}main/img/favicon.ico" />
+    {% endblock favicon %}
+    {% block image_src %}
+    <link rel="image_src"
+	  href="{{STATIC_URL}}main/img/favicon.png" />
+    {% endblock image_src %}
+    {% block apple_touch_icon %}
+    <link rel="apple-touch-icon"
+	  href="{{STATIC_URL}}main/img/favicon.png" />
+    {% endblock apple_touch_icon %}
+
+    {# RSS empty by default #}
+    {% block rss %}
+    {% endblock rss %}
+
+    {# include remote CSS files here #}
+    {% block uncompressed_css %}
+    {% endblock uncompressed_css %}
+
+    {# css block goes here #}
+    {% compress css file %}
+    {% block css %}
+
+    {# include the HTML5 boilerplate css here #}
+    <link rel="stylesheet" type="text/x-scss" 
+	  href="{{STATIC_URL}}common/css/h5bp_normalize.scss" />
+    <link rel="stylesheet" type="text/x-scss" 
+	  href="{{STATIC_URL}}common/css/h5bp_cross_browser.scss" />
+
+    {# reset all of the padding/margin/borders to zero #}
+    <link rel="stylesheet" type="text/x-scss"
+	  href="{{STATIC_URL}}common/css/reset.scss" />
+
+    {% endblock css %}
+    {% endcompress %}
+
+    {# the only javascript that should be included in header is modernizr #}
+    {% compress js file %}
+    {% block head_js %}
+    <script src="{{STATIC_URL}}common/js/modernizr-2.6.1.min.js"></script>
+    {% endblock head_js %}
+    {% endcompress %}
+  
+    {% endblock head %}
+  </head>
+  <body>
+    {% block body %}
+
+    {# include chromeframe warning by default in the body #}
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    {% endblock body %}
+
+    {# include remote JS files here via CDN with local fallbacks #}
+    {% block uncompressed_js %}
+    {% with "1.8.0" as jquery_version %}
+    {% if USE_CDN_MEDIA %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/{{jquery_version}}/jquery.min.js"></script>
+    {% endif %}
+    <script>window.jQuery || document.write('<script src="{{STATIC_URL}}common/js/jquery-{{jquery_version}}.min.js"><\/script>')</script>
+    {% endwith %}
+    {% endblock uncompressed_js %}
+
+    {# include all other js libraries in the body #}
+    {# to be compressed into single file #}
+    {% compress js file %}
+    {% block js %}
+
+    {# this fixes a problem with console.log b.s. #}
+    <script src="{{STATIC_URL}}common/js/fix_console.js"></script>
+
+    {% endblock js %}
+    {% endcompress %}
+
+    {# the dynamic_javascript block is where we place all inline javascript #}
+    {# in principal, this is where we instantiate all necessary js objects #}
+    {# and use django templating language to manipulate javascript varibles #}
+    {# on the fly #}
+    {% autoescape off %}
+    {% block dynamic_javascript %}
+    {% endblock dynamic_javascript %}
+    {% endautoescape %}
+    
+    {# Google Analytics: change UA-XXXXX-X to be your site's ID. #}
+    {% autoescape off %}
+    {% block google_analytics %}
+    {% if GOOGLE_ANALYTICS_SITE_ID %}
+    <script>
+      var _gaq=[['_setAccount','UA-{{GOOGLE_ANALYTICS_SITE_ID}}'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+    {% endif %}
+    {% endblock google_analytics %}
+    {% endautoescape %}
+
+  </body>
+</html>
+{% endspaceless %}

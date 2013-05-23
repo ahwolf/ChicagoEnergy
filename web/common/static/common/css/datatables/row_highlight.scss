@@ -1,0 +1,58 @@
+@import "basic.scss";
+
+/*
+
+  Row highlighting. This adds a light blue shading on roll-over
+
+*/
+
+$highlight_color: #8c93fe; // same color as sort arrows
+$even_highlight_color: lighten($highlight_color, 15%);
+$odd_highlight_color: darken($even_highlight_color, 5%);
+
+table.row_highlight tbody tr td {
+  padding: 0;
+  a {
+    padding: 3px 10px;
+  }
+}
+
+table.row_highlight tbody tr.even:hover, table.row_highlight tbody tr.even td.highlighted {
+  background-color: $even_highlight_color;
+}
+
+table.row_highlight tbody tr.odd:hover, table.row_highlight tbody tr.odd td.highlighted {
+  background-color: $odd_highlight_color;
+}
+
+table.row_highlight tr {
+  &.even:hover {
+    background-color: $even_highlight_color;
+    td {
+      &.sorting_1 {
+        background-color: darken($even_highlight_color, 5%);
+      }
+      &.sorting_2 {
+        background-color: darken($even_highlight_color, 10%);
+      }
+      &.sorting_3 {
+        background-color: darken($even_highlight_color, 15%);
+      }
+    }
+  }
+  &.odd:hover {
+    background-color: $odd_highlight_color;
+    td {
+      &.sorting_1 {
+        background-color: darken($odd_highlight_color, 5%);
+      }
+      &.sorting_2 {
+        background-color: darken($odd_highlight_color, 10%);
+      }
+      &.sorting_3 {
+        background-color: darken($odd_highlight_color, 15%);
+      }
+    }
+  }
+}
+

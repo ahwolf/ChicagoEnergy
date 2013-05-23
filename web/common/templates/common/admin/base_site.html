@@ -1,0 +1,18 @@
+{% extends "django/contrib/admin/templates/admin/base_site.html" %}
+
+{% load admin_static %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'site admin' %}{% endblock %}
+
+{% block favicon %}
+<link rel="shortcut icon"
+      href="{{STATIC_URL}}main/img/favicon.ico" />
+{% endblock favicon %}
+
+{% block branding %}
+<!-- <h1 id="site-name">{% trans 'administration page' %}</h1> -->
+<img id="site-name" src="{{STATIC_URL}}common/admin/img/admin_logo.png"
+     alt="{% trans 'site admin' %}" />
+{% endblock branding %}

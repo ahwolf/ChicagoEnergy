@@ -1,0 +1,24 @@
+@import "common/admin/scss_definitions/base.scss";
+
+/* LOGOUT PAGE */
+
+.roadsign {
+  a {
+    display: block;
+    padding: 1em;
+  }
+  &:hover {
+    border: 1px solid $grey;
+    background: $very_light_grey;
+    @include shadow(5px,$light_grey);
+  }
+  display: block;
+  border: 1px solid $light_grey;
+  background: $ultra_light_grey;
+  font-size: larger;
+  margin: {
+    top: 8px;
+  };
+  width: 50%;
+  @include rounded(10px);
+}

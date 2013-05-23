@@ -1,0 +1,42 @@
+@import "common/scss_definitions/centered_narrow.scss";
+
+html {
+  font: {
+    family: sans-serif;
+  };
+  background: $footer_color;
+}
+
+body {
+  margin: {
+    left: auto;
+    right: auto;
+  };
+  width: $width;
+}
+
+#header {
+  min-height: $header_height;
+  background: $header_color;
+  h1 {
+    font: {
+      size: $header_height / 2;
+      weight: bold;
+    };
+    line-height: $header_height;
+    color: $footer_color;
+  }
+}
+
+#content {
+  padding: {
+    top: $pad;
+    bottom: $pad;
+  };
+  background: $content_color;
+}
+
+#footer {
+  background: $footer_color;
+  line-height: 2em;
+}

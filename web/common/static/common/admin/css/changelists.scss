@@ -1,0 +1,90 @@
+@import "common/admin/scss_definitions/base.scss";
+
+/* CHANGELISTS */
+
+#changelist {
+  .toplinks {
+    border-bottom-color: $light_grey !important;
+  }
+  .paginator {
+    color: $grey !important;
+    background: $ultra_light_grey !important;
+    border: none !important;
+  }
+  background: $ultra_light_grey !important;
+}
+
+
+/* CHANGELIST TABLES */
+
+#changelist {
+  table {
+    border-right: none;
+    tbody td {
+      // border-left: 1px solid #ddd;
+      &:first-child {
+        text-align: center;
+      }
+    }
+    tfoot {
+      color: $grey;
+    }
+  }
+  #changelist-form {
+    margin-right: 200px !important;
+    width: auto !important;
+  }
+}
+
+/* TOOLBAR */
+
+#changelist #toolbar {
+  color: $grey !important;
+  background: $ultra_light_grey !important;
+  border: none !important;
+  margin-right: 200px !important;
+  width: auto !important;
+}
+
+/* FILTER COLUMN */
+
+#changelist-filter {
+  background: darken($ultra_light_grey, 5%);
+  margin: 20px !important;
+  @include rounded(5px);
+  @include shadow(5px,$light_grey);
+  border: 1px solid $light_grey;
+  h2 {
+    display: block;
+    @include rounded-top(5px);
+    font-size: $font_size !important;
+    padding: 0.8em 0.5em 0.5em 0.5em !important;
+    border-bottom-color: $grey !important;
+    background: $grey;
+    color: $very_light_grey;
+  }
+}
+
+/* DATE DRILLDOWN */
+
+/* PAGINATOR */
+
+/* ACTIONS */
+
+#changelist {
+  .actions {
+    border: 1px solid $light_grey !important;
+    margin: {
+      top: 8px;
+      bottom: 12px;
+      left: 3px;
+      right: 5px;
+    };
+    @include rounded(5px);
+    @include shadow(5px,$light_grey);
+    background: darken($ultra_light_grey, 5%) !important;
+  }
+  .actions, .results {
+    margin-right: 5px !important;
+  }
+}

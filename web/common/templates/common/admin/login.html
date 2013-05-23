@@ -1,0 +1,9 @@
+{% extends "django/contrib/admin/templates/admin/login.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/admin/css/login.scss"/>
+{% endblock css %}

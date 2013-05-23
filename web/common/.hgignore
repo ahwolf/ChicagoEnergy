@@ -1,0 +1,78 @@
+syntax: glob
+# This line is a comment, and will be skipped.
+# Empty lines are skipped too.
+
+# Backup files left behind by the Emacs editor.
+*~
+
+# Lock files used by the Emacs editor.
+# Notice that the "#" character is quoted with a backslash.
+# This prevents it from being interpreted as starting a comment.
+.\#*
+
+# Temporary files used by the vim editor.
+.*.swp
+
+# A hidden file created by the Mac OS X Finder.
+.DS_Store
+
+# ignore the soft link to the common/images folder, a Thomson thing
+images/
+# dummy files
+aa
+bb
+cc
+dd
+ee
+ff
+gg
+hh
+ii
+jj
+kk
+ll
+mm
+nn
+oo
+pp
+qq
+rr
+ss
+tt
+uu
+vv
+ww
+xx
+yy
+zz
+
+# xfig files
+*.fig.bak
+
+# latex files
+*.bib.bak
+*.blg
+*.end
+*.dvi
+*.aux
+*.bbl
+*.log
+*.toc
+*.nav
+*.out
+*.snm
+
+# python files
+*.pyc
+
+# object files
+*.o
+
+# revert files from mercurial
+*.orig
+
+# sass nonsense
+*.css
+
+# everything from the build documentation
+docs/build/*

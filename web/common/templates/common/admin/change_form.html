@@ -1,0 +1,24 @@
+{% extends "django/contrib/admin/templates/admin/change_form.html" %}
+
+{% load admin_static %}
+{% load url from future %}
+{% load i18n %}
+{% load admin_urls %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/admin/css/forms.scss" />
+{% endblock css %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  &lsaquo; <a href="{{ROOT_URL}}">{% trans "Back to site" %}</a> |
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+&rsaquo; {% if add %}{% trans 'Add' %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}
+{% endif %}

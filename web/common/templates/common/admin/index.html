@@ -1,0 +1,17 @@
+{% extends "django/contrib/admin/templates/admin/index.html" %}
+
+{% load admin_static %}
+{% load url from future %}
+{% load i18n %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/admin/css/dashboard.scss" />
+{% endblock css %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  &lsaquo; <a href="{{ROOT_URL}}">{% trans "Back to site" %}</a> 
+</div>
+{% endblock breadcrumbs %}

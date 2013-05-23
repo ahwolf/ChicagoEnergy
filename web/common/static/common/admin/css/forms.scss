@@ -1,0 +1,41 @@
+@import "common/admin/scss_definitions/base.scss";
+
+@import 'common/admin/css/widgets.scss';
+
+/* FORM ROWS */
+
+.form-row {
+  border-bottom: none !important;
+}
+
+/* FORM LABELS */
+
+
+/* RADIO BUTTONS */
+
+/* ALIGNED FIELDSETS */
+
+form .aligned {
+  p.help {
+    margin-left: $left_column_width !important; 
+    padding-left: 0px !important;
+  }
+}
+
+/* WIDE FIELDSETS */
+
+/* COLLAPSED FIELDSETS */
+
+/* MONOSPACE TEXTAREAS */
+
+/* SUBMIT ROW */
+
+.submit-row {
+  padding: 1em 1em !important;
+  background: $ultra_light_grey !important;
+  @include rounded(5px);
+}
+
+/* CUSTOM FORM FIELDS */
+
+/* INLINES */

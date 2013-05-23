@@ -1,0 +1,723 @@
+/* This is a general-purpose function for including any font. The
+first parameter is the name that the font will have in the CSS, and
+the second parameters is a path to the "basename" of the webfont, for
+example: the basename for '../fonts/ComicSans.eot' would be
+'../fonts/ComicSans'. The webfont must have an '.eot', '.woff',
+'.ttf', and '.svg'. */
+@mixin font($name, $path_to_basename,
+            $font_weight: 'normal',
+            $font_style: 'normal') {
+  @font-face {
+    font-family: $name;
+    src: url('#{$path_to_basename}.eot');
+    src: url('#{$path_to_basename}.eot?iefix') format('eot'),
+    url('#{$path_to_basename}.woff') format('woff'),
+    url('#{$path_to_basename}.ttf') format('truetype'),
+    url('#{$path_to_basename}.svg#webfontFHzvtkso') format('svg');
+    font-weight: #{$font_weight};
+    font-style: #{$font_style};
+  }
+}
+
+/* The rest of these are for convenience, so that when using fonts we
+don't have to find the exact path to the webfont, but rather use the
+name and the relative path to the fonts directory.
+
+IMPORTANT: when using these mixins, '$path_to_here' is a RELATIVE path
+to the fonts directory (normally '../../main/dsa/css/fonts/') from
+wherever the scss file is that you are calling the mixin from.  */
+
+@mixin AaarghNormal($path_to_here) {
+  @include font(
+    'AaarghNormal',
+    '#{$path_to_here}/web/Aaargh-fontfacekit/Aaargh-webfont/Aaargh-webfont'
+  );
+}
+
+@mixin AftaSans($path_to_here) {
+  @include font(
+    'AftaSans',
+    '#{$path_to_here}/web/afta-sans-fontfacekit/AftaSansThin-Regular-webfont',
+    'normal',
+    'normal'
+  );
+  @include font(
+    'AftaSans',
+    '#{$path_to_here}/web/afta-sans-fontfacekit/AftaSansThin-Italic-webfont',
+    'normal',
+    'italic, oblique'
+  );
+}
+
+@mixin AftaSerif($path_to_here) {
+  @include font(
+    'AftaSerif',
+    '#{$path_to_here}/web/afta-serif-fontfacekit/AftaSerifThin-Regular-webfont',
+    'normal',
+    'normal'
+  );
+  @include font(
+    'AftaSerif',
+    '#{$path_to_here}/web/afta-serif-fontfacekit/AftaSerifThin-Italic-webfont',
+    'normal',
+    'italic, oblique'
+  );
+}
+
+@mixin AniversRegular($path_to_here) {
+  @include font(
+    'AniversRegular',
+    '#{$path_to_here}/web/anivers_regular_macroman/Anivers_Regular-webfont'
+  );
+}
+
+@mixin ArvoRegular($path_to_here) {
+  @include font(
+    'ArvoRegular',
+    '#{$path_to_here}/web/arvo-fontfacekit/Arvo-Regular-webfont'
+  );
+}
+
+@mixin ArvoItalic($path_to_here) {
+  @include font(
+    'ArvoItalic',
+    '#{$path_to_here}/web/arvo-fontfacekit/Arvo-Italic-webfont'
+  );
+}
+
+@mixin ArvoBold($path_to_here) {
+  @include font(
+    'ArvoBold',
+    '#{$path_to_here}/web/arvo-fontfacekit/Arvo-Bold-webfont'
+  );
+}
+
+@mixin ArvoBoldItalic($path_to_here) {
+  @include font(
+    'ArvoBoldItalic',
+    '#{$path_to_here}/web/arvo-fontfacekit/Arvo-BoldItalic-webfont'
+  );
+}
+
+@mixin BebasRegular($path_to_here) {
+  @include font(
+    'BebasRegular',
+    '#{$path_to_here}/web/Bebas-fontfacekit/BEBAS___-webfont'
+  );
+}
+
+@mixin BebasNeueRegular($path_to_here) {
+  @include font(
+    'BebasNeueRegular',
+    '#{$path_to_here}/web/bebas-neue-fontfacekit/BebasNeue-webfont'
+  );
+}
+
+@mixin BergamoProBoldItalic($path_to_here) {
+  @include font(
+    'BergamoProBoldItalic',
+    '#{$path_to_here}/web/bergamopro_bolditalic_macroman/BergamoPro-BoldItalic-webfont'
+  );
+}
+
+@mixin BergamoProBold($path_to_here) {
+  @include font(
+    'BergamoProBold',
+    '#{$path_to_here}/web/bergamopro_bold_macroman/BergamoPro-Bold-webfont'
+  );
+}
+
+@mixin BergamoProItalic($path_to_here) {
+  @include font(
+    'BergamoProItalic',
+    '#{$path_to_here}/web/bergamopro_italic_macroman/BergamoPro-Italic-webfont'
+  );
+}
+
+@mixin BergamoProRegular($path_to_here) {
+  @include font(
+    'BergamoProRegular',
+    '#{$path_to_here}/web/bergamopro_regular_macroman/BergamoPro-Regular-webfont'
+  );
+}
+
+@mixin CabinRegular($path_to_here) {
+  @include font(
+    'CabinRegular',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-Regular-webfont'
+  );
+}
+
+@mixin CabinItalic($path_to_here) {
+  @include font(
+    'CabinItalic',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-Italic-webfont'
+  );
+}
+
+@mixin CabinMedium($path_to_here) {
+  @include font(
+    'CabinMedium',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-Medium-webfont'
+  );
+}
+
+@mixin CabinMediumItalic($path_to_here) {
+  @include font(
+    'CabinMediumItalic',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-MediumItalic-webfont'
+  );
+}
+
+@mixin CabinSemiBold($path_to_here) {
+  @include font(
+    'CabinSemiBold',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-SemiBold-webfont'
+  );
+}
+
+@mixin CabinSemiBoldItalic($path_to_here) {
+  @include font(
+    'CabinSemiBoldItalic',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-SemiBoldItalic-webfont'
+  );
+}
+
+@mixin CabinBold($path_to_here) {
+  @include font(
+    'CabinBold',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-Bold-webfont'
+  );
+}
+
+@mixin CabinBoldItalic($path_to_here) {
+  @include font(
+    'CabinBoldItalic',
+    '#{$path_to_here}/web/cabin-fontfacekit/Cabin-BoldItalic-webfont'
+  );
+}
+
+@mixin CallunaRegular($path_to_here) {
+  @include font(
+    'CallunaRegular',
+    '#{$path_to_here}/web/calluna_regular_macroman/Calluna-Regular-webfont'
+  );
+}
+
+@mixin CallunaSansRegular($path_to_here) {
+  @include font(
+    'CallunaSansRegular',
+    '#{$path_to_here}/web/callunasans_regular_macroman/CallunaSansRegular-webfont'
+  );
+}
+
+@mixin CartoGothicProBoldItalic($path_to_here) {
+  @include font(
+    'CartoGothicProBoldItalic',
+    '#{$path_to_here}/web/cartogothicpro_bolditalic_macroman/CartoGothicPro-BoldItalic-webfont'
+  );
+}
+
+@mixin CartoGothicProBook($path_to_here) {
+  @include font(
+    'CartoGothicProBook',
+    '#{$path_to_here}/web/cartogothicpro_book_macroman/CartoGothicPro-Book-webfont'
+  );
+}
+
+@mixin CartoGothicProItalic($path_to_here) {
+  @include font(
+    'CartoGothicProItalic',
+    '#{$path_to_here}/web/cartogothicpro_italic_macroman/CartoGothicPro-Italic-webfont'
+  );
+}
+
+@mixin CombiNumeralsLtdRegular($path_to_here) {
+  @include font(
+    'CombiNumeralsLtdRegular',
+    '#{$path_to_here}/web/CombiNumerals-Ltd-fontfacekit/CombiNumeralsLtd-webfont'
+  );
+}
+
+@mixin DanielRegular($path_to_here) {
+  @include font(
+    'DanielRegular',
+    '#{$path_to_here}/web/Daniel-fontfacekit/daniel-webfont'
+  );
+}
+
+@mixin DanielBold($path_to_here) {
+  @include font(
+    'DanielBold',
+    '#{$path_to_here}/web/Daniel-fontfacekit/danielbd-webfont'
+  );
+}
+
+@mixin DanielBlackRegular($path_to_here) {
+  @include font(
+    'DanielBlackRegular',
+    '#{$path_to_here}/web/Daniel-fontfacekit/danielbk-webfont'
+  );
+}
+
+@mixin ExpresswayRegular($path_to_here) {
+  @include font(
+    'ExpresswayRegular',
+    '#{$path_to_here}/web/expressway_regular_macroman/expressway_rg-webfont'
+  );
+}
+
+@mixin FertigoProRegular($path_to_here) {
+  @include font(
+    'FertigoProRegular',
+    '#{$path_to_here}/web/fertigopro_regular_macroman/Fertigo_PRO-webfont'
+  );
+}
+
+@mixin GoudyBookletter1911Regular($path_to_here) {
+  @include font(
+    'GoudyBookletter1911Regular',
+    '#{$path_to_here}/web/Goudy-Bookletter-1911-fontfacekit/goudy_bookletter_1911-webfont'
+  );
+}
+
+@mixin JosefinSlabThin($path_to_here) {
+  @include font(
+    'JosefinSlabThin',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-Thin-webfont'
+  );
+}
+
+@mixin JosefinSlabThinItalic($path_to_here) {
+  @include font(
+    'JosefinSlabThinItalic',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-ThinItalic-webfont'
+  );
+}
+
+@mixin JosefinSlabLight($path_to_here) {
+  @include font(
+    'JosefinSlabLight',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-Light-webfont'
+  );
+}
+
+@mixin JosefinSlabLightItalic($path_to_here) {
+  @include font(
+    'JosefinSlabLightItalic',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-LightItalic-webfont'
+  );
+}
+
+@mixin JosefinSlabRegular($path_to_here) {
+  @include font(
+    'JosefinSlabRegular',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-Regular-webfont'
+  );
+}
+
+@mixin JosefinSlabItalic($path_to_here) {
+  @include font(
+    'JosefinSlabItalic',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-Italic-webfont'
+  );
+}
+
+@mixin JosefinSlabSemiBold($path_to_here) {
+  @include font(
+    'JosefinSlabSemiBold',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-SemiBold-webfont'
+  );
+}
+
+@mixin JosefinSlabSemiBoldItalic($path_to_here) {
+  @include font(
+    'JosefinSlabSemiBoldItalic',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-SemiBoldItalic-webfont'
+  );
+}
+
+@mixin JosefinSlabBold($path_to_here) {
+  @include font(
+    'JosefinSlabBold',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-Bold-webfont'
+  );
+}
+
+@mixin JosefinSlabBoldItalic($path_to_here) {
+  @include font(
+    'JosefinSlabBoldItalic',
+    '#{$path_to_here}/web/josefin-slab-fontfacekit/JosefinSlab-BoldItalic-webfont'
+  );
+}
+
+@mixin JournalRegular($path_to_here) {
+  @include font(
+    'JournalRegular',
+    '#{$path_to_here}/web/Journal-fontfacekit/journal-webfont'
+  );
+}
+
+@mixin LaneNarrowRegular($path_to_here) {
+  @include font(
+    'LaneNarrowRegular',
+    '#{$path_to_here}/web/Lane-fontfacekit/LANENAR_-webfont'
+  );
+}
+
+@mixin LaneUpperRegular($path_to_here) {
+  @include font(
+    'LaneUpperRegular',
+    '#{$path_to_here}/web/Lane-fontfacekit/LANEUP__-webfont'
+  );
+}
+
+@mixin LanePoshRegular($path_to_here) {
+  @include font(
+    'LanePoshRegular',
+    '#{$path_to_here}/web/Lane-fontfacekit/LANEPOSH-webfont'
+  );
+}
+
+@mixin LeagueGothicRegular($path_to_here) {
+  @include font(
+    'LeagueGothicRegular',
+    '#{$path_to_here}/web/League-Gothic-fontfacekit/League_Gothic-webfont'
+  );
+}
+
+@mixin LindenHillRegular($path_to_here) {
+  @include font(
+    'LindenHillRegular',
+    '#{$path_to_here}/web/linden-hill-fontfacekit/LindenHill-webfont'
+  );
+}
+
+@mixin LindenHillItalic($path_to_here) {
+  @include font(
+    'LindenHillItalic',
+    '#{$path_to_here}/web/linden-hill-fontfacekit/LindenHill-Italic-webfont'
+  );
+}
+
+@mixin MolengoRegular($path_to_here) {
+  @include font(
+    'MolengoRegular',
+    '#{$path_to_here}/web/Molengo-fontfacekit/Molengo-Regular-webfont'
+  );
+}
+
+@mixin Museo300($path_to_here) {
+  @include font(
+    'Museo300',
+    '#{$path_to_here}/web/museo_300_macroman/Museo300-Regular-webfont'
+  );
+}
+
+@mixin Museo500($path_to_here) {
+  @include font(
+    'Museo500',
+    '#{$path_to_here}/web/museo_500_macroman/Museo500-Regular-webfont'
+  );
+}
+
+@mixin Museo700($path_to_here) {
+  @include font(
+    'Museo700',
+    '#{$path_to_here}/web/museo_700_macroman/Museo700-Regular-webfont'
+  );
+}
+
+@mixin MuseoSans500Italic($path_to_here) {
+  @include font(
+    'MuseoSans500Italic',
+    '#{$path_to_here}/web/museosans_500italic_macroman/MuseoSans_500_Italic-webfont'
+  );
+}
+
+@mixin MuseoSans500($path_to_here) {
+  @include font(
+    'MuseoSans500',
+    '#{$path_to_here}/web/museosans_500_macroman/MuseoSans_500-webfont'
+  );
+}
+
+@mixin MuseoSlab500Italic($path_to_here) {
+  @include font(
+    'MuseoSlab500Italic',
+    '#{$path_to_here}/web/museoslab_500italic_macroman/Museo_Slab_500italic-webfont'
+  );
+}
+
+@mixin MuseoSlab500($path_to_here) {
+  @include font(
+    'MuseoSlab500',
+    '#{$path_to_here}/web/museoslab_500_macroman/Museo_Slab_500-webfont'
+  );
+}
+
+@mixin NewsCycleRegular($path_to_here) {
+  @include font(
+    'NewsCycleRegular',
+    '#{$path_to_here}/web/news-cycle-fontfacekit/NewsCycle-Regular-webfont'
+  );
+}
+
+@mixin OstrichSansCondensedLight($path_to_here) {
+  @include font(
+    'OstrichSansCondensedLight',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-light-webfont'
+  );
+}
+
+@mixin OstrichSansMedium($path_to_here) {
+  @include font(
+    'OstrichSansMedium',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-regular-webfont'
+  );
+}
+
+@mixin OstrichSansBold($path_to_here) {
+  @include font(
+    'OstrichSansBold',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-bold-webfont'
+  );
+}
+
+@mixin OstrichSansBlack($path_to_here) {
+  @include font(
+    'OstrichSansBlack',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-black-webfont'
+  );
+}
+
+@mixin OstrichSansRoundedMedium($path_to_here) {
+  @include font(
+    'OstrichSansRoundedMedium',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-rounded-webfont'
+  );
+}
+
+@mixin OstrichSansDashedMedium($path_to_here) {
+  @include font(
+    'OstrichSansDashedMedium',
+    '#{$path_to_here}/web/ostrich-sans-fontfacekit/ostrich-dashed-webfont'
+  );
+}
+
+@mixin QuicksandLight($path_to_here) {
+  @include font(
+    'QuicksandLight',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Light-webfont'
+  );
+}
+
+@mixin QuicksandLightOblique($path_to_here) {
+  @include font(
+    'QuicksandLightOblique',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Light_Oblique-webfont'
+  );
+}
+
+@mixin QuicksandBook($path_to_here) {
+  @include font(
+    'QuicksandBook',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Book-webfont'
+  );
+}
+
+@mixin QuicksandBookOblique($path_to_here) {
+  @include font(
+    'QuicksandBookOblique',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Book_Oblique-webfont'
+  );
+}
+
+@mixin QuicksandBold($path_to_here) {
+  @include font(
+    'QuicksandBold',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Bold-webfont'
+  );
+}
+
+@mixin QuicksandBoldOblique($path_to_here) {
+  @include font(
+    'QuicksandBoldOblique',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Bold_Oblique-webfont'
+  );
+}
+
+@mixin QuicksandDash($path_to_here) {
+  @include font(
+    'QuicksandDash',
+    '#{$path_to_here}/web/Quicksand-fontfacekit/Quicksand_Dash-webfont'
+  );
+}
+
+@mixin RalewayThin($path_to_here) {
+  @include font(
+    'RalewayThin',
+    '#{$path_to_here}/web/Raleway-fontfacekit/raleway_thin-webfont'
+  );
+}
+
+@mixin SortsMillGoudyRegular($path_to_here) {
+  @include font(
+    'SortsMillGoudyRegular',
+    '#{$path_to_here}/web/Sorts-Mill-Goudy-fontfacekit/GoudyStM-webfont'
+  );
+}
+
+@mixin SortsMillGoudyItalic($path_to_here) {
+  @include font(
+    'SortsMillGoudyItalic',
+    '#{$path_to_here}/web/Sorts-Mill-Goudy-fontfacekit/GoudyStM-Italic-webfont'
+  );
+}
+
+@mixin StMarieThin($path_to_here) {
+  @include font(
+    'StMarieThin',
+    '#{$path_to_here}/web/st-marie-fontfacekit/StMarie-Thin-webfont'
+  );
+}
+
+@mixin TerminalDosisExtraLight($path_to_here) {
+  @include font(
+    'TerminalDosisExtraLight',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-extralight-webfont'
+  );
+}
+
+@mixin TerminalDosisLight($path_to_here) {
+  @include font(
+    'TerminalDosisLight',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-light-webfont'
+  );
+}
+
+@mixin TerminalDosisBook($path_to_here) {
+  @include font(
+    'TerminalDosisBook',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-book-webfont'
+  );
+}
+
+@mixin TerminalDosisMedium($path_to_here) {
+  @include font(
+    'TerminalDosisMedium',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-medium-webfont'
+  );
+}
+
+@mixin TerminalDosisSemiBold($path_to_here) {
+  @include font(
+    'TerminalDosisSemiBold',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-semibold-webfont'
+  );
+}
+
+@mixin TerminalDosisBold($path_to_here) {
+  @include font(
+    'TerminalDosisBold',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-bold-webfont'
+  );
+}
+
+@mixin TerminalDosisExtraBold($path_to_here) {
+  @include font(
+    'TerminalDosisExtraBold',
+    '#{$path_to_here}/web/terminal-dosis-fontfacekit/terminal_dosis-extrabold-webfont'
+  );
+}
+
+@mixin WalkwaySemiBoldRegular($path_to_here) {
+  @include font(
+    'WalkwaySemiBoldRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_SemiBold-webfont'
+  );
+}
+
+@mixin WalkwayBoldRegular($path_to_here) {
+  @include font(
+    'WalkwayBoldRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Bold-webfont'
+  );
+}
+
+@mixin WalkwayUltraBoldRegular($path_to_here) {
+  @include font(
+    'WalkwayUltraBoldRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_UltraBold-webfont'
+  );
+}
+
+@mixin WalkwayBlackRegular($path_to_here) {
+  @include font(
+    'WalkwayBlackRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Black-webfont'
+  );
+}
+
+@mixin WalkwayObliqueRegular($path_to_here) {
+  @include font(
+    'WalkwayObliqueRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Oblique-webfont'
+  );
+}
+
+@mixin WalkwayObliqueSemiBoldRegular($path_to_here) {
+  @include font(
+    'WalkwayObliqueSemiBoldRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Oblique_SemiBold-webfont'
+  );
+}
+
+@mixin WalkwayObliqueBoldRegular($path_to_here) {
+  @include font(
+    'WalkwayObliqueBoldRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Oblique_Bold-webfont'
+  );
+}
+
+@mixin WalkwayObliqueUltraBoldRg($path_to_here) {
+  @include font(
+    'WalkwayObliqueUltraBoldRg',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Oblique_UltraBold-webfont'
+  );
+}
+
+@mixin WalkwayObliqueBlackRegular($path_to_here) {
+  @include font(
+    'WalkwayObliqueBlackRegular',
+    '#{$path_to_here}/web/Walkway-fontfacekit/Walkway_Oblique_Black-webfont'
+  );
+}
+
+@mixin YanoneKaffeesatz($path_to_here) {
+  @include font(
+    'YanoneKaffeesatz',
+    '#{$path_to_here}web/Yanone-Kaffeesatz-fontfacekit/YanoneKaffeesatz-Regular-webfont',
+    'normal',
+    'normal'
+  );
+  @include font(
+    'YanoneKaffeesatz',
+    '#{$path_to_here}web/Yanone-Kaffeesatz-fontfacekit/YanoneKaffeesatz-Bold-webfont',
+    '700',
+    'normal'
+  );
+  @include font(
+    'YanoneKaffeesatz',
+    '#{$path_to_here}web/Yanone-Kaffeesatz-fontfacekit/YanoneKaffeesatz-Light-webfont',
+    '300',
+    'normal'
+  );
+  @include font(
+    'YanoneKaffeesatz',
+    '#{$path_to_here}web/Yanone-Kaffeesatz-fontfacekit/YanoneKaffeesatz-Thin-webfont',
+    '100',
+    'normal'
+  );
+}
+

@@ -1,0 +1,43 @@
+{% extends "django/contrib/admin/templates/admin/base.html" %}
+
+{% load admin_static %}
+{% load url from future %}
+{% load i18n %}
+{% load compress %}
+
+{% block extrastyle %}
+{% compress css file %}
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/x-scss" 
+      href="{{STATIC_URL}}common/admin/css/base.scss" />
+{% endblock css %}
+{% endcompress %}
+{% endblock extrastyle %}
+
+{% block extrahead %}
+{% compress js file %}
+{% block js %}
+
+{#################### insert javascript here as necessary ####################}
+
+{% endblock js %}
+{% endcompress %}
+{% endblock extrahead %}
+
+{% block userlinks %}
+{% url 'django-admindocs-docroot' as docsroot %}
+{% if docsroot %}
+<a href="{{ docsroot }}">{% trans 'Documentation' %}</a> |
+{% endif %}
+<a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> |
+<a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  &lsaquo; <a href="{{ROOT_URL}}">{% trans "Back to site" %}</a> |
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  {% if title %} &rsaquo; {{ title }}{% endif %}
+</div>
+{% endblock breadcrumbs %}

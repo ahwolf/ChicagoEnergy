@@ -1,0 +1,30 @@
+@import "common/scss_definitions/copyright.scss";
+
+div#copyright {
+  float: right;
+  font-size: smaller;
+  span {
+    &.primary {
+      color: $primary_color;
+    }
+    &.secondary {
+      color: $secondary_color;
+    }
+    &.separator {
+      color: $secondary_color;
+    }
+    &.legal {
+      padding-left: 0.25em;
+      color: $secondary_color;
+    }
+  }
+  a {
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+  a:hover {
+    text-decoration: underline;
+    color: $secondary_color;
+  }
+}
