@@ -1,0 +1,21 @@
+# ignore virtualenv for project 'web'
+web/env
+
+# ignore sass cache files
+*.sass-cache
+*CACHE*
+
+# ignore db for the 'web' project
+web/*.db
+
+# ignore usual suspects
+*.pyc
+
+# dbvcs fixture backups
+*.json.backup
+
+# libspatial index build directory
+web/build
+web/geopy
+
+data/
