@@ -9,7 +9,7 @@
 all: django
 
 django: 
-	./web/common/bin/install_dependencies
+	./web/common/bin/install_dependencies.py
 	echo "Installing the dependinces necessary to run this repository"
 	./web/manage.py setup_virtualenv
 	echo "Setting up the virtual environment"
