@@ -28,19 +28,19 @@ def get_cur_bin_src_directories():
         os.path.join(os.path.dirname(bin_dir), "src"),
     )
 
-def get_hg_root(ldir=None):
-    """find the mercurial root"""
-    ldir = ldir or ''
-    with lcd(ldir):
-        with settings(hide("warnings", "running", "stdout", "stderr"), 
-                      warn_only=True):
-            hg_root = local("hg root", capture=True)
-            if hg_root.failed:
-                msg = "directory '%s' is not in a mercurial project" % ldir
-                msg += '\n"hg root" output:' + hg_root
-                msg += '\n"hg root" stderr:' + hg_root.stderr
-                raise ValueError(msg)
-    return hg_root
+# def get_hg_root(ldir=None):
+#     """find the mercurial root"""
+#     ldir = ldir or ''
+#     with lcd(ldir):
+#         with settings(hide("warnings", "running", "stdout", "stderr"), 
+#                       warn_only=True):
+#             hg_root = local("hg root", capture=True)
+#             if hg_root.failed:
+#                 msg = "directory '%s' is not in a mercurial project" % ldir
+#                 msg += '\n"hg root" output:' + hg_root
+#                 msg += '\n"hg root" stderr:' + hg_root.stderr
+#                 raise ValueError(msg)
+#     return hg_root
 
 def is_django_project(d, in_root_dir=False):
     """make sure that directory d is actually a django project and
