@@ -160,6 +160,9 @@ class Installer(object):
 class ConvenienceInstaller(Installer):
     """an installer for many common python packages"""
 
+    def install_geo_dependencies(self):
+        self.apt_install_packages("binutils", "libproj-dev", "gdal-bin", "libspatialindex-dev")
+
     def install_python_software_properties(self):
         """this is needed to add the latest version of mercurial"""
         self.apt_install_packages("python-software-properties")
