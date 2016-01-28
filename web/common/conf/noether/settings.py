@@ -14,7 +14,7 @@ DATABASES = {
 }
 
 # debug information
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SITE_ID = 3
 

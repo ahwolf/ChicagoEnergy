@@ -175,24 +175,24 @@ def setup_virtualenv(virtualenv_name, run_func=local):
                 virtualenv_requirement,
             ))
 
-    hg_root = fabhelp.get_hg_root()
+    # hg_root = fabhelp.get_hg_root()
     if run_func == local:
         project_dir = run_func("pwd", capture=True)
     else:
         project_dir = run_func("pwd")
     project_name = os.path.basename(project_dir)
 
-    # add virtualenv to hgignore
-    if run_func == local:
-        fabhelp.progress("add virtualenv to .hgignore")
-        ignore_patterns = (
-            os.path.relpath(os.path.join(project_dir,virtualenv_name),hg_root),
-        )
-        fabhelp.add_to_hgignore(
-            ignore_patterns,
-            syntax="glob",
-            comment="ignore virtualenv for project '%s'"%project_name,
-        )
+    # # add virtualenv to hgignore
+    # if run_func == local:
+    #     fabhelp.progress("add virtualenv to .hgignore")
+    #     ignore_patterns = (
+    #         os.path.relpath(os.path.join(project_dir,virtualenv_name),hg_root),
+    #     )
+    #     fabhelp.add_to_hgignore(
+    #         ignore_patterns,
+    #         syntax="glob",
+    #         comment="ignore virtualenv for project '%s'"%project_name,
+    #     )
 
 def render_apache_configuration(production_root_url, 
                                 local_master_django_project_dir=''):
