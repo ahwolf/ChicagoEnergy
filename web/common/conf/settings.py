@@ -292,17 +292,18 @@ def _mysql_db_name(PROJECT_ROOT):
 
     somehgrepo__path__to__djangoproject
     """
-    
-    # use fabric/mercurial to find the mercurial root from the
-    # PROJECT_ROOT directory
-    from common.bin import fabhelp
-    hg_root = fabhelp.get_hg_root(PROJECT_ROOT)
-    rel_path = os.path.relpath(PROJECT_ROOT, os.path.dirname(hg_root))
+    return 'chicagoenergy'
 
-    # name the database based on this path to the PROJECT_ROOT
-    db_name = rel_path.lower().replace(' ','_').replace(os.sep, '__')\
-        .replace('-','_')
-    return db_name
+    # # use fabric/mercurial to find the mercurial root from the
+    # # PROJECT_ROOT directory
+    # from common.bin import fabhelp
+    # hg_root = fabhelp.get_hg_root(PROJECT_ROOT)
+    # rel_path = os.path.relpath(PROJECT_ROOT, os.path.dirname(hg_root))
+
+    # # name the database based on this path to the PROJECT_ROOT
+    # db_name = rel_path.lower().replace(' ','_').replace(os.sep, '__')\
+    #     .replace('-','_')
+    # return db_name
 
 def _suburl_settings(server_name, PROJECT_ROOT, MEDIA_URL, 
                      SESSION_COOKIE_PATH, LOGIN_REDIRECT_URL, LOGIN_URL, 
